@@ -173,7 +173,7 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                  <h5 class="card-title">Reports</h5>
 
                   <!-- Line Chart -->
                   <div id="reportsChart"></div>
@@ -251,7 +251,7 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+                  <h5 class="card-title">Recent Sales</h5>
 
                   <table class="table table-borderless datatable">
                     <thead>
@@ -264,7 +264,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <?php foreach($salesRequestToday as $request): ?>
+                      <?php foreach($salesRequest as $request): ?>
                       <tr>
                         <th scope="row"><a href="#">#<?php echo $request->id ?></a></th>
                         <td><?php echo $request->patient->getFullName() ?></td>
