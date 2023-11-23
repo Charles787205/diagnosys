@@ -60,7 +60,7 @@ CREATE TABLE request_services(
   service_id INT NOT NULL,
   result VARCHAR(255) DEFAULT '',
   normal_value VARCHAR(255) DEFAULT '',
-  FOREIGN KEY (request_id) REFERENCES request (id),
+  FOREIGN KEY (request_id) REFERENCES request (id) ON DELETE CASCADE,
   FOREIGN KEY (service_id) REFERENCES services (id)
 );
 

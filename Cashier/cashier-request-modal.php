@@ -98,7 +98,7 @@
                   <div class="col-5 position-absolute top-0 end-0">
                     <div class="search">
                       <form class="search-form">
-                        <input type="text" placeholder="Search" />
+                        <input type="text" placeholder="Search Patient By Name" id="search-bar" oninput='filterRequests()'/>
                         <input type="submit" value="Submit" />
                       </form>
                     </div>
@@ -119,7 +119,7 @@
                     </thead>
                     <tbody>
                       <?php foreach($requests as $request) {?>
-                        <tr>
+                        <tr id="request-row-<?php echo $request->id ?>">
                           <th><?php echo $request->id ?></th>
                           <td><?php echo $request->patient->last_name ?></td>
                           <td><?php echo $request->patient->first_name ?></td>
@@ -160,5 +160,27 @@
 
     <!-- Vendor JS Files -->
     <?php require 'components/required_js.html' ?>
+    <script>
+      const requests = <?php echo json_encode($requests) ?>;
+      for(const request of requests){
+        request.patient.fullName = `${request.patient.first_name} ${request.patient.last_name}`
+      }
+      function filterRequests() {
+        console.log('hello')
+        var searchValue = $('#search-bar').val().toLowerCase();
+        
+        // Loop through requests and hide/show based on search input
+        requests.forEach(function (request) {
+          var requestName = request.patient.fullName.toLowerCase();
+          var row = $('#request-row-' + request.patient.id);
+
+          if (requestName.includes(searchValue)) {
+            row.show();
+          } else {
+            row.hide();
+          }
+        });
+      }
+    </script>
   </body>
 </html>

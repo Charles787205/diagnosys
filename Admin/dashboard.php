@@ -1,11 +1,20 @@
 <?php 
   require_once 'utils/is_login.php';
   require_once '../Models/EmployeeModel.php';
+  require_once '../Models/RequestModel.php';
+  require_once '../Models/PatientModel.php';
   $head_title = 'Dashboard';
   $page_title = 'Dashboard';
   $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($_SESSION['id']);
-
+  $requestModel = new RequestModel();
+  $salesRequest = $requestModel->getRequests();
+  $requestModel = new RequestModel();
+  $salesRequestToday = $requestModel->getRequestToday();
+  $patientModel = new PatientModel();
+  $patients = $patientModel->getAllPatients();
+  
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,8 +74,8 @@
                       <i class="bi bi-cart"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <h6><?php echo count($salesRequestToday) ?></h6>
+                      
 
                     </div>
                   </div>
@@ -100,7 +109,7 @@
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>3,264</h6>
+                      <h6><?php echo count($salesRequest) ?></h6>
                       <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
                     </div>
@@ -136,8 +145,8 @@
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <h6><?php echo count($patients) ?></h6>
+                      
 
                     </div>
                   </div>
@@ -159,8 +168,7 @@
                     </li>
 
                     <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    
                   </ul>
                 </div>
 
@@ -175,13 +183,9 @@
                       new ApexCharts(document.querySelector("#reportsChart"), {
                         series: [{
                           name: 'Sales',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Revenue',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Customers',
-                          data: [15, 11, 32, 18, 9, 24, 11]
+                          data: [<?php foreach($salesRequest as $request){
+                            echo "$request->total,";
+                          }?>],
                         }],
                         chart: {
                           height: 350,
@@ -260,41 +264,18 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <?php foreach($salesRequestToday as $request): ?>
                       <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
+                        <th scope="row"><a href="#">#<?php echo $request->id ?></a></th>
+                        <td><?php echo $request->patient->getFullName() ?></td>
+                        <td><a href="#" class="text-primary"><?php foreach($request->services as $services){
+                          echo "$services->name, ";
+                        }?></a></td>
+                        <td><?php echo "₱$request->total" ?></td>
                         <td><span class="badge bg-success">Approved</span></td>
                       </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
+                      <?php endforeach ?>
+                      
                     </tbody>
                   </table>
 

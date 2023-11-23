@@ -11,6 +11,7 @@
   $patientModel = new PatientModel(); 
   $requestModel = new RequestModel();
   $patient = $patientModel->getPatientById($_GET['patient_id']);
+  
   $requests = $requestModel->getRequestFromPatientId($patient->id);
   $appointmentModel = new AppointmentModel();
   $appointments = $appointmentModel->getAppointmentFromPatientId($patient->id);

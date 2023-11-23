@@ -321,7 +321,7 @@ class RequestModel extends Database {
         // Handle the case where the query execution fails
         return false;
     }
-} 
+  } 
   public function getApprovedRequestTodayByUserId($userId) {
     $sql = 'SELECT * FROM request WHERE user_id = ? AND status = "Approved" AND DATE(request_date) = CURDATE()';
 
@@ -358,7 +358,42 @@ class RequestModel extends Database {
         // Handle the case where the query execution fails
         return false;
     }
-}
+  }public function getRequestToday() {
+    $sql = 'SELECT * FROM request WHERE DATE(request_date) = CURDATE()';
+
+    $statement = $this->connection->prepare($sql);
+
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $statement->close();
+
+        $requests = array();
+        foreach ($data as $d) {
+            $request = new Request();
+            $request->id = $d['id'];
+            $request->user_id = $d['user_id'];
+            $request->patient_id = $d['patient_id'];
+            $request->status = $d['status'];
+            $request->request_date = $d['request_date'];
+            $request->total = $d['total'];
+
+            // Include patient and services information
+            $patientModel = new PatientModel();
+            $servicesModel = new ServicesModel();
+            $request->patient = $patientModel->getPatientById($request->patient_id);
+            $request->services = $servicesModel->getServicesByRequestId($request->id);
+
+            $requests[] = $request;
+        }
+
+        $this->connection->close();
+        return $requests;
+    } else {
+        // Handle the case where the query execution fails
+        return false;
+    }
+  } 
 
 
 
