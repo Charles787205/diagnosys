@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Forms / Editors - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin
+  * Updated: Jul 27 2023 with Bootstrap v5.3.1
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+<style>
+  .packages input{
+    display: inline;
+
+  }
+  .tot span {
+        font-size: 20px;
+        font-weight: 800;
+        margin-left: 750px;
+    }
+  .tot input {
+        font-size: 25px;
+        height: 50px;
+        background-color: rgba(0, 0, 0, 0);
+        width: 140px;
+        border: none;
+        font-weight: 700;
+        text-align: right;
+        margin-left: 750px;
+    }
+
+    .tet {
+        margin-top: 26px;
+        margin-left: 750px;
+        width: 140px;
+        height: 50px;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.20);
+        position: absolute;
+    }
+</style>
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">NiceAdmin</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-primary badge-number">4</span>
+          </a><!-- End Notification Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+            <li class="dropdown-header">
+              You have 4 new notifications
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                <h4>Lorem Ipsum</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>30 min. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-x-circle text-danger"></i>
+              <div>
+                <h4>Atque rerum nesciunt</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>1 hr. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-check-circle text-success"></i>
+              <div>
+                <h4>Sit rerum fuga</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>2 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-info-circle text-primary"></i>
+              <div>
+                <h4>Dicta reprehenderit</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>4 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li class="dropdown-footer">
+              <a href="#">Show all notifications</a>
+            </li>
+
+          </ul><!-- End Notification Dropdown Items -->
+
+        </li><!-- End Notification Nav -->
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-chat-left-text"></i>
+            <span class="badge bg-success badge-number">3</span>
+          </a><!-- End Messages Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+            <li class="dropdown-header">
+              You have 3 new messages
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Maria Hudson</h4>
+                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                  <p>4 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Anna Nelson</h4>
+                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                  <p>6 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>David Muldon</h4>
+                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                  <p>8 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="dropdown-footer">
+              <a href="#">Show all messages</a>
+            </li>
+
+          </ul><!-- End Messages Dropdown Items -->
+
+        </li><!-- End Messages Nav -->
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>Kevin Anderson</h6>
+              <span>Web Designer</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                <i class="bi bi-gear"></i>
+                <span>Account Settings</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                <i class="bi bi-question-circle"></i>
+                <span>Need Help?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="index.html">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Patient</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="add-patient.html">
+              <i class="bi bi-circle"></i><span>Add Patient</span>
+            </a>
+          </li>
+          <li>
+            <a href="patient-table.html">
+              <i class="bi bi-circle"></i><span>Patient Table</span>
+            </a>
+          </li>
+         
+        
+        </ul>
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Request Form</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="add_reforms-editors.html" class="active">
+              <i class="bi bi-circle"></i><span>Add Request Form</span>
+            </a>
+          </li>
+          <li>
+            <a href="pendinga-forms-elements.html">
+              <i class="bi bi-circle"></i><span>Pending Request Forms</span>
+            </a>
+          </li>
+          <li>
+            <a href="request-forms-layouts.html">
+              <i class="bi bi-circle"></i><span>Request Forms</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Forms Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="appointment-forms-validation.html">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Appointments</span>
+        </a>
+      </li><!-- End Tables Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="transaction-logs.html">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Transaction Logs</span>
+        </a>
+      </li><!-- End Charts Nav -->
+
+       <li class="nav-item">
+        <a class="nav-link collapsed" href="archive.html">
+          <i class="bi bi-person"></i>
+          <span>Archive</span>
+        </a>
+      
+    
+      </li><!-- End Icons Nav -->
+
+      <li class="nav-heading">Pages</li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="users-profile.html">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li><!-- End Profile Page Nav -->
+
+    <!-- End Contact Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-register.html">
+          <i class="bi bi-card-list"></i>
+          <span>Register</span>
+        </a>
+      </li><!-- End Register Page Nav -->
+
+     <!-- End Error 404 Page Nav -->
+
+     <!-- End Blank Page Nav -->
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Request Form</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Request Form</li>
+          <li class="breadcrumb-item active">Add Request Form</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          
+           
+              <div class="container">
+                <header>Add Request Form</header>
+                <form action="#">
+                    <div class="form first">
+                        <div class="details personal">
+                            <span class="title">Details</span>
+                            <div class="fields">
+                                <div class="input-field">
+                                    <label>Lastame</label>
+                                    <input type="text" placeholder="Enter your Lastame" required>
+                                </div>
+                                <div class="input-field">
+                                  <label>Firstname</label>
+                                  <input type="text" placeholder="Enter your Firstname" required>
+                              </div>
+                              <div class="input-field">
+                                <label>Gender</label>
+                                <select required>
+                                    <option disabled selected>Select gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Others</option>
+                                </select>
+                            </div>
+                                <div class="input-field">
+                                    <label>Date of Birth</label>
+                                    <input type="date" placeholder="Enter birth date" required>
+                                </div>
+                                <div class="input-field">
+                                  <label>Age</label>
+                                  <input type="number" placeholder="Enter mobile number" required>
+                              </div>
+                              <div class="input-field">
+                                <label>Mobile Number</label>
+                                <input type="number" placeholder="Enter mobile number" required>
+                            </div>
+                           
+                                <div class="input-field">
+                                  <label>Province</label>
+                                  <select required>
+                                      <option disabled selected>Select gender</option>
+                                      <option>Male</option>
+                                      <option>Female</option>
+                                      <option>Others</option>
+                                  </select>
+                              </div>
+                              <div class="input-field">
+                                <label>City</label>
+                                <select required>
+                                    <option disabled selected>Select gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Others</option>
+                                </select>
+                            </div>
+                            <div class="input-field">
+                              <label>Barangay</label>
+                              <select required>
+                                  <option disabled selected>Select gender</option>
+                                  <option>Male</option>
+                                  <option>Female</option>
+                                  <option>Others</option>
+                              </select>
+                          </div>
+                          
+                          <div class="input-field">
+                            <label>Purok</label>
+                            <input type="text" placeholder="Enter your Purok" required>
+                        </div>
+                       
+                        
+                           
+                        </div>
+                      </div>
+                     
+                        <div class="packages" style="font-size: 20px;">
+                          <label for="" style="margin-left: 35px; margin-top: -50px; font-weight: 600;">Request for:</label>
+                          <br>
+                          <label for="" style="margin-left: 50px;">Check the box to the service you want to avail.</label>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 100px;"  name="" id="">
+                            <label for="" style="position: absolute; margin-left: -485px ;">CBC</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 220px;" name="" id="">
+                            <label for="" style="position: absolute; margin-left: -245px ;">HEMOGLOBIN</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 230px;" name="" id="">
+                            <label for="" style="margin-left: 5px;">PLATELET COUNT</label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 100px;"  name="" id="">
+                            <label for="" style="position: absolute; margin-left: -485px ;">BLOOD TYPING</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 220px;" name="" id="">
+                            <label for="" style="position: absolute; margin-left: -245px ;">HBsAg</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 230px;" name="" id="">
+                            <label for="" style="margin-left: 5px;">VDRL/Syphilis</label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 100px;"  name="" id="">
+                            <label for=""style="position: absolute; margin-left: -485px ;">HA1c</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 220px;" name="" id="">
+                            <label for="" style="position: absolute; margin-left: -245px ;">TSH</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 230px;" name="" id="">
+                            <label for="" style="margin-left: 5px;">T3</label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 100px;"  name="" id="">
+                            <label for="" style="position: absolute; margin-left: -485px ;">URINALYSIS</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 220px;" name="" id="">
+                            <label for="" style="position: absolute; margin-left: -245px ;">FECALYSIS</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 230px;" name="" id="">
+                            <label for="" style="margin-left: 5px;" >FBS</label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 100px;"  name="" id="">
+                            <label for="" style="position: absolute; margin-left: -485px ;">RBS</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 220px;" name="" id="">
+                            <label for="" style="position: absolute; margin-left: -245px ;">LIPID PROFILE</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 230px;" name="" id="">
+                            <label for="" style="margin-left: 5px;">CHOLESTEROL</label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 100px;"  name="" id="">
+                            <label for="" style="position: absolute; margin-left: -485px ;">SUA</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 220px;" name="" id="">
+                            <label for="" style="position: absolute; margin-left: -245px ;">CREATININE</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 230px;" name="" id="">
+                            <label for="" style="margin-left: 5px;">SGPT/ALT </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 100px;"  name="" id="">
+                            <label for="" style="position: absolute; margin-left: -485px ;">SGOT/AST</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 220px;" name="" id="">
+                            <label for="" style="position: absolute; margin-left: -245px ;">BUN</label>
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" style="margin-left: 230px;" name="" id="">
+                            <label for="" style="margin-left: 5px;">ELECTROLYTES</label>
+                          </div>
+                        <div>
+                          <br>
+                          <label for="" style="margin-left: 50px;">Package Option</label>
+                        </div>
+                        <div class="package-info" style="margin-left: 100px; width: 200px; font-size: 20px;">
+                          <select name="" id="package">
+                              <option value="">Package A</option>
+                              <option value="">Package B</option>
+                          </select>
+                      </div>
+                      <div class="package-info" style="position: absolute; margin-left: 100px;  width: 200px; font-size: 17px;">
+                          <textarea name="" style="height: 100px;" id="" cols="30" rows="10"></textarea>
+                      </div>
+
+                        </div>
+                        <div class="tet">
+
+                        </div>
+                        <div class="tot">
+                            <span>Total Amount </span>
+                            <label for="" style="position: absolute; margin-top: 28px; margin-left: -130px; font-size: 35px;">&#x20B1;</label>
+                            <p>
+                                <input type="text" id="amount" name="request_amount" class="request_amount">
+                            </p>
+
+                        </div>
+
+
+
+
+                                <div style="margin-left: 690px;">
+                                <button class="sumbit">
+                                    <span class="btnText">Submit</span>
+                                    <i class="uil uil-navigator"></i>
+                                </button>
+                            </div>
+                        </div> 
+                    </div>
+                </form>
+            </div>
+        
+
+             
+            </div>
+          </div>
+
+      
+</div>
+         
+
+        </div>
+
+      
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+ 
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
