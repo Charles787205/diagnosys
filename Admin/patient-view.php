@@ -405,38 +405,28 @@
                           </thead>
                           <tbody>
                             <tr>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>Urinalysis</td>
-                              <td>09-09-2023</td>
+                              <?php foreach($requests as $request): ?>
+                              <td><?php echo $patient->last_name ?></td>
+                              <td><?php echo $patient->last_name ?></td>
+                              <td><?php echo $patient->id ?></td>
+                              <td><?php echo $request->request_date?></td>
                               <td>
                                 <button
                                   type="button"
                                   class="btn btn-secondary"
-                                  id="printButton"
+                                  onclick=<?php echo "print($request->id)" ?>
                                 >
                                   <i class="bi bi-printer-fill"></i> Print
                                 </button>
                               </td>
                             </tr>
+                            <?php endforeach ?>
                           </tbody>
                         </table>
                       </div>
                     </form>
                     <!-- End Change Password Form -->
-                    <script>
-                      document
-                        .getElementById("printButton")
-                        .addEventListener("click", function () {
-                          var pdfWindow = window.open(
-                            "result-pdf.php",
-                            "_blank"
-                          );
-                          pdfWindow.print();
-
-                          window.location.href = "patient-view.php";
-                        });
-                    </script>
+                    
                   </div>
                 </div>
               </div>
@@ -457,5 +447,16 @@
 
     
     <?php require 'components/required_js.html' ?>
+    <script>
+                      function print(id) {
+                          var pdfWindow = window.open(
+                            `result-pdf.php?request_id=${id}`,
+                            "_blank"
+                          );
+                          pdfWindow.print();
+
+                          
+                        };
+                    </script>
   </body>
 </html>

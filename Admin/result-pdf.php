@@ -1,7 +1,9 @@
 <?php
-require ('./fpdf186/fpdf.php');
+require ('../fpdf186/fpdf.php');
+require '../Models/RequestModel.php';
 
-// Create a PDF object
+$requestModel = new RequestModel();
+$request = $requestModel->getRequestById($_GET['request_id']);
 $pdf = new FPDF('P', 'mm', 'Letter');
 
 $pdf->AddPage();
@@ -13,8 +15,8 @@ $pdf->SetFont('Arial', 'B', 25);
 $pdf->SetTextColor(255, 0, 0);
 
 // Title
-$pdf->Image('assets/img/logo01.png', 1,10,28,28,'PNG' );
-$pdf->Image('assets/img/logo02.png', 180,10,33,33,'PNG' );
+$pdf->Image('../assets/img/logo01.png', 1,10,28,28,'PNG' );
+$pdf->Image('../assets/img/logo02.png', 180,10,33,33,'PNG' );
 
 $pdf->Cell(193, 10, 'PANABO CITY DIAGNOSTIC CENTER', 0, 1, 'C');
 $pdf->SetFont('Arial', 'B', 15);
@@ -45,33 +47,35 @@ $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(40, 10, 'Firstname', 1 );
 $pdf->SetTextColor(0,0,0); 
 $pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(75, 10, 'Bernie', 1);
+$pdf->Cell(75, 10, $request->patient->first_name , 1);
 $pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(30, 10, 'Family Name', 1);
 $pdf->SetFont('Arial', 'B', 14);
 $pdf->SetTextColor(0,0,0);
-$pdf->Cell(50, 10, 'Lofranco', 1);
+$pdf->Cell(50, 10, $request->patient->last_name , 1);
 $pdf->Ln(10);
 $pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(40, 10, 'Address', 1);
 $pdf->SetTextColor(0,0,0);
 $pdf->SetFont('Arial', '', 14);
-$pdf->Cell(75, 10, 'Panabo Cityl, Davao del Norte', 1);
+$pdf->Cell(75, 10, $request->patient->city, 1);
 $pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(30, 10, 'Age/Gender', 1);
 $pdf->SetTextColor(0,0,0);
 $pdf->SetFont('Arial', '', 14);
-$pdf->Cell(50, 10, '33 Years Old/Male', 1);
+$age = $request->patient->age;
+$gender = $request->patient->gender;
+$pdf->Cell(50, 10, "$age/$gender", 1);
 $pdf->Ln(10);
 $pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(40, 10, 'Date Performed', 1);
 $pdf->SetTextColor(0,0,0);
 $pdf->SetFont('Arial', '', 14);
-$pdf->Cell(75, 10, 'September 29,2023', 1);
+$pdf->Cell(75, 10, $request->request_date, 1);
 $pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(30, 10, 'Physician', 1);
@@ -94,18 +98,8 @@ $pdf->Cell(50, 10, '07:30 am', 1);
 $pdf->Ln(10);
 $pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(40, 10, 'Examination Test', 1);
-$pdf->SetTextColor(0,0,0);
-$pdf->SetFont('Arial', '', 14);
-$pdf->Cell(75, 10, 'FBS, Cholesterol, SUA, Creatinine', 1);
-$pdf->SetTextColor(135, 206, 235);
-$pdf->SetFont('Arial', '', 12);
-$pdf->Cell(30, 10, 'Specimen', 1);
-$pdf->SetTextColor(0,0,0);
-$pdf->SetFont('Arial', '', 14);
-$pdf->Cell(50, 10, 'Serum', 1);
 
-$pdf->Ln(13);
+$pdf->Ln(10);
 
 
 // Total
@@ -118,16 +112,22 @@ $pdf->Cell(35, 5, 'Result', 1,0,'C');
 $pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(80, 5, 'Normal Value', 1,0,'C');
-$pdf->Ln(6);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', '', 14);
-$pdf->Cell(80, 8, 'Glucose(Fasting Blood Sugar)', 1,0,'C');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(35, 8, '4.95', 1,0,'C');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', '', 14);
-$pdf->Cell(80, 8, '3.85-5.78 mmol/L', 1,0,'C');
+
+
+foreach($request->services as $service){
+  
+  $pdf->Cell(80, 8, $service->name, 1,0,'C');
+  $pdf->SetTextColor(0, 0, 0);
+  $pdf->SetFont('Arial', 'B', 14);
+  $pdf->Cell(35, 8, $service->result, 1,0,'C');
+  $pdf->SetTextColor(0, 0, 0);
+  $pdf->SetFont('Arial', '', 14);
+  $pdf->Cell(80, 8, $service->normal_value, 1,0,'C');
+  $pdf->SetFont('Arial', '', 14);
+  $pdf->Ln(10);
+  $pdf->SetTextColor(0, 0, 0);
+
+}
 // Output the PDF
 $pdf->Output('invoice.pdf', 'I');
 ?>
