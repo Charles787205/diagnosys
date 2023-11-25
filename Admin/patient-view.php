@@ -448,15 +448,15 @@
     
     <?php require 'components/required_js.html' ?>
     <script>
-                      function print(id) {
-                          var pdfWindow = window.open(
-                            `result-pdf.php?request_id=${id}`,
-                            "_blank"
-                          );
-                          pdfWindow.print();
-
-                          
-                        };
-                    </script>
+      function print(id) {
+          var pdfWindow = window.open(
+            `result-pdf.php?request_id=${id}`,
+            "_blank"
+          );
+          pdfWindow.print();
+          
+          
+        };
+    </script>
   </body>
 </html>
