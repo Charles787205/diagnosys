@@ -159,7 +159,7 @@
   <!-- Vendor JS Files -->
   <?php require 'components/required_js.html' ?>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     function checkMe() {
       var cb = document.getElementById("gridCheck1");

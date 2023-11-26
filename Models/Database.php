@@ -20,5 +20,9 @@
         throw new Exception($e -> getMessage());
       }
   }
+
+  public function close(){
+    $this->connection->close();
+  }
    
 }

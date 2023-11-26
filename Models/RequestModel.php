@@ -35,7 +35,7 @@ class RequestModel extends Database {
   }
 
   public function getRequestFromUserId($id){
-    $sql = 'SELECT patient.id AS patient_id, patient.first_name, patient.last_name, patient.birthdate, patient.age, patient.province, patient.city, patient.barangay, patient.purok, patient.mobile_number, patient.image_url, request.id AS request_id, request.status, request.request_date, request.total FROM patient JOIN request ON patient.id = request.patient_id WHERE
+    $sql = 'SELECT patient.id AS patient_id, patient.first_name, patient.last_name, patient.birthdate, patient.age, patient.province, patient.city, patient.barangay, patient.purok, patient.mobile_number, patient.image_url,request.comment, request.id AS request_id, request.status, request.request_date, request.total FROM patient JOIN request ON patient.id = request.patient_id WHERE
     request.user_id = ?;';
 
     $statement = $this->connection->prepare($sql);
@@ -69,6 +69,7 @@ class RequestModel extends Database {
           $request->status = $d['status'];
           $request->request_date = $d['request_date'];
           $request->total = $d['total'];
+          $request->comment = $d['comment'];
           $request->patient = $patient;
           $requests[] = $request;
         }
@@ -430,8 +431,8 @@ class RequestModel extends Database {
 
             // Include patient and services information
             $patientModel = new PatientModel();
-            $servicesModel = new ServicesModel();
             $request->patient = $patientModel->getPatientById($request->patient_id);
+            $servicesModel = new ServicesModel();
             $request->services = $servicesModel->getServicesByRequestId($request->id);
 
             $requests[] = $request;

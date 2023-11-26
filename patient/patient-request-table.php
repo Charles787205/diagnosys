@@ -74,7 +74,18 @@
                           <tr>      
                             <td><?php echo strtoupper($request->patient->first_name . ' ' . $request->patient->last_name) ?></td>
                             <td><?php echo strtoupper($request->request_date) ?></td>
-                            <td><?php echo strtoupper($request->status) ?></td>
+                            <td><?php if($request->status != Request::REJECT):
+                              echo strtoupper($request->status);
+                              else:?>
+                                <button
+                                type="button"
+                                name="submit"
+                                class="btn btn-primary"
+                                onclick=<?php echo "viewComment($request->id)"?>
+                              >
+                                <i class="bi bi-eye-fill"></i>
+                              </button>
+                              <?php endif; ?></td>
                           </tr>
                           <?php } ?>
                         </tbody>
@@ -98,7 +109,25 @@
 
   <!-- Vendor JS Files -->
   <?php require 'components/required_js.html' ?>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    requests = <?php echo json_encode($requests) ?>;
+    function viewComment(requestId){
+      for(request of requests){
+        if(request.id == requestId){
+          console.log(request);
+          Swal.fire({
+            title: "Rejected",
+            text: "Admin: "+ request.comment,
+            
+            });
+          break;
+        }
+      }
+      
+    }
+  </script>
 </body>
 
 </html>

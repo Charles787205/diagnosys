@@ -34,7 +34,7 @@ class AppointmentModel extends Database {
   }
 
   public function getAppointmentFromUserId($id){
-    $sql = 'SELECT patient.id AS patient_id, patient.first_name, patient.last_name, patient.birthdate, patient.age, patient.province, patient.city, patient.barangay, patient.purok, patient.mobile_number, patient.image_url, appointment.id AS appointment_id, appointment.status, appointment.appointment_date, appointment.total FROM patient JOIN appointment ON patient.id = appointment.patient_id WHERE
+    $sql = 'SELECT patient.id AS patient_id, patient.first_name, patient.last_name, patient.birthdate, patient.age, patient.province, patient.city, patient.barangay, patient.purok, patient.mobile_number, patient.image_url, appointment.id AS appointment_id,appointment.comment, appointment.status, appointment.appointment_date, appointment.total FROM patient JOIN appointment ON patient.id = appointment.patient_id WHERE
     appointment.user_id = ?;';
 
     $servicesModel = new ServicesModel();
@@ -69,6 +69,7 @@ class AppointmentModel extends Database {
           $appointment->status = $d['status'];
           $appointment->appointment_date = $d['appointment_date'];
           $appointment->total = $d['total'];
+          $appointment->comment = $d['comment'];
           $appointment->patient = $patient;
           $appointments[] = $appointment;
         }

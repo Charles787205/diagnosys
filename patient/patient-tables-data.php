@@ -127,7 +127,18 @@
                             <td><?php echo $appointment->id?></td>    
                             <td><?php echo strtoupper($appointment->patient->getFullName()) ?></td>
                             <td><?php echo strtoupper($appointment->appointment_date) ?></td>
-                            <td><?php echo strtoupper($appointment->status) ?></td>
+                            <td><?php if($appointment->status != Request::REJECT):
+                              echo strtoupper($appointment->status);
+                              else:?>
+                                <button
+                                type="button"
+                                name="submit"
+                                class="btn btn-primary"
+                                onclick=<?php echo "viewComment($appointment->id)"?>
+                              >
+                                <i class="bi bi-eye-fill"></i>
+                              </button>
+                              <?php endif; ?></td>
                           </tr>
                           <?php } ?>
                         </tbody>
@@ -160,7 +171,25 @@
 
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>
-
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    appointments = <?php echo json_encode($appointments) ?>;
+    function viewComment(appointmentId){
+      for(appointment of appointments){
+        if(appointment.id == appointmentId){
+          console.log(appointment);
+          Swal.fire({
+            title: "Rejected",
+            text: "Admin: "+ appointment.comment,
+            
+            });
+          break;
+        }
+      }
+      
+    }
+  </script>
 </body>
 
 </html>
