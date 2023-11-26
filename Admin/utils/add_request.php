@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once '../Objects/Patient.php';
-require_once '../Objects/Request.php';
-require_once '../Models/RequestModel.php';
-require_once '../Objects/Services.php';
-require_once '../Models/PatientModel.php';
+require_once __DIR__ . '/../../Objects/Patient.php';
+require_once __DIR__ . '/../../Objects/Request.php';
+require_once __DIR__ . '/../../Models/RequestModel.php';
+require_once __DIR__ . '/../../Objects/Services.php';
+require_once __DIR__ . '/../../Models/PatientModel.php';
 
 if(true){
     $request = new Request();
@@ -35,7 +35,9 @@ if(true){
     
     
     $target_dir = "../uploads/";
-    echo $_FILES['fileToUpload']['name'];
+    $newFileName = '';
+    $patientModel = new PatientModel();
+    $checkPatient = $patientModel->getPatientWithFirstNameAndLastName($patient->first_name, $patient->last_name);
     if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == 0) {
         $targetDir = "../uploads/";
         
@@ -43,35 +45,33 @@ if(true){
         // Generate a new file name (you can customize this logic)
         $newFileName = "user_id_" . time() . "_" . $filename;
         $targetFile = $targetDir . $newFileName;
-        $patientModel = new PatientModel();
-        $checkPatient = $patientModel->getPatientWithFirstNameAndLastName($patient->first_name, $patient->last_name); //returns Patient if exist and false if it doesn't exist
         
-        //upload the image if the patient exist else no upload
-        if(!$checkPatient){ //patient doesn't exist
+         //returns Patient if exist and false if it doesn't exist
+        
+        $fileuploaded = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile);
+        
+    } 
+    if(!$checkPatient){ //patient doesn't exist
 
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile)) {
-                echo "File has been uploaded successfully.";
-                $patient->image_url = $newFileName;
-                $request->patient=$patient;
-                $checkPatient = 
-                $requestModel->createRequest($request);
-                header('Location: pending-forms-elements.php');
         
-            } else {
-                echo "Sorry, there was an error uploading your file.";
-            }
-        }else{
-            $request->patient = $checkPatient; 
-            $requestModel->createRequest($request);
-            header('Location: pending-forms-elements.php');
-        }
-    } else {
-        echo "Error: " . $_FILES["fileToUpload"]["error"];
+      echo "File has been uploaded successfully.";
+      $patient->image_url = $newFileName;
+      $request->patient=$patient;
+      
+      $requestModel->createRequest($request);
+      header('Location: pending-forms-elements.php');
+      echo '<script>alert("Data Submitted Successfully")</script>';
+
+
+    }else{
+        
+        $request->patient = $checkPatient; 
+        $requestModel->createRequest($request);
         header('Location: pending-forms-elements.php');
     }
     
    
 }
-
+echo 'hello';
 ?>
 

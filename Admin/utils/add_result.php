@@ -1,7 +1,7 @@
 <?php 
 
 session_start();
-require '../Models/RequestModel.php';
+require __DIR__ . '/../../Models/RequestModel.php';
 if(!isset($_SESSION['id'])){
   header('Location: login.php');
 }

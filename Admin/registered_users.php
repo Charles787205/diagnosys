@@ -14,7 +14,7 @@
   ?>
 <!DOCTYPE html>
 <html lang="en">
-
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 <?php require 'components/head.html' ?>
 <style>
   table {
@@ -106,7 +106,7 @@
       <h1>Registered Users</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item active">Registered Users</li>
           <li class="breadcrumb-item"></li>
         </ol>
@@ -122,7 +122,9 @@
               <hr>
               <div class="position-relative">
             <h5 class="card-title">List of Registered Users</h5>
-            <button type="button" class="btn btn-primary  mb-2" data-bs-toggle="modal" data-bs-target="#basicModal">
+        
+            <button type="button" class="btn btn-primary  mb-2" data-bs-toggle="modal" data-bs-target="#basicModal"> 
+             
             <i class="bi bi-plus-square"></i> Add User
               </button>
 
@@ -144,7 +146,19 @@
                   <input type="text" name="register_firstname" class="form-control" id="inputNanme4">
                 </div>
                 <div class="col-12">
-                  <label for="inputEmail4" class="form-label">Email</label>
+                  <label for="inputNanme4" class="form-label">Age</label>
+                  <input type="text" name="register_age" class="form-control" id="inputNanme4">
+                </div>
+                <div class="col-12">
+                  <label for="inputNanme4" class="form-label">Address</label>
+                  <input type="text" name="register_address" class="form-control" id="inputNanme4">
+                </div>
+                <div class="col-12">
+                  <label for="inputNanme4" class="form-label">Mobile Number</label>
+                  <input type="text" name="mobile_number" class="form-control" id="inputNanme4">
+                </div>
+                <div class="col-12">
+                  <label for="inputEmail4" class="form-label">Username</label>
                   <input type="email" name="register_username" class="form-control" id="inputEmail4">
                 </div>
                 <div class="col-12">
@@ -163,21 +177,13 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" name="submit" class="btn btn-primary">Add</button>
+                      <button type="submit" id="third" name="submit" class="btn btn-primary">Add</button>
                     </div>
                     </form>
                   </div>
                 </div>
               </div>
-             <div class="col-5 position-absolute top-0 end-0">
-             <div class="search">
-				<form class="search-form">
-					<input type="text" placeholder="Search">
-					<input type="submit" value="Search">
-				</form>
-			</div>  
-             </div>
-             </div>
+            
       
                   
                       <table class="table table-bordered">
@@ -200,13 +206,13 @@
                              foreach($users as $user){ ?>
                                 <tr>   
                                   <td><?php echo $user->id ?></td>
-                                  <td><?php echo $user->getFullName(); if($_SERVER['REQUEST_METHOD'] == 'POST'){echo 'hello';} ?></td>
+                                  <td><?php echo $user->getFullName() ?></td>
                                   <td>
-                                    <form  method='POST'>
-                                      <a href=<?php echo "users-profile.php?user_id=$user->id"?> class="btn btn-primary"><i class="bi bi-eye-fill"></i> </a>
-                                      
-                                     
-                                    </form>
+                                  
+                                    <a href=<?php echo "users-profile.php?user_id=$user->id"?> class="btn btn-primary"><i class="bi bi-eye-fill"></i> </a>
+                                    <button onclick='<?php echo "deleteUser($user->id)" ?>' class="btn btn-danger"> <i class="bi bi-trash3-fill"></i></button>
+                                    
+                                    
                                   </td>   
                                 </tr>
                               
@@ -244,7 +250,46 @@
 
   <!-- Vendor JS Files -->
   <?php require 'components/required_js.html' ?>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+   function deleteUser(id){
+    postData ={
+        id: id,
+        object: 'user'
+      }
+      swalAnimate = 
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+              fetch('utils/delete_object.php',{
+            method: 'POST',
+            body: JSON.stringify(postData)
+          }).then((response) => {
+            if(response.ok){
 
+              Swal.fire({
+                title: "Deleted!",
+                text: "The user has been deleted.",
+                icon: "success",
+                
+              }).then(()=> {
+                location.reload();
+              })
+            }
+          })
+            
+        }
+      });
+    }
+</script>
 </body>
 
 </html>

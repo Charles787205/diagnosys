@@ -8,12 +8,15 @@
   $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($_SESSION['id']);
   $requestModel = new RequestModel();
-  $salesRequest = $requestModel->getRequests();
+  $salesRequest = $requestModel->getRequestsByStatus(Request::PAID);
   $requestModel = new RequestModel();
-  $salesRequestToday = $requestModel->getRequestToday();
+  $salesRequestToday = $requestModel->getRequestTodayByStatus(Request::PAID);
   $patientModel = new PatientModel();
   $patients = $patientModel->getAllPatients();
-  
+  $revenue = 0;
+  foreach($salesRequest as $sales){
+    $revenue += $sales->total;
+  }
   
 ?>
 <!DOCTYPE html>
@@ -36,7 +39,7 @@
       <h1>Dashboard</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
@@ -109,7 +112,7 @@
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6><?php echo count($salesRequest) ?></h6>
+                      <h6><?php echo $revenue ?></h6>
                       <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
                     </div>
@@ -264,7 +267,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <?php foreach($salesRequest as $request): ?>
+                      <?php foreach($salesRequestToday as $request): ?>
                       <tr>
                         <th scope="row"><a href="#">#<?php echo $request->id ?></a></th>
                         <td><?php echo $request->patient->getFullName() ?></td>
@@ -272,7 +275,7 @@
                           echo "$services->name, ";
                         }?></a></td>
                         <td><?php echo "₱$request->total" ?></td>
-                        <td><span class="badge bg-success">Approved</span></td>
+                        <td><span class="badge bg-success"><?php echo $request->status ?></span></td>
                       </tr>
                       <?php endforeach ?>
                       

@@ -35,7 +35,7 @@
       <h1>Request Form</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item">Request Forms</li>
           <li class="breadcrumb-item active"></li>
         </ol>
@@ -54,7 +54,7 @@
                     <table id="example" class="table table-striped" style="width:100%">
                       <thead>
                           <tr>
-                            <th></th>
+                           
                               <th>Name</th>
                               <th>Date</th>
                               <th>Status</th>  
@@ -67,9 +67,7 @@
                           ?>
                              
                              
-                                <td> <div class="form-check">
-                                <input class="form-check-input"   onclick="checkMe()" type="checkbox" id="gridCheck1">
-                              </div></td>  
+                                
                           <td><?php echo $request->patient->getFullName() ?></td>
                           <td><?php echo $request->request_date ?></td>
                           <td><?php echo $request->status ?></td>

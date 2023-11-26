@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!--/Style-CSS -->
     <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
     <!--//Style-CSS -->
-
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
     <script src="https://kit.fontawesome.com/af562a2a63.js" crossorigin="anonymous"></script>
 
 </head>
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <button name="submit" class="btn" type="submit" style="background-color:dodgerblue">Register</button>
                         </form>
                         <div class="social-icons">
-                            <p>Have an account? <a href="admin_login.php">Login</a>.</p>
+                            <p>Already have an account? <a href="login.php">Login</a>.</p>
                         </div>
                     </div>
                 </div>
@@ -102,8 +102,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         });
     </script>
 
+<script>
+  document.querySelector(".btn").addEventListener('click', function(){
+  Swal.fire("Our First Alert", "With some body text and success icon!", "success");
+});
+</script>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>
 
 

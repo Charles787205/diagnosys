@@ -6,13 +6,14 @@ class Request {
     const REJECT = 'Reject';
     const PAID = 'Paid';
     const PENDING = 'Pending';
-    public Int $id, $patient_id;
-    public Patient $patient;
+    public ?Int $id, $patient_id;
+    public ?Patient $patient;
     public String $status;
     public String $request_date;
     public $services;
     public Float $total;
-    public int $user_id;
+    public ?int $user_id;
+    public $comment;
 
     public function getTotal(){
         $total = 0;

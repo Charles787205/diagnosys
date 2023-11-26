@@ -73,9 +73,9 @@
         <h1>Appointments</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
             <li class="breadcrumb-item">Appointments</li>
-            <li class="breadcrumb-item active"></li>
+            <li class="breadcrumb-item">Appointments List</li>
           </ol>
         </nav>
       </div>
@@ -128,7 +128,7 @@
                         <td><?php echo $appointment->status ?></td>
                         <td>
                           <a
-                            href=<?php echo "patient_appointment_detail.php?patient_id=$appointment->patient_id&appointment_id=$appointment->id" ?>
+                            href=<?php echo "appointment_detail.php?patient_id=$appointment->patient_id&appointment_id=$appointment->id" ?>
                             style="color: #ffff; text-decoration: none">
                               <button
                                 type="button"
@@ -138,7 +138,7 @@
                                 <i class="bi bi-eye-fill"></i>
                               </button>
                           </a>
-                          <button type="button" class="btn btn-danger">
+                          <button onclick='<?php echo "deleteAppointment($appointment->id)" ?>' type="button" class="btn btn-danger">
                             <i class="bi bi-trash3"></i>
                           </button>
                         </td>
@@ -164,6 +164,8 @@
 
     <?php require 'components/required_js.html' ?>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
       
         const appointments = <?php echo json_encode($appointments) ?>;
@@ -185,11 +187,44 @@
             }
           });
         }
-
-        // Trigger the filter function when the search form is submitted
-        
-        // Trigger the filter function when the search input changes
         $('#search-bar').on('input', filterAppointments);
+
+        function deleteAppointment(id){
+        postData ={
+            id: id,
+            object: 'appointment'
+          }
+          swalAnimate = 
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                  fetch('utils/delete_object.php',{
+                method: 'POST',
+                body: JSON.stringify(postData)
+              }).then((response) => {
+                if(response.ok){
+
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "The appointment has been deleted.",
+                    icon: "success",
+                    
+                  }).then(()=> {
+                    location.reload();
+                  })
+                }
+              })
+                
+            }
+          });
+      }
       
     </script>
 

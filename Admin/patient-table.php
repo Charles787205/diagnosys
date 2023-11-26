@@ -75,7 +75,7 @@
         <h1>Patient List</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
             <li class="breadcrumb-item">Patient</li>
             <li class="breadcrumb-item active">Patient Table</li>
           </ol>
@@ -117,7 +117,7 @@
                   <table class="table table-striped">
                     <thead>
                       <tr>
-                        <th></th>
+                        
                         <th scope="col">Patient ID</th>
                         <th scope="col">Lastname</th>
                         <th scope="col">Firstname</th>
@@ -128,16 +128,7 @@
                     <tbody>
                       <?php foreach($patients as $patient){ ?>
                       <tr id="patient-row-<?php echo $patient->id ?>">
-                        <th>
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              onclick="checkMe()"
-                              type="checkbox"
-                              id="gridCheck1"
-                            />
-                          </div>
-                        </th>
+                       
                         <th scope="row"><?php echo $patient->id ?></th>
                         <td><?php echo strtoupper($patient->last_name) ?></td>
                         <td><?php echo strtoupper($patient->first_name) ?></td>
@@ -145,9 +136,10 @@
                         <td>
                           <a href=<?php echo "patient-view.php?patient_id=".$patient->id ?>>
                             <button type="button" class="btn btn-primary">
-                              <i class="bi bi-eye-fill"></i> &nbsp;View
+                              <i class="bi bi-eye-fill"></i> 
                             </button></a
                           >
+                          <button class="btn btn-danger" onclick='<?php echo "deletePatient($patient->id)" ?>'> <i class="bi bi-trash3-fill"></i></button>
                         </td>
                       </tr>
                       <?php } ?>
@@ -173,7 +165,10 @@
     <!-- Vendor JS Files -->
     <?php require 'components/required_js.html' ?>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+      $('#search-bar').on('input', filterPatients);
       function checkMe() {
         var cb = document.getElementById("gridCheck1");
         var input = document.getElementById("archive");
@@ -185,31 +180,65 @@
       }
     
       
-        const patients = <?php echo json_encode($patients) ?>;
-        for(const patient of patients){
-          patient.fullName = `${patient.first_name} ${patient.last_name}`
-        }
-        function filterPatients() {
-          var searchValue = $('#search-bar').val().toLowerCase();
-          
-          // Loop through patients and hide/show based on search input
-          patients.forEach(function (patient) {
-            var patientName = patient.fullName.toLowerCase();
-            var row = $('#patient-row-' + patient.id);
+      const patients = <?php echo json_encode($patients) ?>;
+      for(const patient of patients){
+        patient.fullName = `${patient.first_name} ${patient.last_name}`
+      }
+      function filterPatients() {
+        var searchValue = $('#search-bar').val().toLowerCase();
+        
+        // Loop through patients and hide/show based on search input
+        patients.forEach(function (patient) {
+          var patientName = patient.fullName.toLowerCase();
+          var row = $('#patient-row-' + patient.id);
 
-            if (patientName.includes(searchValue)) {
-              row.show();
-            } else {
-              row.hide();
+          if (patientName.includes(searchValue)) {
+            row.show();
+          } else {
+            row.hide();
+          }
+        });
+      }
+
+      function deletePatient(id){
+        postData ={
+            id: id,
+            object: 'patient'
+          }
+          swalAnimate = 
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                  fetch('utils/delete_object.php',{
+                method: 'POST',
+                body: JSON.stringify(postData)
+              }).then((response) => {
+                if(response.ok){
+
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "The patient information has been deleted.",
+                    icon: "success",
+                    
+                  }).then(()=> {
+                    location.reload();
+                  })
+                }
+              })
+                
             }
           });
         }
-
-        // Trigger the filter function when the search form is submitted
+     
+      
         
-
-        // Trigger the filter function when the search input changes
-        $('#search-bar').on('input', filterPatients);
       
     </script>
   </body>

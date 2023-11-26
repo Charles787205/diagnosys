@@ -1,6 +1,6 @@
 <?php 
 require_once 'Database.php';
-require_once '../Objects/Services.php';
+require_once __DIR__ . '/../Objects/Services.php';
 class ServicesModel extends Database{
 
   public function getAllServices(){
@@ -23,6 +23,7 @@ class ServicesModel extends Database{
                 services.id AS service_id,
                 services.name AS service_name,
                 services.price,
+                request_services.test,
                 request_services.result,
                 request_services.normal_value
             FROM
@@ -46,6 +47,7 @@ class ServicesModel extends Database{
           $service->id = $d['service_id'];
           $service->price = $d['price'];
           $service->result = $d['result'];
+          $service->test = $d['test'];
           $service->normal_value = $d['normal_value'];
           $services[] = $service;
         }
@@ -155,7 +157,10 @@ class ServicesModel extends Database{
 
             return $data;
         }
+
     }
+
+    
 
 
 

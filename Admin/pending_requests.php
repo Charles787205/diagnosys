@@ -92,7 +92,7 @@
         <h1>Pending Request Forms</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
             <li class="breadcrumb-item">Request Forms</li>
             <li class="breadcrumb-item active">Pending Request Forms</li>
           </ol>
@@ -139,16 +139,17 @@
                       <td><?php echo $request->status ?></td>
                       <td>
                         <a
-                          href=<?php echo "patient_reqstats.php?patient_id=$request->patient_id&request_id=$request->id" ?>
+                          href=<?php echo "request_details.php?patient_id=$request->patient_id&request_id=$request->id" ?>
                           style="color: #ffff; text-decoration: none"
                           ><button
                             type="button"
                             name="submit"
                             class="btn btn-primary"
                           >
-                            <i class="bi bi-eye-fill"></i> View
+                            <i class="bi bi-eye-fill"></i> 
                           </button></a
                         >
+                        <button class="btn btn-danger" onclick='<?php echo "deleteRequest($request->id)"?>'> <i class="bi bi-trash3-fill"></i></button>
                       </td>
                     </tr>
                     <?php } ?>
@@ -172,8 +173,10 @@
     <!-- Vendor JS Files -->
     <?php require 'components/required_js.html' ?>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-      
+        
         const requests = <?php echo json_encode($pendingRequests) ?>;
         for(const request of requests){
           request.patient.fullName = `${request.patient.first_name} ${request.patient.last_name}`
@@ -194,10 +197,48 @@
           });
         }
 
-        // Trigger the filter function when the search form is submitted
+        function deleteRequest(id){
+          postData ={
+            id: id,
+            object: 'request'
+          }
+          swalAnimate = 
+          
+          console.log('hello')
+          //confirm('hello');
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                  fetch('utils/delete_object.php',{
+                method: 'POST',
+                body: JSON.stringify(postData)
+              }).then((response) => {
+                if(response.ok){
+
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "The request has been deleted.",
+                    icon: "success",
+                    
+                  }).then(()=> {
+                    location.reload();
+                  })
+                }
+              })
+                
+            }
+          });
+        }
         
 
-        // Trigger the filter function when the search input changes
+        
         $('#search-bar').on('input', filterRequests);
       
     </script>

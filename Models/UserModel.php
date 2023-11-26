@@ -1,5 +1,5 @@
 <?php 
-require_once '../Objects/User.php';
+require_once __DIR__.'/../Objects/User.php';
 require_once 'Database.php';
 class UserModel extends Database{
 

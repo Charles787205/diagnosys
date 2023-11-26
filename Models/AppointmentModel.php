@@ -1,9 +1,9 @@
 <?php
 require_once 'Database.php';
-require_once '../Objects/Appointment.php';
+require_once __DIR__ .'/../Objects/Appointment.php';
 require_once 'PatientModel.php';
-require_once '../Objects/Patient.php';
-require_once '../Objects/Services.php';
+require_once __DIR__ .'/../Objects/Patient.php';
+require_once __DIR__ .'/../Objects/Services.php';
 require_once 'ServicesModel.php';
 
 class AppointmentModel extends Database {
@@ -136,9 +136,9 @@ class AppointmentModel extends Database {
             $appointment->total = $d['total'];
             $appointments[] = $appointment;
         }
-        $patientModel = new PatientModel();
-        $servicesModel = new ServicesModel();
         foreach($appointments as $appointment){
+          $patientModel = new PatientModel();
+          $servicesModel = new ServicesModel();
           $appointment->patient = $patientModel->getPatientById($appointment->patient_id);
           $appointment->services = $servicesModel->getServicesByAppointmentId($appointment->id);
         }
@@ -181,6 +181,27 @@ class AppointmentModel extends Database {
         echo "Error updating appointment status";
     }
   }
+  function deleteAppointment($appointment_id){
+    $sql = "DELETE FROM appointment WHERE id = $appointment_id;";
+    $statement = $this->connection->prepare($sql);
+    $statement->execute();
+  }
+  public function close(){
+  $this->connection->close();
+}
+  public function rejectAppointment($appointmentId, $comment) {
+    
+        $sqlUpdate = 'UPDATE appointment SET status = "Reject", comment = ? WHERE id = ?';
+        $statementUpdate = $this->connection->prepare($sqlUpdate);
+        $statementUpdate->bind_param('si', $comment, $appointmentId);
+
+        if ($statementUpdate->execute()) {
+            $this->connection->close();
+            echo "Appointment rejected successfully.";
+        } else {
+            echo "Error rejecting appointment.";
+        }
+    }
   
 
 

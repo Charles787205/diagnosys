@@ -1,10 +1,10 @@
 <?php
 require_once 'Database.php';
-require_once '../Objects/Request.php';
+require_once __DIR__ . '/../Objects/Request.php';
 require_once 'PatientModel.php';
 require_once 'ServicesModel.php';
-require_once '../Objects/Patient.php';
-require_once '../Objects/Services.php';
+require_once __DIR__ . '/../Objects/Patient.php';
+require_once __DIR__ . '/../Objects/Services.php';
 
 class RequestModel extends Database {
 
@@ -247,8 +247,12 @@ class RequestModel extends Database {
   }
 
   function updateRequestStatus($requestId, $status) {
-    
-    $sql = 'UPDATE request SET status = ? WHERE id = ?';
+    if($status == Request::PAID || $status == Request::APPROVED ){
+      $sql = 'UPDATE request SET status = ?, request_date= CURDATE() WHERE id = ?';
+    }else{
+
+      $sql = 'UPDATE request SET status = ? WHERE id = ?';
+    }
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('si', $status, $requestId);
 
@@ -265,19 +269,20 @@ class RequestModel extends Database {
         foreach ($data as $item) {
             $requestId = $item['request_id'];
             $serviceId = $item['service_id'];
+            $test = $item['test'];
             $result = $item['result'];
             $normalValue = $item['normal_value'];
 
             // Assuming you have a function to update the result in your database
-            $this->updateResultInDatabase($requestId, $serviceId, $result, $normalValue);
+            $this->updateResultInDatabase($requestId, $serviceId, $result, $normalValue,$test);
         }
     }
 
     // Function to update the result in the database
-    private function updateResultInDatabase($requestId, $serviceId, $result, $normalValue) {
-        $sql = 'UPDATE request_services SET result = ?, normal_value = ? WHERE request_id = ? AND service_id = ?';
+    private function updateResultInDatabase($requestId, $serviceId, $result, $normalValue,$test) {
+        $sql = 'UPDATE request_services SET result = ?, normal_value = ?, test = ? WHERE request_id = ? AND service_id = ?';
         $statement = $this->connection->prepare($sql);
-        $statement->bind_param('ssii', $result, $normalValue, $requestId, $serviceId);
+        $statement->bind_param('sssii', $result, $normalValue, $test, $requestId, $serviceId);
 
         if ($statement->execute()) {
             
@@ -394,6 +399,86 @@ class RequestModel extends Database {
         return false;
     }
   } 
+
+  function deleteRequest($request_id){
+    $sql = "DELETE FROM request WHERE id = $request_id;";
+    $statement = $this->connection->prepare($sql);
+    $statement->execute();
+  }
+
+
+  public function getRequestTodayByStatus($status) {
+    $sql = 'SELECT * FROM request WHERE status = ? AND DATE(request_date) = CURDATE()';
+
+    $statement = $this->connection->prepare($sql);
+    $statement->bind_param('s', $status);
+
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $statement->close();
+
+        $requests = array();
+        foreach ($data as $d) {
+            $request = new Request();
+            $request->id = $d['id'];
+            $request->user_id = $d['user_id'];
+            $request->patient_id = $d['patient_id'];
+            $request->status = $d['status'];
+            $request->request_date = $d['request_date'];
+            $request->total = $d['total'];
+
+            // Include patient and services information
+            $patientModel = new PatientModel();
+            $servicesModel = new ServicesModel();
+            $request->patient = $patientModel->getPatientById($request->patient_id);
+            $request->services = $servicesModel->getServicesByRequestId($request->id);
+
+            $requests[] = $request;
+        }
+
+        $this->connection->close();
+        return $requests;
+    } else {
+        // Handle the case where the query execution fails
+        return false;
+    }
+  }
+  public function close(){
+    $this->connection->close();
+  }
+  public function getCommentByRequestId($requestId) {
+        $sql = 'SELECT comment FROM request WHERE id = ?';
+        $statement = $this->connection->prepare($sql);
+        $statement->bind_param('i', $requestId);
+
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+            $comment = $result->fetch_assoc()['comment'];
+            $statement->close();
+            $this->connection->close();
+            return $comment;
+        } else {
+            // Handle the case where the query execution fails
+            return false;
+        }
+  }
+
+  
+  public function rejectRequest($requestId, $comment) {
+
+        $sqlUpdate = 'UPDATE request SET status = "Reject", comment = ? WHERE id = ?';
+        $statementUpdate = $this->connection->prepare($sqlUpdate);
+        $statementUpdate->bind_param('si', $comment, $requestId);
+
+        if ($statementUpdate->execute()) {
+            $this->connection->close();
+            echo "Request rejected successfully.";
+        } else {
+            echo "Error rejecting request.";
+        }
+    }
+
 
 
 

@@ -8,7 +8,12 @@ class Appointment {
     public String $appointment_date;
     public $services;
     public Float $total;
-    public int $user_id;
+    public ?int $user_id;
+    const APPROVED = 'Approved';
+    const REJECT = 'Reject';
+    const PAID = 'Paid';
+    const PENDING = 'Pending';
+    public $comment;
 
     public function getTotal(){
         $total = 0;

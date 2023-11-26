@@ -10,9 +10,8 @@
   $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($_SESSION['id']); 
   $requestModel = new RequestModel();
-  $requests = $requestModel->getRequests();
-  $appointmentModel = new AppointmentModel();
-  $appointments = $appointmentModel->getAppointments();
+  $requests = $requestModel->getRequestsByStatus(Request::PAID);
+
   $dates = [];
   foreach($requests as $request){
     if(!isset($dates[$request->request_date])){
@@ -62,7 +61,7 @@
       <h1>Archive</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item">Archive</li>
           <li class="breadcrumb-item active"></li>
         </ol>
@@ -111,10 +110,10 @@
               <br>
 
 
-              <table class="table table-striped">
+              <table class="table table-hover" style="cursor:pointer;">
                 <thead>
                   <tr>
-                    <th></th>
+                    
                     <th scope="col">ID</th>
                     <th scope="col">Type</th>
                     <th scope="col">Name</th>
@@ -125,33 +124,16 @@
                 <tbody>
 
                 <?php foreach($requests as $request){ ?> 
-                  <tr class="data-row" data-type="request" data-date="<?php echo $request->request_date ?>">
-                    <th>
-                      <div class="form-check">
-                        <input class="form-check-input" onclick="checkMe()" type="checkbox" id="gridCheck1">
-                      </div>
-                    </th>
+                  
+                  <tr class="data-row" onclick="openLabResults(<?php echo $request->id?> )" data-type="request" data-date="<?php echo $request->request_date ?>">
+                    
                     <th scope="row"><?php echo $request->id ?></th>
                     <td>Request Form</td>
                     <td><?php echo $request->patient->getFullName() ?></td>
                     <td><?php echo $request->request_date ?></td>
-
                   </tr>
                 <?php } ?>
-                <?php foreach($appointments as $appointment){ ?> 
-                  <tr class="data-row" data-type="appointment" data-date="<?php echo $appointment->appointment_date ?>">
-                    <th>
-                      <div class="form-check">
-                        <input class="form-check-input" onclick="checkMe()" type="checkbox" id="gridCheck1">
-                      </div>
-                    </th>
-                    <th scope="row"><?php echo $appointment->id ?></th>
-                    <td>Appointment Form</td>
-                    <td><?php echo $appointment->patient->getFullName() ?></td>
-                    <td><?php echo $appointment->appointment_date ?></td>
-
-                  </tr>
-                <?php } ?>
+                
 
 
 
@@ -176,6 +158,8 @@
 
   <!-- Vendor JS Files -->
   <?php require 'components/required_js.html' ?>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     function checkMe() {
       var cb = document.getElementById("gridCheck1");
@@ -217,6 +201,40 @@
       }
     }
   });
+  requests = <?php echo json_encode($requests); ?>;
+ 
+  function openLabResults(id){
+    for(request of requests){
+      if(request.id == id){
+        const table = getTable(request.services);
+          Swal.fire({
+          title: 'Lab Results',
+          html: table,
+          confirmButtonText: 'Close',
+          grow: 'row'
+        });
+
+      }
+    }
+  }
+
+  function getTable(services){
+    let tableHtml = '<table class="table">';
+    tableHtml += '<thead><tr><th>Name</th><th>Test</th><th>Result</th><th>Normal_Value</th></tr></thead>';
+    tableHtml += '<tbody>';
+
+    services.forEach(service => {
+    tableHtml += `<tr class="data-row"><td>${service.name}</td>
+                  <td>${service.test == '' ? 'Not specified' : service.test}</td>
+                  <td>${service.result == '' ? 'Not specified' : service.result}</td>
+                  <td>${service.normal_value == '' ? 'Not specified' : service.result}</td>
+                  </tr>`;
+    });
+    tableHtml += '</tbody></table>';
+    return tableHtml;
+
+  }
+  
 </script>
 
 </body>

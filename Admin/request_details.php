@@ -39,7 +39,7 @@
       <h1>Personal Details</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item">Request Form</li>
           <li class="breadcrumb-item active">Personal Details</li>
         </ol>
@@ -75,7 +75,7 @@
               <input type="date" class="form-control" id="inputName5" value="<?php echo $request->request_date ?>" readonly>
               <hr>
               <!-- Multi Columns Form -->
-              <form action="" method="POST" class="row g-3">
+              <div class="row g-3">
                 <div class="col-md-4">
                   <label for="inputName5" class="form-label">Lastname</label>
                   <input type="text" class="form-control" id="inputName5" value="<?php echo $request->patient->last_name ?>" readonly>
@@ -128,14 +128,14 @@
 
                 <hr> 
                 <div class="text-center">
-                 
-                  <button type="submit" name="submit" class="btn btn-primary" value='approve'>Approve</button>
-                  <button type="submit" name="reject" class="btn btn-danger" value='reject'>Reject</button>
+                
+                  <button  onclick="approveRequest()" class="btn btn-primary">Approve</button>
+                  <button  onclick="rejectRequest()" class="btn btn-danger">Reject</button>
                   
 
                 </div>
                 <hr>
-              </form><!-- End Multi Columns Form -->
+                </div><!-- End Multi Columns Form -->
              
 
             </div>
@@ -144,20 +144,7 @@
         </div>
       </div>
       </div>
-      <?php 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-          $requestModel = new RequestModel();
-          if (isset($_POST['submit'])) {
-              $requestModel->updateRequestStatus($request->id, 'Approved');
-              
-              echo '<script>alert("Data Updated Successfully")</script>';
-              echo '<script>window.location.href = "pending-forms-elements.php";</script>';
-          } elseif (isset($_POST['reject'])) {
-              $requestModel->updateRequestStatus($request->id, 'Rejected');
-              echo '<script>window.location.href = "pending-forms-elements.php";</script>';
-          }
-        }
-      ?>
+      
     </section>
 
   </main><!-- End #main -->
@@ -168,7 +155,58 @@
 
   <!-- Vendor JS Files -->
   <?php require 'components/required_js.html' ?>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    function approveRequest(){
+      data = {
+        id: <?php echo $request->id ?>,
+        status: "<?php echo Request::APPROVED ?>"
+      }
+      fetch('utils/update_request.php', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      }).then((response) =>{
+        Swal.fire({
+          title: "Approved!",
+          text: "The request has been approved.",
+          icon: "success"
+      }).then(()=>{
+        window.location.href = 'pending_requests.php';
+      })
+    })
+    }
+    async function rejectRequest(){
+      data = {
+        id: <?php echo $request->id ?>,
+        status: "<?php echo Request::REJECT ?>"
 
+      }
+      
+      const { value: text } = await Swal.fire({
+        input: "textarea",
+        inputLabel: "Comment",
+        inputPlaceholder: "Type your comment here...",
+        inputAttributes: {
+          "aria-label": "Type your comment here"
+        },
+        showCancelButton: true
+      });
+      data.comment=text;
+      fetch('utils/update_request.php', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      }).then((response) =>{
+        Swal.fire({
+          title: "Rejected!",
+          text: "The request has been rejected.",
+          icon: "success"
+      }).then(()=>{
+        window.location.href = 'pending_requests.php';
+      })
+      })
+    }
+  </script>
 </body>
 
 </html>

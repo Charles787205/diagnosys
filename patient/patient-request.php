@@ -284,18 +284,11 @@
                                             <select class="form-select" id="test2" name="request_test[]" aria-label="Default select example">
                                               <option  disabled selected >Choose Test</option>
                                               <?php 
-                                                foreach($services as $service){
+                                                foreach($services as $service):
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
-                                              <?php }?>
-                                             <!-- <php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-
-                                                  <php } ?>
-                                                    --->
+                                              <?php endforeach ?>
+                                             
                                                   </option>
                                               </select>
                                           </div>
@@ -304,18 +297,11 @@
                                           <div class="form-group">
                                             <select class="form-select" id="test3" name="request_test[]" aria-label="Default select example">
                                               <option  disabled selected>Choose Test</option>
-                                              <?php 
-                                                foreach($services as $service){
-                                              ?>
+
+                                              <?php foreach($services as $service): ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
-                                              <?php }?>
-                                              <!--?php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-                                                  
-                                                  <php } ?> --->
+                                              <?php endforeach ?>
+                                              
                                                 </option>
                                             </select>
                                           </div>
@@ -329,14 +315,7 @@
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
                                               <?php }?>
-                                              <!--<option  disabled selected>Choose Test</option>
-                                              <php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-
-                                                  <php } ?>-->
+                                              
                                                 </option>
                                             </select>
                                           </div>

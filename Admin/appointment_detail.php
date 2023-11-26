@@ -40,7 +40,7 @@
       <h1>Personal Details</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item">Appointment Form</li>
           <li class="breadcrumb-item active">Personal Details</li>
         </ol>
@@ -76,7 +76,7 @@
               <input type="date" class="form-control" id="inputName5" value="<?php echo $appointment->appointment_date ?>" readonly>
               <hr>
               <!-- Multi Columns Form -->
-              <form action="" method="POST" class="row g-3">
+              <div class="row g-3">
                 <div class="col-md-4">
                   <label for="inputName5" class="form-label">Lastname</label>
                   <input type="text" class="form-control" id="inputName5" value="<?php echo $patient->last_name ?>" readonly>
@@ -130,13 +130,13 @@
                 <hr> 
                 <div class="text-center">
                  
-                  <button type="submit" name="submit" class="btn btn-primary" value='approve'>Approve</button>
-                  <button type="submit" name="reject" class="btn btn-danger" value='reject'>Reject</button>
+                  <button onclick="approveAppointment()" class="btn btn-primary" value='approve'>Approve</button>
+                  <button onclick="rejectAppointment()" class="btn btn-danger" value='reject'>Reject</button>
                   
 
                 </div>
                 <hr>
-              </form><!-- End Multi Columns Form -->
+              </div><!-- End Multi Columns Form -->
              
 
             </div>
@@ -145,20 +145,7 @@
         </div>
       </div>
       </div>
-      <?php 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-          if (isset($_POST['submit'])) {
-              $appointmentModel->updateAppointmentStatus($appointment->id, 'Approved');
-              
-              echo '<script>alert("Data Updated Successfully")</script>';
-              echo '<script>window.location.href = "appointment-forms-validation.php";</script>';
-          } elseif (isset($_POST['reject'])) {
-              $appointmentModel->updateAppointmentStatus($appointment->id, 'Reject');
-              echo "You clicked the 'Reject' button";
-              echo '<script>window.location.href = "appointment-forms-validation.php";</script>';
-          }
-        }
-      ?>
+      
     </section>
 
   </main><!-- End #main -->
@@ -169,7 +156,56 @@
 
   <!-- Vendor JS Files -->
   <?php require 'components/required_js.html' ?>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    function approveAppointment(){
+      data = {
+        id: <?php echo $appointment->id ?>,
+        status: "<?php echo Appointment::APPROVED ?>"
+      }
+      fetch('utils/update_appointment.php', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      }).then((response) =>{
+        Swal.fire({
+          title: "Approved!",
+          text: "The appointment has been approved.",
+          icon: "success"
+      }).then(()=>{
+        window.location.href = 'appointment_forms.php';
+      })
+    })
+    }
+    async function rejectAppointment(){
+      data = {
+        id: <?php echo $appointment->id ?>,
+        status: "<?php echo Appointment::REJECT ?>"
+      }
+      const { value: text } = await Swal.fire({
+        input: "textarea",
+        inputLabel: "Comment",
+        inputPlaceholder: "Type your comment here...",
+        inputAttributes: {
+          "aria-label": "Type your comment here"
+        },
+        showCancelButton: true
+      });
+      data.comment=text;
+      fetch('utils/update_appointment.php', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      }).then((response) =>{
+        Swal.fire({
+          title: "Rejected!",
+          text: "The appointment has been rejected.",
+          icon: "success"
+      }).then(()=>{
+        window.location.href = 'appointment_forms.php';
+      })
+    })
+    }
+  </script>
 </body>
 
 </html>

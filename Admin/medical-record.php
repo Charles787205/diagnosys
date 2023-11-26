@@ -15,7 +15,7 @@
    ?>
 <!DOCTYPE html>
 <html lang="en">
-
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 <?php require_once 'components/head.html' ?>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -182,12 +182,12 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Medical Record</h1>
+      <h1>Laboratory Result</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item">Patient</li>
-          <li class="breadcrumb-item active">Medical Record</li>
+          <li class="breadcrumb-item active">Laboratory result</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -260,17 +260,21 @@
                 <div class="card-body">
                     <form id="input-form">
                         <div id="result_1" class="row input-row ">
-                            <div class="col-md-5">
-                                <label>Test</label>
+                            <div class="col-md-2">
+                                <label>Services</label>
                                 <select  class="service-select form-control" style='margin-top:0;'  aria-label="Default select example">
                                   
                                 </select>
                             </div>
                             <div class="col-md-2">
+                                <label>Test</label>
+                                <input type="text" class="form-control" data-type="test">
+                            </div>
+                            <div class="col-md-2">
                                 <label>Result</label>
                                 <input type="text" class="form-control" data-type="result">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <label>Normal Value</label>
                                 <input type="text" class="form-control" data-type="normal_value">
                             </div>
@@ -283,7 +287,7 @@
                 </div>
                 <div class="card-footer text-end">
                     <button onclick="add_more()" class="btn btn-dark">Add More</button>
-                    <button onclick="submit_form()" class="btn btn-info">Save</button>
+                    <button onclick="submit_form()" id="#third" class="btn btn-info">Save</button>
                 </div>
             </div>
               </div>
@@ -341,6 +345,7 @@
     for (const row of inputRows) {
         const select = row.getElementsByTagName('select')[0];
         const resultInput = row.querySelector('[data-type="result"]');
+        const testInput = row.querySelector('[data-type="test"]');
         const normalValueInput = row.querySelector('[data-type="normal_value"]');
         const requestSelect = document.getElementById('patient-select');
         // Access the values of the selected elements
@@ -348,29 +353,32 @@
         const resultInputValue = resultInput.value;
         const normalValueInputValue = normalValueInput.value;
         const requestId = requestSelect.value;
+        const test = testInput.value;
         const data = {
           service_id: selectedOptionValue,
           result: resultInput.value,
           normal_value: normalValueInputValue,
-          request_id: requestId
+          request_id: requestId,
+          test: test
         }
+        
         results.push(data);
     }
-    fetch("add_result.php",{
+    fetch("utils/add_result.php",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(results)
-    }).then(response => response.text())
-    .then(data => {
-        console.log("Data back",data);
-        alert('Results Updated') // Handle the response from the PHP script
+    }).then(() =>{
+      Swal.fire({
+        title: "Result Saved",
+        
+        icon: "success"
+      });
     })
-    .catch(error => {
-        console.error("Error:", error);
-    });
-}
+    
+  }
 
 
 
@@ -386,78 +394,70 @@
   patientSelect.addEventListener('change', changeData);
   
   const inputRow = document.getElementsByClassName('input-row');
+  function changeData() {
   const serviceSelect = document.getElementsByClassName('service-select');
-    
-    
+  const tableData = document.getElementsByClassName('table-data');
 
-    
+  var chosenRequest = null;
+  for (const request of requests) {
+    if (request.id == patientSelect.value) {
+      chosenRequest = request;
+    }
+  }
+  if (chosenRequest != null) {
+    for (const select of serviceSelect) {
+      // Clear existing options
+      select.innerHTML = '';
 
-
-    function changeData() {
-      
-      const tableData = document.getElementsByClassName('table-data');
-      var chosenRequest = null;
-      for(const request of requests){
-        if(request.id == patientSelect.value){
-          chosenRequest = request;
-        }
-      }
-      if(chosenRequest != null){
-
-        for(const select of serviceSelect){
-          for(const service of chosenRequest.services){
-          
-            const newOption = document.createElement('option');
-            newOption.value = service.id;
-            newOption.textContent = service.name;
-            select.appendChild(newOption);
-          }
-        }
-        for(const data of tableData){
-          const dataType = data.getAttribute('data-type');
-          switch(dataType){
-            case 'first_name':
-                data.textContent = chosenRequest.patient.first_name;
-              break;
-            case 'last_name':
-                data.textContent = chosenRequest.patient.last_name;
-              break;
-            case 'address':
-                data.textContent = `${chosenRequest.patient.purok}, ${chosenRequest.patient.barangay}, ${chosenRequest.patient.city}, ${chosenRequest.patient.province}`;
-                console.log(chosenRequest);
-              break;
-            case 'age_gender':
-                data.textContent = `${chosenRequest.patient.age} / ${chosenRequest.patient.gender}`
-              break;
-            case 'request_date':
-                data.textContent = chosenRequest.request_date;
-              break;
-          }
-        }
-      }else{
-        for(const select of serviceSelect){
-          var options = select.getElementsByTagName('option');
-          for (var i = options.length - 1; i >= 0; i--) {
-              options[i].parentNode.removeChild(options[i]);
-          }
-
-        }
-        for(const data of tableData){
-          const dataType = data.getAttribute('data-type');
-          data.textContent = ""
-        }
+      for (const service of chosenRequest.services) {
+        const newOption = document.createElement('option');
+        newOption.value = service.id;
+        newOption.textContent = service.name;
+        select.appendChild(newOption);
       }
     }
+    for (const data of tableData) {
+      const dataType = data.getAttribute('data-type');
+      switch (dataType) {
+        case 'first_name':
+          data.textContent = chosenRequest.patient.first_name;
+          break;
+        case 'last_name':
+          data.textContent = chosenRequest.patient.last_name;
+          break;
+        case 'address':
+          data.textContent = `${chosenRequest.patient.purok}, ${chosenRequest.patient.barangay}, ${chosenRequest.patient.city}, ${chosenRequest.patient.province}`;
+          console.log(chosenRequest);
+          break;
+        case 'age_gender':
+          data.textContent = `${chosenRequest.patient.age} / ${chosenRequest.patient.gender}`
+          break;
+        case 'request_date':
+          data.textContent = chosenRequest.request_date;
+          break;
+      }
+    }
+  } else {
+    for (const select of serviceSelect) {
+      // Clear existing options
+      select.innerHTML = '';
+    }
+    for (const data of tableData) {
+      const dataType = data.getAttribute('data-type');
+      data.textContent = ""
+    }
+  }
+}
 
-    
   })
 
 
 
   
  </script>
-      
+ 
 
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

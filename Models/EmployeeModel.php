@@ -1,5 +1,5 @@
 <?php
-  require_once '../Objects/Employee.php';
+  require_once __DIR__ .'/../Objects/Employee.php';
   require_once 'UserModel.php';
   
 

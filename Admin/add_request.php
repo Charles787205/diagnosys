@@ -20,7 +20,7 @@
 <head>
   <title>Add Request Form<?php echo $_SESSION['id'];  ?></title>
   <?php require 'components/head.html' ?>
-  
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 </head>
 <style>
   .container{
@@ -107,7 +107,7 @@
       <h1>Request Form</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item">Request Form</li>
           <li class="breadcrumb-item active">Add Request Form</li>
         </ol>
@@ -123,7 +123,7 @@
               <hr>
               <div class="container">
                 <header>Add Request Form</header>
-                <form action="add-pat-req.php" method="POST" enctype="multipart/form-data">
+                <form id="request_form" enctype="multipart/form-data">
                   <div class="form first">
                     <div class="details personal">
                     <label>Date</label>
@@ -268,14 +268,7 @@
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
                                               <?php }?>
-                                             <!-- 
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-
-                                                } ?>
-                                                --->
+                                            
                                               </option>
                                               </select>
                                           </div>
@@ -293,14 +286,7 @@
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
                                               <?php }?>
-                                             <!-- <php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-
-                                                  <php } ?>
-                                                    --->
+                                             
                                                   </option>
                                               </select>
                                           </div>
@@ -314,13 +300,7 @@
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
                                               <?php }?>
-                                              <!--?php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-                                                  
-                                                  <php } ?> --->
+                                             
                                                 </option>
                                             </select>
                                           </div>
@@ -334,14 +314,7 @@
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
                                               <?php }?>
-                                              <!--<option  disabled selected>Choose Test</option>
-                                              <php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-
-                                                  <php } ?>-->
+                                              
                                                 </option>
                                             </select>
                                           </div>
@@ -355,13 +328,7 @@
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
                                               <?php }?>
-                                             <!-- <php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-
-                                                  <php } ?>--->
+                                             
                                                 </option>
                                             </select> 
                                           </div>
@@ -375,14 +342,7 @@
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
                                               <?php }?>
-                                            <!--  <option  disabled selected>Choose Test</option>
-                                              <php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-
-                                                  <php } ?> --->
+                                           
                                                 </option>
                                             </select>
                                           </div>
@@ -396,14 +356,7 @@
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
                                               <?php }?>
-                                             <!-- <option  disabled selected >Choose Test</option>
-                                              <php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-
-                                                  <php } ?> --->
+                                            
                                                 </option>
                                             </select>
                                           </div>
@@ -428,16 +381,7 @@
                                   </div>
 
                                 </div>
-                                 <div class="form-group">
-
-                                   <div class="row mb-3">
-                                     <label for="inputNumber" class="col-sm-8 col-form-label">Upload Image of your ID</label>
-                                     <div class="col-sm-6">
-                                       <input class="form-control" name="fileToUpload" type="file" id="fileToUpload">
-                                       
-                                     </div>
-                                   </div>
-                                 </div>                   
+                                                  
 
 
                               </div>
@@ -446,17 +390,13 @@
                                 <label for="" style=" margin-top: 35px;  font-size: 30px;">Total Amount</label>
                                 <label for="" style="position: absolute; margin-top: 80px;  font-size: 40px;">&#x20B1;</label>
                                 <div class="col-sm-10 end-0">
-                                  <input type="text" style="font-size: 30px; text-indent: 45px;" id="total" name="request_amount" class="form-control" readonly>
-
+                                  <input type="text" style="font-size: 30px; text-indent: 45px;" id="total" name="request_amount" class="form-control" value="0.00" readonly>
                                 </div>
 
                               </div>
-                              <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" id="third" name="submit" class="btn btn-primary">Submit</button>
                             </div>
                             </div>
-                         
-                           
-
                           </div>
 
                          
@@ -482,12 +422,27 @@
 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Vendor JS Files -->
   
   <?php require 'components/required_js.html' ?>
   <script src="../assets/js/script3.js"></script>
   <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    // Loop through test1 to test8
+    for (var i = 1; i <= 8; i++) {
+        var select = document.getElementById("test" + i);
+        select.addEventListener("change", function () {
+            updateTotalPrice();
+        });
+    }
+    });
+
+    //FUNCTIONS
+
+
     function FindAge() {
       var day = document.getElementById("dob").value;
       var DOB = new Date(day);
@@ -496,37 +451,53 @@
       Age = Math.floor(Age / (1000 * 60 * 60 * 24 * 365.25));
       document.getElementById("age").value = Age;
     }
-  </script>
- <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Loop through test1 to test8
-    for (var i = 1; i <= 8; i++) {
-        var select = document.getElementById("test" + i);
-        select.addEventListener("change", function () {
-            updateTotalPrice();
-        });
-    }
-
+  
     function updateTotalPrice() {
-        var total = 0;
-        for (var i = 1; i <= 8; i++) {
-            var select = document.getElementById("test" + i);
-            var selectedOption = select.options[select.selectedIndex];
-            var selectedPrice = parseFloat(selectedOption.getAttribute("data-price"));
-            if (!isNaN(selectedPrice)) {
-                total += selectedPrice;
-            }
-        }
-        var totalInput = document.getElementById("total");
-        totalInput.value =  total.toFixed(2);
+      var total = 0;
+      for (var i = 1; i <= 8; i++) {
+          var select = document.getElementById("test" + i);
+          var selectedOption = select.options[select.selectedIndex];
+          var selectedPrice = parseFloat(selectedOption.getAttribute("data-price"));
+          if (!isNaN(selectedPrice)) {
+              total += selectedPrice;
+          }
+      }
+      var totalInput = document.getElementById("total");
+      totalInput.value =  total.toFixed(2);
     }
 
-    // Initial calculation
-    updateTotalPrice();
+    
+  const form = document.getElementById('request_form');
+
+
+  form.addEventListener('submit', function (event) {
+    
+    event.preventDefault();
+
+    
+    const formData = new FormData(form);
+    console.log('hello')
+    
+    fetch('utils/add_request.php', {
+      method: 'POST', 
+      body: formData,
+    })
+      .then(response => {
+        Swal.fire({
+          title: "New Request Added",
+          icon: "success"
+        }).then(() => {
+          window.location.href = 'pending_requests.php'
+        })
+      })
+      
 });
+
+
+    
+
+  
 </script>
-
-
 
 
 

@@ -1,6 +1,7 @@
 <?php 
 require_once 'Database.php';
-require_once '../Objects/Patient.php';
+require_once 'RequestModel.php';
+require_once __DIR__ . '/../Objects/Patient.php';
 class PatientModel extends Database{
 
 
@@ -82,5 +83,20 @@ public function getPatientById($patientId) {
       return false;
     }
   }
+  public function deletePatient($patientId) {
+    $sql = 'DELETE FROM patient WHERE id = ?';
+    $statement = $this->connection->prepare($sql);
+    $statement->bind_param('i', $patientId);
+
+    if ($statement->execute()) {
+        // Patient deleted successfully
+        $this->connection->close();
+        return true;
+    } else {
+        // Handle the case where the deletion fails
+        return false;
+    }
+}
+
 
 }

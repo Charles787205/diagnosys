@@ -250,7 +250,7 @@
                       data-bs-toggle="tab"
                       data-bs-target="#profile-change-password"
                     >
-                      Medical Info
+                      Laboratory Result
                     </button>
                   </li>
                 </ul>
@@ -393,11 +393,17 @@
                     <!-- Change Password Form -->
                     <form>
                       <div class="row mb-3">
+                          <!-- Change Password Form 
+                      <div class="details personal">
+                    <label>Filter Date</label>
+                      <input type="date" class="form-control" id="inputName5">
+                            </div>-->
+                      
                         <table class="table">
                           <thead>
                             <tr>
                               <th scope="col">Lastname</th>
-                              <th scope="col">Firstnames</th>
+                              <th scope="col">Firstname</th>
                               <th scope="col">Test</th>
                               <th scope="col">Date</th>
                               <th scope="col">Action</th>
@@ -407,7 +413,7 @@
                             <tr>
                               <?php foreach($requests as $request): ?>
                               <td><?php echo $patient->last_name ?></td>
-                              <td><?php echo $patient->last_name ?></td>
+                              <td><?php echo $patient->first_name ?></td>
                               <td><?php echo $patient->id ?></td>
                               <td><?php echo $request->request_date?></td>
                               <td>
@@ -448,15 +454,15 @@
     
     <?php require 'components/required_js.html' ?>
     <script>
-      function print(id) {
-          var pdfWindow = window.open(
-            `result-pdf.php?request_id=${id}`,
-            "_blank"
-          );
-          pdfWindow.print();
-          
-          
-        };
-    </script>
+                      function print(id) {
+                          var pdfWindow = window.open(
+                            `result-pdf.php?request_id=${id}`,
+                            "_blank"
+                          );
+                          pdfWindow.print();
+
+                          
+                        };
+                    </script>
   </body>
 </html>

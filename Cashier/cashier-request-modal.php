@@ -160,6 +160,7 @@
 
     <!-- Vendor JS Files -->
     <?php require 'components/required_js.html' ?>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
       const requests = <?php echo json_encode($requests) ?>;
       for(const request of requests){
