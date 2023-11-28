@@ -8,7 +8,6 @@
   $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($_SESSION['id']);
   $requestModel = new RequestModel();
-  $appointmentModel = new AppointmentModel();
   $requests = $requestModel->getRequestsByStatus(Request::PAID) ;?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,7 +83,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Payment</a></li>
           <li class="breadcrumb-item">Payment List</li>
-          <li class="breadcrumb-item active">Accordion</li>
+         
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -122,7 +121,7 @@
                       <th scope="col">Firstname</th>
                       <th scope="col">Total Amount</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Action</th>
+                      
                      
                     </tr>
                   </thead>
@@ -136,10 +135,7 @@
                           <td><?php echo $request->total ?></td>
                           <td><?php echo $request->status ?></td>
 
-                          <td>
-                        <button type="button" class="btn btn-primary"><i class="bi bi-eye-fill"></i></button>
-                      
-                      </td>
+                          
                         </tr>
                       <?php } ?>
                    
@@ -174,7 +170,7 @@
         request.patient.fullName = `${request.patient.first_name} ${request.patient.last_name}`
       }
       function filterRequests() {
-        console.log('hello')
+       
         var searchValue = $('#search-bar').val().toLowerCase();
         
         // Loop through requests and hide/show based on search input

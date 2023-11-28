@@ -7,14 +7,13 @@
   $page_title = 'Dashboard';
   $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($_SESSION['id']);
-  $employeeModel->close();
   $requestModel = new RequestModel();
   $salesRequest = $requestModel->getRequestsByStatus(Request::PAID);
   $requestModel = new RequestModel();
   $salesRequestToday = $requestModel->getRequestTodayByStatus(Request::PAID);
   $patientModel = new PatientModel();
   $patients = $patientModel->getAllPatients();
-  $patientModel->close();
+  
   $revenue = 0;
   foreach($salesRequest as $sales){
     $revenue += $sales->total;

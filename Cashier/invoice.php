@@ -7,9 +7,10 @@
   $page_title = 'Dashboard';
   $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($_SESSION['id']);
+  
   $requestModel = new RequestModel();
   $requests = $requestModel->getRequestsByStatus(Request::PAID);
-
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -3,6 +3,7 @@
   require_once '../Models/AppointmentModel.php';
   $appointmentModel = new AppointmentModel();
   $appointments = $appointmentModel->getAppointmentFromUserId($_SESSION['id']);
+  $appointmentModel->close();
   $page = 'appointment'; // for the components/sidebar.html
 ?>
 <!DOCTYPE html>

@@ -136,49 +136,47 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    <form action="add_reg_user.php" method="POST" class="row g-3">
-                <div class="col-12">
-                  <label for="inputNanme4" class="form-label">Lastame</label>
-                  <input type="text" name="register_lastname" class="form-control" id="inputNanme4">
-                </div>
-                <div class="col-12">
-                  <label for="inputNanme4" class="form-label">Firstname</label>
-                  <input type="text" name="register_firstname" class="form-control" id="inputNanme4">
-                </div>
-                <div class="col-12">
-                  <label for="inputNanme4" class="form-label">Age</label>
-                  <input type="text" name="register_age" class="form-control" id="inputNanme4">
-                </div>
-                <div class="col-12">
-                  <label for="inputNanme4" class="form-label">Address</label>
-                  <input type="text" name="register_address" class="form-control" id="inputNanme4">
-                </div>
-                <div class="col-12">
-                  <label for="inputNanme4" class="form-label">Mobile Number</label>
-                  <input type="text" name="mobile_number" class="form-control" id="inputNanme4">
-                </div>
-                <div class="col-12">
-                  <label for="inputEmail4" class="form-label">Username</label>
-                  <input type="email" name="register_username" class="form-control" id="inputEmail4">
-                </div>
-                <div class="col-12">
-                  <label for="inputPassword4" class="form-label">Password</label>
-                  <input type="password" name="register_password" class="form-control" id="inputPassword4">
-                </div>
-                <div class="col-md-12">
-                  <select name="user_type" id="inputState" class="form-select">
-                    <option selected>Choose...</option>
-                    <option value="Information Desk">Information Desk</option>
-                    <option value="Cashier">Cashier</option>
-                  </select>
-                </div>
-              
-             
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" id="third" name="submit" class="btn btn-primary">Add</button>
-                    </div>
+                    <form onsubmit="addUser(event)" class="row g-3">
+                      <div class="col-12">
+                        <label  class="form-label">Lastame</label>
+                        <input type="text" name="register_lastname" class="form-control" required >
+                      </div>
+                      <div class="col-12">
+                        <label  class="form-label">Firstname</label>
+                        <input type="text" name="register_firstname" class="form-control"  required>
+                      </div>
+                      <div class="col-12">
+                        <label  class="form-label">Age</label>
+                        <input type="text" name="register_age" class="form-control" >
+                      </div>
+                      <div class="col-12">
+                        <label  class="form-label">Address</label>
+                        <input type="text" name="register_address" class="form-control"  required>
+                      </div>
+                      <div class="col-12">
+                        <label  class="form-label">Mobile Number</label>
+                        <input type="text" name="mobile_number" class="form-control"  required>
+                      </div>
+                      <div class="col-12">
+                        <label for="inputEmail4" class="form-label">Username</label>
+                        <input type="text" name="register_username" class="form-control" id="inputEmail4" required>
+                      </div>
+                      <div class="col-12">
+                        <label for="inputPassword4" class="form-label">Password</label>
+                        <input type="password" name="register_password" class="form-control" id="inputPassword4" required>
+                      </div>
+                      <div class="col-md-12">
+                        <select name="user_type" id="inputState" class="form-select" required>
+                          <option selected>Choose...</option>
+                          <option value="Information Desk">Information Desk</option>
+                          <option value="Cashier">Cashier</option>
+                        </select>
+                      </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button  id="third" name="submit" class="btn btn-primary">Add</button>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -186,62 +184,49 @@
             
       
                   
-                      <table class="table table-bordered">
-                        <thead>
-                        
-                          <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Name</th>
+              <table class="table table-bordered">
+                <thead>
+                
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                  <tr>
+
+                    
+                    <?php
+                      
+                      foreach($users as $user){ ?>
+                        <tr>   
+                          <td><?php echo $user->id ?></td>
+                          <td><?php echo $user->getFullName() ?></td>
+                          <td>
+                          
+                            <a href=<?php echo "users-profile.php?user_id=$user->id"?> class="btn btn-primary"><i class="bi bi-eye-fill"></i> </a>
+                            <button onclick='<?php echo "deleteUser($user->id)" ?>' class="btn btn-danger"> <i class="bi bi-trash3-fill"></i></button>
                             
-                            <th scope="col">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                          <tr>
-
                             
-                            <?php
-                             
-                             foreach($users as $user){ ?>
-                                <tr>   
-                                  <td><?php echo $user->id ?></td>
-                                  <td><?php echo $user->getFullName() ?></td>
-                                  <td>
-                                  
-                                    <a href=<?php echo "users-profile.php?user_id=$user->id"?> class="btn btn-primary"><i class="bi bi-eye-fill"></i> </a>
-                                    <button onclick='<?php echo "deleteUser($user->id)" ?>' class="btn btn-danger"> <i class="bi bi-trash3-fill"></i></button>
-                                    
-                                    
-                                  </td>   
-                                </tr>
-                              
-                           <?php }
-                            ?>        
-                              </td>
+                          </td>   
+                        </tr>
+                      
+                    <?php }
+                    ?>        
+                      </td>
 
-                             
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <!-- General Form Elements -->
-
-
-              </div>
+                      
+                  </tr>
+                </tbody>
+              </table>
             </div>
-
           </div>
-
-
-
-
         </div>
       </div>
     </section>
-
   </main><!-- End #main -->
 
 
@@ -289,6 +274,44 @@
         }
       });
     }
+
+    function addUser(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Get form data
+        const formData = new FormData(e.target);
+
+        // Create a JSON object from the form data
+        const jsonData = {};
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+
+        // Send a POST request to the server
+        fetch('utils/add_user.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(jsonData),
+        })
+        .then(response => response.json())
+        .then(data => {
+          Swal.fire({
+                title: "User created!",
+                text: "The user has been added.",
+                icon: "success",
+                
+              }).then(()=> {
+                location.reload();
+              })
+        })
+        .catch(error => {
+            
+            console.error('Error:', error);
+        });
+    }
+
 </script>
 </body>
 

@@ -4,6 +4,7 @@ require_once __DIR__ . '/../Objects/Services.php';
 class ServicesModel extends Database{
 
   public function getAllServices(){
+    $this->checkConnection();
     $sql = 'SELECT * FROM services';
     $result = $this->connection->execute_query($sql);
     $services = array();
@@ -15,10 +16,11 @@ class ServicesModel extends Database{
       $services[] = $service;
       
     }
-    $this->connection->close();
+    $this->close();
     return $services;
   }
   public function getServicesByRequestId($id) {
+    $this->checkConnection();
     $sql = 'SELECT
                 services.id AS service_id,
                 services.name AS service_name,
@@ -39,7 +41,7 @@ class ServicesModel extends Database{
     if ($statement->execute()) {
         $result = $statement->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
-        $statement->close();
+        $this->close();
         $services = array();
         foreach($data as $d){
           $service = new Services();
@@ -54,11 +56,13 @@ class ServicesModel extends Database{
         
         return $services;
     } else {
-        // Handle the case where the query execution fails
+        
+        
         return false;
     }
   }
   public function getServicesByAppointmentId($id) {
+    $this->checkConnection();
     $sql = 'SELECT
                 services.id AS service_id,
                 services.name AS service_name,
@@ -76,7 +80,7 @@ class ServicesModel extends Database{
     if ($statement->execute()) {
         $result = $statement->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
-        $statement->close();
+        
         $services = array();
         foreach($data as $d){
           $service = new Services();
@@ -93,6 +97,7 @@ class ServicesModel extends Database{
     }
   }
   function getServiceSales() {
+    $this->checkConnection();
     $sql = "SELECT s.name AS name, SUM(s.price) AS price FROM `request_services` rs JOIN `services` s ON rs.service_id = s.id GROUP BY s.name;";
     $statement = $this->connection->prepare($sql);
 
@@ -104,13 +109,10 @@ class ServicesModel extends Database{
         while ($row = $result->fetch_object('Services')) {
             $data[] = $row;
         }
-        
+        $this->close();
         return $data;
     }
-}
-  function close(){
-    $this->connection->close();
-  }
+    }
   function getServicesByName($serviceName) {
     $sql = "SELECT * FROM `services` WHERE `name` = ?";
     $statement = $this->connection->prepare($sql);
@@ -128,6 +130,7 @@ class ServicesModel extends Database{
     }
   }
     function getServicesByDateAndName() {
+        $this->checkConnection();
         $sql = "SELECT
                     r.request_date AS date,
                     s.name AS name,

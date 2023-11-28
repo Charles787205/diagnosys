@@ -1,6 +1,6 @@
 <?php 
 require_once __DIR__ . '/../../Models/RequestModel.php';
-
+header("Access-Control-Allow-Origin: *");
 session_start();
 
 if(!isset($_SESSION['id'])){

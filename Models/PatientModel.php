@@ -43,7 +43,7 @@ public function getPatientById($patientId) {
 
         $result = $stmt->get_result();
         $patient = $result->fetch_object('Patient');
-        $this->connection->close();
+        $this->close();
         return $patient;
     } catch (Exception $error) {
         return null;
@@ -85,6 +85,7 @@ public function getPatientById($patientId) {
   }
   public function deletePatient($patientId) {
     $sql = 'DELETE FROM patient WHERE id = ?';
+    
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('i', $patientId);
 

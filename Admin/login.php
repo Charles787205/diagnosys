@@ -12,6 +12,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $employeeModel = new EmployeeModel();
   $id = $employeeModel->getEmployeeIdByFirstNameAndPassword($username, $password);
   $_SESSION['id'] = $id;
+  $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($id);
   if($employee != null){
 

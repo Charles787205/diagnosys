@@ -7,10 +7,16 @@ $user_id = $_SESSION['id'];
 $user = new User();
 $userModel = new UserModel();
 $user = $userModel->getUserById($user_id);
+$userModel->close();
 
   require_once '../Models/RequestModel.php';
   $requestModel = new RequestModel();
-  $newlyApprovedRequest = $requestModel->getApprovedRequestToday(); ?>
+  $approvedRequest = $requestModel->getRequestTodayByStatusAndUserId(Request::APPROVED, $user_id);
+  $requestModel = new RequestModel();
+  $rejectedRequest = $requestModel->getRequestTodayByStatusAndUserId(Request::REJECT, $user_id);
+  $requestModel->close()
+  ?>
+  
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
     <a href="index.html" class="logo d-flex align-items-center">
@@ -35,9 +41,9 @@ $user = $userModel->getUserById($user_id);
       <li class="nav-item dropdown">
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
-          <?php if(count($newlyApprovedRequest)): ?>
+          <?php if(count($approvedRequest) || count($rejectedRequest)): ?>
           <span class="badge bg-primary badge-number"
-            ><?php echo count($newlyApprovedRequest) ?></span
+            ><?php echo (count($approvedRequest) + count($rejectedRequest)) ?></span
           >
         </a>
         <?php endif ?>
@@ -47,7 +53,7 @@ $user = $userModel->getUserById($user_id);
         >
           <li class="dropdown-header">
             You have
-            <?php echo count($newlyApprovedRequest) ?>
+            <?php echo count($approvedRequest) ?>
             new notifications
             <a href="#"
               ><span class="badge rounded-pill bg-primary p-2 ms-2"
@@ -55,14 +61,36 @@ $user = $userModel->getUserById($user_id);
               ></a
             >
           </li>
-          <?php foreach($newlyApprovedRequest as $request): ?>
+          <?php foreach($approvedRequest as $request): ?>
           <li>
             <hr class="dropdown-divider" />
           </li>
 
-          <a href="cashier-request-modal.php">
+          <a href="patient-request-table.php">
             <li class="notification-item">
               <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                <h4 style="color: black">
+                  Request
+                  <?php echo $request->id ?>
+                </h4>
+                <p><?php echo $request->patient->getFullName() ?></p>
+              </div>
+            </li>
+          </a>
+
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <?php endforeach ?>
+          <?php foreach($rejectedRequest as $request): ?>
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+
+          <a href="patient-request-table.php">
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-danger"></i>
               <div>
                 <h4 style="color: black">
                   Request
@@ -131,16 +159,6 @@ $user = $userModel->getUserById($user_id);
           </li>
           <li>
             <hr class="dropdown-divider" />
-          </li>
-
-          <li>
-            <a
-              class="dropdown-item d-flex align-items-center"
-              href="pages-faq.html"
-            >
-              <i class="bi bi-question-circle"></i>
-              <span>Need Help?</span>
-            </a>
           </li>
           <li>
             <hr class="dropdown-divider" />

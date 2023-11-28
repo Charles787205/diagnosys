@@ -12,6 +12,7 @@
   $requests = $requestModel->getRequests();
   $servicesModel = new ServicesModel();
   $services = $servicesModel->getServiceSales();
+  $servicesModel = new ServicesModel();
   $servicesSales = $servicesModel->getServicesByDateAndName();
   $servicesModel->close();
   $dates = [];
@@ -117,11 +118,11 @@
                 document.addEventListener("DOMContentLoaded", () => {
                   new ApexCharts(document.querySelector("#lineChart"), {
                     series: [{
-                      name: "Requests",
+                      name: "Sales",
                       data: [
                         <?php foreach($servicesSales as $sales){
 
-                          if($sales['name'] == 'LIPID PROFILE'){
+                          if($sales['name'] == 'Hemoglobin'){
                             echo ($sales['price'] * $sales['service_count']) .',';
                           }
 
@@ -166,7 +167,7 @@
         <div class="col-lg-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Urinalysis</h5>
+              <h5 class="card-title">Blood Typing</h5>
 
               <!-- Area Chart -->
               <div id="areaChart"></div>
@@ -178,7 +179,7 @@
                       "prices": [
                         <?php foreach($servicesSales as $sales){
 
-                          if($sales['name'] == 'SUA'){
+                          if($sales['name'] == 'Blood Typing'){
                             echo ($sales['price'] * $sales['service_count']) .',';
                           }
 

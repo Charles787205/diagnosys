@@ -9,6 +9,7 @@ require_once 'ServicesModel.php';
 class AppointmentModel extends Database {
 
   public function createAppointment(Appointment $appointment){
+    $this->checkConnection();
     $patientModel = new PatientModel();
     $appointment->patient = $patientModel->getOrCreatePatient($appointment->patient);
     $sql = 'INSERT INTO appointment (user_id, patient_id, total,appointment_date) VALUES (?,?,?,DATE(?))';
@@ -29,6 +30,7 @@ class AppointmentModel extends Database {
         
         $statement = $this->connection->prepare($sql);
         $statement->execute();
+        $this->close();
       }
     }
   }
@@ -36,7 +38,7 @@ class AppointmentModel extends Database {
   public function getAppointmentFromUserId($id){
     $sql = 'SELECT patient.id AS patient_id, patient.first_name, patient.last_name, patient.birthdate, patient.age, patient.province, patient.city, patient.barangay, patient.purok, patient.mobile_number, patient.image_url, appointment.id AS appointment_id,appointment.comment, appointment.status, appointment.appointment_date, appointment.total FROM patient JOIN appointment ON patient.id = appointment.patient_id WHERE
     appointment.user_id = ?;';
-
+    $this->checkConnection();
     $servicesModel = new ServicesModel();
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('i', $id);
@@ -44,7 +46,7 @@ class AppointmentModel extends Database {
     if($statement->execute()){
         $result = $statement->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
-        $statement->close();
+        $this->close();
 
         $appointments = array();
         foreach($data as $d){
@@ -76,6 +78,7 @@ class AppointmentModel extends Database {
         foreach($appointments as $r){
           $r->services = $servicesModel->getServicesByAppointmentId($r->id);
         }
+        $this->close();
         return $appointments;
     } else {
         // Handle the case where the query execution fails
@@ -84,7 +87,7 @@ class AppointmentModel extends Database {
   }
   public function getAppointmentFromPatientId($id){
     $sql = 'SELECT * FROM appointment WHERE patient_id = ?';
-
+    $this->checkConnection();
     $servicesModel = new ServicesModel();
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('i', $id);
@@ -92,7 +95,7 @@ class AppointmentModel extends Database {
     if($statement->execute()){
         $result = $statement->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
-        $statement->close();
+        $this->close();
 
         $appointments = array();
         foreach($data as $d){
@@ -110,6 +113,7 @@ class AppointmentModel extends Database {
         foreach($appointments as $r){
           $r->services = $servicesModel->getServicesByAppointmentId($r->id);
         }
+        $this->close();
         return $appointments;
     } else {
         // Handle the case where the query execution fails
@@ -118,13 +122,13 @@ class AppointmentModel extends Database {
   }
   public function getAppointments() {
     $sql = 'SELECT * FROM appointment';
-
+    $this->checkConnection();
     $statement = $this->connection->prepare($sql);
 
     if ($statement->execute()) {
         $result = $statement->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
-        $statement->close();
+        $this->close();
 
         $appointments = array();
         foreach ($data as $d) {
@@ -143,7 +147,7 @@ class AppointmentModel extends Database {
           $appointment->patient = $patientModel->getPatientById($appointment->patient_id);
           $appointment->services = $servicesModel->getServicesByAppointmentId($appointment->id);
         }
-        $this->connection->close();
+        
         return $appointments;
     } else {
         // Handle the case where the query execution fails
@@ -152,17 +156,17 @@ class AppointmentModel extends Database {
   }
   public function getAppointmentById($id) {
     $sql = 'SELECT * FROM appointment WHERE id = ?';
-
+    $this->checkConnection();
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('i', $id);
 
     if ($statement->execute()) {
         $result = $statement->get_result();
         $appointment = $result->fetch_object('Appointment');
-        $statement->close();
+        $this->close();
         $servicesModel = new ServicesModel();
         $appointment->services = $servicesModel->getServicesByAppointmentId($appointment->id);
-        $this->connection->close();
+        
         return $appointment;
     } else {
         // Handle the case where the query execution fails
@@ -170,39 +174,79 @@ class AppointmentModel extends Database {
     }
   }
   function updateAppointmentStatus($appointmentId, $status) {
-    
+    $this->checkConnection();
     $sql = 'UPDATE appointment SET status = ? WHERE id = ?';
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('si', $status, $appointmentId);
 
     if ($statement->execute()) {
-      $this->connection->close();
+      $this->close();
         echo "Appointment status updated successfully";
     } else {
         echo "Error updating appointment status";
     }
+    
   }
   function deleteAppointment($appointment_id){
+    $this->checkConnection();
     $sql = "DELETE FROM appointment WHERE id = $appointment_id;";
     $statement = $this->connection->prepare($sql);
     $statement->execute();
+    $this->close();
   }
-  public function close(){
-  $this->connection->close();
-}
-  public function rejectAppointment($appointmentId, $comment) {
-    
-        $sqlUpdate = 'UPDATE appointment SET status = "Reject", comment = ? WHERE id = ?';
-        $statementUpdate = $this->connection->prepare($sqlUpdate);
-        $statementUpdate->bind_param('si', $comment, $appointmentId);
+  
+public function rejectAppointment($appointmentId, $comment) {
+    $this->checkConnection();
+    $sqlUpdate = 'UPDATE appointment SET status = "Reject", comment = ? WHERE id = ?';
+    $statementUpdate = $this->connection->prepare($sqlUpdate);
+    $statementUpdate->bind_param('si', $comment, $appointmentId);
 
-        if ($statementUpdate->execute()) {
-            $this->connection->close();
-            echo "Appointment rejected successfully.";
-        } else {
-            echo "Error rejecting appointment.";
-        }
+    if ($statementUpdate->execute()) {
+        $this->close();
+        echo "Appointment rejected successfully.";
+    } else {
+        echo "Error rejecting appointment.";
     }
+  }
+  public function getApprovedFutureAppointments() {
+    $sql = 'SELECT * FROM appointment WHERE status = "Approved" AND appointment_date >= CURDATE()';
+    $this->checkConnection();
+    $statement = $this->connection->prepare($sql);
+
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $this->close();
+
+        $appointments = array();
+        foreach ($data as $d) {
+            $appointment = new Appointment();
+            $appointment->id = $d['id'];
+            $appointment->user_id = $d['user_id'];
+            $appointment->patient_id = $d['patient_id'];
+            $appointment->status = $d['status'];
+            $appointment->appointment_date = $d['appointment_date'];
+            $appointment->total = $d['total'];
+            $appointments[] = $appointment;
+        }
+
+        foreach ($appointments as $appointment) {
+          $patientModel = new PatientModel();
+          $appointment->patient = $patientModel->getPatientById($appointment->patient_id);
+        }
+        foreach ($appointments as $appointment) {
+          $servicesModel = new ServicesModel();
+          $appointment->services = $servicesModel->getServicesByAppointmentId($appointment->id);
+        }
+
+        
+        return $appointments;
+    } else {
+        // Handle the case where the query execution fails
+        return false;
+    }
+}
+
   
 
 

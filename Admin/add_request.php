@@ -3,14 +3,15 @@
   require_once 'utils/is_login.php';
   require_once '../Models/EmployeeModel.php';
   require_once '../Models/ServicesModel.php';
-
+  require_once '../Models/AppointmentModel.php';
   $head_title = 'Add Request';
   $page_title = 'Add Request';
   $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($_SESSION['id']);
   $servicesModel = new ServicesModel();
   $services = $servicesModel->getAllServices();
-  
+  $appointmentModel = new AppointmentModel();
+  $appointments =  $appointmentModel->getApprovedFutureAppointments();
   
 ?>
 
@@ -124,10 +125,18 @@
               <div class="container">
                 <header>Add Request Form</header>
                 <form id="request_form" enctype="multipart/form-data">
+                  <select name="" id="appointment-select" class="form-select form-select-sm">
+                    <option selected>Select Appointments</option>
+                    <?php foreach($appointments as $appointment):
+                      $patient_name = $appointment->patient->getFullName();
+                      ?>
+                      <option value="<?php echo $appointment->id?>"><?php echo "Appointment  #$appointment->id: $patient_name "?></option>
+                    <?php endforeach ?>
+                  </select>
                   <div class="form first">
                     <div class="details personal">
                     <label>Date</label>
-                      <input type="text" name="request_date" class="form-control" id="inputName5" readonly>
+                      <input type="text" name="request_date" class="form-control" id="request_date" readonly>
                       <script>
                           var d = new Date()
                           var yr = d.getFullYear();
@@ -142,20 +151,20 @@
                           }
                           var c_date = yr + "-" + month + "-" + date;
 
-                          document.getElementById("inputName5").value = c_date;
+                          document.getElementById("request_date").value = c_date;
                         </script>
                       <div class="fields">
                         <div class="input-field">
                           <label>Lastame</label>
-                          <input type="text" name="request_lastname" placeholder="Enter your Lastame" required>
+                          <input type="text" id='last_name' name="request_lastname" placeholder="Enter your Lastame" required>
                         </div>
                         <div class="input-field">
                           <label>Firstname</label>
-                          <input type="text" name="request_firstname" placeholder="Enter your Firstname" required>
+                          <input type="text" id='first_name' name="request_firstname" placeholder="Enter your Firstname" required>
                         </div>
                         <div class="input-field">
                           <label>Gender</label>
-                          <select required name="request_gender">
+                          <select id='gender' required name="request_gender">
                             <option disabled selected>Select gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -171,7 +180,7 @@
                         </div>
                         <div class="input-field">
                           <label>Mobile Number</label>
-                          <input type="tel" name="request_phone" pattern="[0-9]{11}" placeholder="Enter mobile number" required>
+                          <input type="tel" id='mobile_number' name="request_phone" pattern="[0-9]{11}" placeholder="Enter mobile number" required>
                         </div>
 
                         <div class="input-field">
@@ -200,7 +209,7 @@
                         </div>
                         <div class="input-field">
                           <label>Purok</label>
-                          <input type="text" name="request_purok" placeholder="Enter your Purok" required>
+                          <input type="text" id="purok" name="request_purok" placeholder="Enter your Purok" required>
                         </div>
 
 
@@ -381,7 +390,7 @@
                                   </div>
 
                                 </div>
-                                                  
+                                <input hidden id="user_id" type='number' name="user_id" value=<?php echo $_SESSION['id'] ?>   >       
 
 
                               </div>
@@ -424,10 +433,10 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <!-- Vendor JS Files -->
-  
-  <?php require 'components/required_js.html' ?>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="../assets/js/script3.js"></script>
+  <?php require 'components/required_js.html' ?>
+  
   <script>
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -481,8 +490,9 @@
     fetch('utils/add_request.php', {
       method: 'POST', 
       body: formData,
+      
     })
-      .then(response => {
+      .then(() => {
         Swal.fire({
           title: "New Request Added",
           icon: "success"
@@ -490,8 +500,41 @@
           window.location.href = 'pending_requests.php'
         })
       })
-      
-});
+  });
+  const appointments = <?php echo json_encode($appointments); ?>;
+  const user_id = <?php echo $_SESSION['id'] ?>; 
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const appointmentSelect = document.getElementById('appointment-select');
+    appointmentSelect.addEventListener('change', changeData);
+    function changeData(e){
+    
+    for(appointment of appointments){
+      if(appointment.id == e.target.value){
+        $('#request_date').val(appointment.appointment_date);
+        $('#last_name').val(appointment.patient.last_name);
+        $('#first_name').val(appointment.patient.first_name);
+        $('#gender').val(appointment.patient.gender);
+        $('#dob').val(appointment.patient.birthdate);
+        $('#age').val(appointment.patient.age)
+        $('#mobile_number').val(appointment.patient.mobile_number);
+        $('#province').html(`<option value="${appointment.patient.province}">${appointment.patient.province}</option>`);
+        $('#city').html(`<option value="${appointment.patient.city}">${appointment.patient.city}</option>`);
+        $('#barangay').html(`<option value="${appointment.patient.barangay}">${appointment.patient.barangay}</option>`);
+        $('#purok').val(appointment.patient.purok);
+        $('#total').val(appointment.total);
+        $('#user_id').val(appointment.user_id)
+        for(var i = 0; i < appointment.services.length; i++){
+          $(`#test${i+1}`).val(appointment.services[i].id).change();
+          console.log(appointment.services[i]);
+        }
+        break;
+      }else{
+        $('#user_id').val(user_id);
+      }
+    }
+  }
+  })
 
 
     

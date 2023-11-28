@@ -133,7 +133,7 @@
                               href="cashier-viewreq.php?request_id=<?php echo $request->id?>"
                               style="color: #ffff; text-decoration: none" class="btn btn-primary"
                               >
-                              View
+                              <i class="bi bi-eye-fill"></i>
                             </a>
                           </td>
                         </tr>

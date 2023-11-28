@@ -1,6 +1,8 @@
 <?php 
 
 session_start();
+header("Access-Control-Allow-Origin: *");
+
 require __DIR__ . '/../../Models/RequestModel.php';
 if(!isset($_SESSION['id'])){
   header('Location: login.php');

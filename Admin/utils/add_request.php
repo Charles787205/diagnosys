@@ -1,12 +1,14 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 session_start();
+
 require_once __DIR__ . '/../../Objects/Patient.php';
 require_once __DIR__ . '/../../Objects/Request.php';
 require_once __DIR__ . '/../../Models/RequestModel.php';
 require_once __DIR__ . '/../../Objects/Services.php';
 require_once __DIR__ . '/../../Models/PatientModel.php';
 
-if(true){
+
     $request = new Request();
     $patient = new Patient();
     $requestModel = new RequestModel();
@@ -21,7 +23,7 @@ if(true){
     $patient->purok=$_POST['request_purok'];
     $patient->mobile_number=$_POST['request_phone'];
     $request->total=$_POST['request_amount'];
-    $request->user_id = $_SESSION['id'];
+    $request->user_id = $_POST['user_id'];
     $services_selected_arr=$_POST['request_test'];
     $services = array();
     foreach($services_selected_arr as $serviceId){
@@ -54,24 +56,23 @@ if(true){
     if(!$checkPatient){ //patient doesn't exist
 
         
-      echo "File has been uploaded successfully.";
+      
       $patient->image_url = $newFileName;
       $request->patient=$patient;
       
       $requestModel->createRequest($request);
-      header('Location: pending-forms-elements.php');
-      echo '<script>alert("Data Submitted Successfully")</script>';
+    
 
 
     }else{
         
         $request->patient = $checkPatient; 
         $requestModel->createRequest($request);
-        header('Location: pending-forms-elements.php');
+        
     }
     
-   
-}
-echo 'hello';
+   echo json_encode('Success');
+
+
 ?>
 

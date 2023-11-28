@@ -7,7 +7,7 @@
   $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($_SESSION['id']);
   $patientModel = new PatientModel();
-   $patients = $patientModel->getAllPatients(); ?>
+  $patients = $patientModel->getAllPatients(); ?>
 <!DOCTYPE html>
 <html lang="en">
   <?php require 'components/head.html' ?>

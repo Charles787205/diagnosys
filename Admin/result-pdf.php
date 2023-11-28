@@ -105,26 +105,26 @@ $pdf->Ln(10);
 // Total
 $pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(80, 5, 'Test', 1,0,'C');
-$pdf->SetTextColor(135, 206, 235);
-$pdf->SetFont('Arial', '', 12);
-$pdf->Cell(35, 5, 'Result', 1,0,'C');
-$pdf->SetTextColor(135, 206, 235);
-$pdf->SetFont('Arial', '', 12);
-$pdf->Cell(80, 5, 'Normal Value', 1,0,'C');
+$pdf->Cell(70, 8, 'Service', 1,0,'C');
+$pdf->Cell(55, 8, 'Test', 1,0,'C');
+$pdf->Cell(35, 8, 'Result', 1,0,'C');
+$pdf->Cell(35, 8, 'Normal Value', 1,0,'C');
 
 
 foreach($request->services as $service){
   
-  $pdf->Cell(80, 8, $service->name, 1,0,'C');
-  $pdf->SetTextColor(0, 0, 0);
+  $pdf->Cell(70, 8, $service->name, 1,0,'C');
+
+  $pdf->SetFont('Arial', '', 14);
+  $pdf->Cell(55, 8, $service->test, 1,0,'C');
+
   $pdf->SetFont('Arial', 'B', 14);
   $pdf->Cell(35, 8, $service->result, 1,0,'C');
-  $pdf->SetTextColor(0, 0, 0);
+
   $pdf->SetFont('Arial', '', 14);
-  $pdf->Cell(80, 8, $service->normal_value, 1,0,'C');
+  $pdf->Cell(35, 8, $service->normal_value, 1,0,'C');
   $pdf->SetFont('Arial', '', 14);
-  $pdf->Ln(10);
+  $pdf->Ln(8);
   $pdf->SetTextColor(0, 0, 0);
 
 }
