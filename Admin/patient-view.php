@@ -9,8 +9,8 @@
   $employeeModel = new EmployeeModel();
   $employee = $employeeModel->getEmployeeById($_SESSION['id']); 
   $patientModel = new PatientModel(); 
-  $requestModel = new RequestModel();
   $patient = $patientModel->getPatientById($_GET['patient_id']);
+  $requestModel = new RequestModel();
   
   $requests = $requestModel->getRequestsByStatusAndUserId(Request::PAID, $patient->id);
   $appointmentModel = new AppointmentModel();
@@ -205,7 +205,7 @@
                   style="width: 200px"
                 />
                 <h2>Patient No.</h2>
-                <h3>001</h3>
+                <h3><?php echo $patient->id ?></h3>
               </div>
             </div>
           </div>

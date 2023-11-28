@@ -33,6 +33,12 @@ switch($model){
     require_once __DIR__ . '/../../Models/PatientModel.php';
     $patientModel = new PatientModel();
     $patientModel->deletePatient($id);
+    $requestModel = new RequestModel();
+    $requests = $requestModel->getRequestFromPatientId($id);
+    foreach($requests as $request){
+      $requestModel = new RequestModel();
+      $requestModel->deleteRequest($request->id);
+    }
     break;
   case 'user':
     require_once __DIR__ . '/../../Models/UserModel.php';

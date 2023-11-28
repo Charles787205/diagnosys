@@ -515,7 +515,7 @@ class RequestModel extends Database {
     }
   }
   public function getRequestsByStatusAndUserId($status, $user_id) {
-    $sql = 'SELECT * FROM request WHERE status = ? AND user_id = ?';
+    $sql = 'SELECT * FROM request WHERE status = ? AND patient_id = ?';
 
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('si', $status, $user_id);
