@@ -166,7 +166,7 @@
                         <input type="password" name="register_password" class="form-control" id="inputPassword4" required>
                       </div>
                       <div class="col-md-12">
-                        <select name="user_type" id="inputState" class="form-select" required>
+                        <select name="position" id="inputState" class="form-select" required>
                           <option selected>Choose...</option>
                           <option value="Information Desk">Information Desk</option>
                           <option value="Cashier">Cashier</option>

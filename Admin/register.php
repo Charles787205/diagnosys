@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <h2>Register Now</h2>
 
 
-                        <form action="#" method="post">
+                        <form action="register.php" method="post" id='register-form'>
                             <input type="text" class="name" name="register_lastname" placeholder="Enter Lastname" value="" required>
                             <input type="text" class="name" name="register_firstname" placeholder="Enter Firstname" value="" required>
                             <input type="number" class="name" name="register_age" placeholder="Enter Age" value="" required>
@@ -74,11 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="Information Desk Officer">Information Desk Officer</option>
                             <option value="cashier">Cashier</option>
                            </select>
-                            
-
-                              
-
-                                <button name="submit" class="btn" type="submit" style="background-color:dodgerblue">Register</button>
+                            <button name="registerButton" class="btn" onclick="submitForm(event)" style="background-color:dodgerblue">Register</button>
                         </form>
                         <div class="social-icons">
                             <p>Already have an account? <a href="login.php">Login</a>.</p>
@@ -100,12 +96,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 });
             });
         });
-    </script>
+    
+  
+    function submitForm(e) {
+        e.preventDefault();
 
-<script>
-  document.querySelector(".btn").addEventListener('click', function(){
-  Swal.fire("Our First Alert", "With some body text and success icon!", "success");
-});
+        const form = document.getElementById('register-form');
+        console.log(form);
+        Swal.fire({
+            title: 'Registration Successful!',
+            text: 'You can now log in with your credentials.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Use vanilla JavaScript to submit the form
+                document.getElementById('register-form').submit();
+            }
+        });
+    }
+
+
+    
 </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
