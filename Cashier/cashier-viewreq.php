@@ -9,15 +9,8 @@
   $employee = $employeeModel->getEmployeeById($_SESSION['id']);
   $requestModel = new RequestModel();
   $request = $requestModel->getRequestById($_GET['request_id']);
-  
-  if ($_SERVER['REQUEST_METHOD']=='POST'){
-    if(isset($_POST['pay'])){
-      $requestModel = new RequestModel();
-      $requestModel->updateRequestStatus($request->id, Request::PAID);
-      header('Location:cashier-request-modal.php');
-    }
-  }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <?php require 'components/head.html'; ?>
@@ -312,7 +305,7 @@
                   aria-label="Close"
                 ></button>
               </div>
-              <form action="cashier-viewreq.php?request_id=<?php echo $request->id ?>" method="POST">
+              <form method="POST" id="payment-form" onsubmit="submitForm(event)">
                 <div class="modal-body">
                   <label for="inputPassword5" class="form-label">Money</label>
                   <input
@@ -321,6 +314,8 @@
                     id="number1"
                     oninput="calculateChange()"
                     placeholder="Input Money"
+                    name="payment"
+                    required
                   />
                   <label for="inputPassword5" class="form-label"
                     >Total Amount</label
@@ -377,24 +372,45 @@
 
       <!-- Vendor JS Files -->
       <?php require 'components/required_js.html'?>
-
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script>
-        document
-          .getElementById("printButton")
-          .addEventListener("click", function () {
-            var pdfWindow = window.open("generatePdf.php?request_id=<?php echo $request->id ?>", "_blank");
-            pdfWindow.print();
+        function submitForm (e) {
+          e.preventDefault();
+          const paymentForm = e.target
+          const change = paymentForm.elements['result'].value       
+          const payment = paymentForm.elements['payment'].value 
+          if(change >= 0){
+            fetch('utils/pay_request.php', {
+              method: 'POST',
+              body: JSON.stringify({
+                payment:payment,
+                id: <?php echo $request->id ?>,
+              })
+            }).then(() => {
+              var pdfWindow = window.open("generatePdf.php?request_id=<?php echo $request->id ?>", "_blank");
+              pdfWindow.print();
+              window.location.href = "cashier-request-modal.php";
+            });
 
-            window.location.href = "cashier-payment-list.php";
-          });
-      </script>
-      <script>
+
+          }else{
+            Swal.fire({
+              title:'Insufficient',
+              text: 'Insufficient Money',
+              icon: 'warning'
+            })
+          }
+        }
+      
+      
         function calculateChange() {
           var number1 = parseFloat(document.getElementById("number1").value);
           var number2 = parseFloat(document.getElementById("number2").value);
           var result = number1 - number2;
           document.getElementById("result").value = result.toFixed(2);
         }
+        
       </script>
     </body>
   </body>

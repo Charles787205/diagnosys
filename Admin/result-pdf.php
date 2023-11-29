@@ -109,7 +109,8 @@ $pdf->Cell(70, 8, 'Service', 1,0,'C');
 $pdf->Cell(55, 8, 'Test', 1,0,'C');
 $pdf->Cell(35, 8, 'Result', 1,0,'C');
 $pdf->Cell(35, 8, 'Normal Value', 1,0,'C');
-
+$pdf->Ln(8);
+$pdf->SetTextColor(0, 0, 0);
 
 foreach($request->services as $service){
   

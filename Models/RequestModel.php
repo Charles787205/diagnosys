@@ -173,9 +173,9 @@ class RequestModel extends Database {
         $result = $statement->get_result();
         $request = $result->fetch_object('Request');
         $this->close();
-        $servicesModel = new ServicesModel();
         $patientModel = new PatientModel();
         $request->patient = $patientModel->getPatientById($request->patient_id);
+        $servicesModel = new ServicesModel();
         $request->services = $servicesModel->getServicesByRequestId($request->id);
         
         return $request;
@@ -258,16 +258,16 @@ class RequestModel extends Database {
     }
   }
 
-  function updateRequestStatus($requestId, $status) {
+  function updateRequestStatus($requestId, $status, $payment=0) {
     $this->checkConnection();
     if($status == Request::PAID || $status == Request::APPROVED ){
-      $sql = 'UPDATE request SET status = ?, request_date= CURDATE() WHERE id = ?';
+      $sql = 'UPDATE request SET status = ?, request_date= CURDATE(), payment=? WHERE id = ?';
     }else{
 
       $sql = 'UPDATE request SET status = ? WHERE id = ?';
     }
     $statement = $this->connection->prepare($sql);
-    $statement->bind_param('si', $status, $requestId);
+    $statement->bind_param('sdi', $status, $payment, $requestId);
 
     if ($statement->execute()) {
       

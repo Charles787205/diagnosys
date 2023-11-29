@@ -45,6 +45,7 @@ CREATE TABLE request (
   request_date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   total DECIMAL(10, 2) NOT NULL, 
   comment VARCHAR(255) DEFAULT '',
+  payment DECIMAL(10, 2) DEFAULT 0,
   FOREIGN KEY (patient_id) REFERENCES patient (id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE SET NULL
 );
@@ -89,6 +90,9 @@ CREATE TABLE appointment_services(
   FOREIGN KEY (service_id) REFERENCES services (id)
 );
 
+ALTER TABLE request
+DROP FOREIGN KEY patient_id,
+ADD FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE;
 
 INSERT INTO `services` (`id`, name, `price`) VALUES
 (1, 'CBC', 100),

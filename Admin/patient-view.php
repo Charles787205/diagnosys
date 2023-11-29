@@ -410,11 +410,20 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <?php foreach($requests as $request): ?>
-                              <td><?php echo $patient->last_name ?></td>
+                            <?php foreach($requests as $request): ?>
+                              <tr scope="row">
+                              <td ><?php echo $patient->last_name ?></td>
                               <td><?php echo $patient->first_name ?></td>
-                              <td><?php echo $patient->id ?></td>
+                              <td>
+                                <button type="button" style="padding:0px;" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                  See tests
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <?php foreach($request->services as $services):?>
+                                  <li><a class="dropdown-item" href="#"><?php echo $services->name ?></a></li>
+                                    
+                                   <?php endforeach ?>
+                                </ul></td>
                               <td><?php echo $request->request_date?></td>
                               <td>
                                 <button
@@ -454,15 +463,15 @@
     
     <?php require 'components/required_js.html' ?>
     <script>
-                      function print(id) {
-                          var pdfWindow = window.open(
-                            `result-pdf.php?request_id=${id}`,
-                            "_blank"
-                          );
-                          pdfWindow.print();
+      function print(id) {
+          var pdfWindow = window.open(
+            `result-pdf.php?request_id=${id}`,
+            "_blank"
+          );
+          pdfWindow.print();
 
-                          
-                        };
-                    </script>
+          
+        };
+    </script>
   </body>
 </html>

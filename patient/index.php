@@ -51,9 +51,13 @@
   <header id="header" style="height: 18%;" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <a href="index.html" class="logo me-auto"><img src="../assets/img/log.png"alt=""></a>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <h1 class="logo me-auto"><a href="index.html">Medicio</a></h1> -->
+      <a href="index.php" class="logo me-auto"><img src="../assets/img/log.png"alt="" style="width: 70px"></a>
+      <div class="search">
+        <input type="text" class="form-control" style="width: 15rem;" placeholder="Search services" id="serviceSearch">
+        <ul class="card" id="serviceList" style="position: absolute; width: 15rem; display: none; list-style-type:none;">
+            <!-- List items will be dynamically added here based on $services array -->
+        </ul>
+      </div>
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
@@ -823,9 +827,77 @@
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  
   <!-- Templatein JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    
+    $services = [
+    'CBC',
+    'Hemoglobin',
+    'Platelet Count',
+    'Blood Typing',
+    'HBsAG',
+    'VDRL/Syphilis',
+    'HA1c',
+    'TSH',
+    'T3',
+    'URINE ANALYSIS',
+    'Fecalysis',
+    'FBS',
+    'RBS',
+    'LIPID PROFILE',
+    'CHOLESTEROL',
+    'SUA',
+    'GREATININE',
+    'SGPT/ALT',
+    'SGOT/AST',
+    'BUN',
+    'ELECTROLYTES'
+  ];
+  $(document).ready(function () {
+        // Your array of services
+        var services = [
+            'CBC', 'Hemoglobin', 'Platelet Count', 'Blood Typing', 'HBsAG', 'VDRL/Syphilis',
+            'HA1c', 'TSH', 'T3', 'URINE ANALYSIS', 'Fecalysis', 'FBS', 'RBS',
+            'LIPID PROFILE', 'CHOLESTEROL', 'SUA', 'GREATININE', 'SGPT/ALT', 'SGOT/AST',
+            'BUN', 'ELECTROLYTES'
+        ];
 
+        var serviceSearch = $('#serviceSearch');
+        var serviceList = $('#serviceList');
+
+        // Initial population of the list based on services array
+        
+        
+        serviceSearch.on('input', function () {
+          serviceList.empty();
+          
+          var searchTerm = $(this).val().toLowerCase();
+          var showedServices = [];
+          for(service of services){
+            if(service.toLowerCase().includes(searchTerm)){
+              $('<li class="">' + service + '</li>').appendTo(serviceList);
+            }
+          }
+          console.log(serviceList.children().length);
+          if(serviceList.children().length > 0){
+            serviceList.css('display', 'absolute');
+            serviceList.show();
+          }
+        });
+
+
+            
+            
+        serviceSearch.on('blur', function () {
+            // Hide the list when the input loses focus
+            serviceList.hide();
+        });
+    });
+
+  </script>
 </body>
 
 </html>

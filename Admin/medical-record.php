@@ -308,6 +308,7 @@
 
   <!-- Vendor JS Files -->
   <?php require 'components/required_js.html' ?>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
  <script>
   
   var counter = 1;

@@ -118,7 +118,8 @@
               <hr>
               <div class="container">
                 <header>Add Request Form</header>
-                <form action="add-pat-req.php" method="POST" enctype="multipart/form-data">
+                <form id="request_form" enctype="multipart/form-data">
+                  <input type="number" name="user_id" id="user_id" value="<?php echo $_SESSION['id'] ?>" hidden>  
                   <div class="form first">
                     <div class="details personal">
                     <label>Date</label>
@@ -142,15 +143,15 @@
                       <div class="fields">
                         <div class="input-field">
                           <label>Lastame</label>
-                          <input type="text" name="request_lastname" placeholder="Enter your Lastame" required>
+                          <input type="text" id='last_name' name="request_lastname" placeholder="Enter your Lastame" required>
                         </div>
                         <div class="input-field">
                           <label>Firstname</label>
-                          <input type="text" name="request_firstname" placeholder="Enter your Firstname" required>
+                          <input type="text" id="first_name" name="request_firstname" placeholder="Enter your Firstname" required>
                         </div>
                         <div class="input-field">
                           <label>Gender</label>
-                          <select required name="request_gender">
+                          <select required name="request_gender" id="gender" >
                             <option disabled selected>Select gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -166,7 +167,7 @@
                         </div>
                         <div class="input-field">
                           <label>Mobile Number</label>
-                          <input type="tel" name="request_phone" pattern="[0-9]{11}" placeholder="Enter mobile number" required>
+                          <input type="tel" id='mobile_number' name="request_phone" pattern="[0-9]{11}" placeholder="Enter mobile number" required>
                         </div>
 
                         <div class="input-field">
@@ -195,16 +196,8 @@
                         </div>
                         <div class="input-field">
                           <label>Purok</label>
-                          <input type="text" name="request_purok" placeholder="Enter your Purok" required>
+                          <input type="text" id="purok" name="request_purok" placeholder="Enter your Purok" required>
                         </div>
-
-
-
-
-
-
-
-
                       </div>
                     </div>
 
@@ -466,7 +459,9 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
   <!-- Template Main JS File -->
@@ -508,6 +503,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initial calculation
     updateTotalPrice();
+    const form = document.getElementById('request_form');
+
+
+    form.addEventListener('submit', async function (event) {
+      
+      event.preventDefault();
+
+      
+      const formData = new FormData(form);
+      console.log('hello')
+      const { value: accept } = await Swal.fire({
+        title: "Terms and conditions",
+        input: "checkbox",
+        inputValue: 0,
+        grow: 'row',
+        inputPlaceholder: `
+          I agree that my information will be seen by the clinic personnels.
+        `,
+        confirmButtonText: `
+          Continue&nbsp;<i class="fa fa-arrow-right"></i>
+        `,
+        inputValidator: (result) => {
+          return !result && "You need to agree with T&C";
+        }
+      });
+      if(accept){
+
+        fetch('utils/add_request.php', {
+          method: 'POST', 
+          body: formData,
+          
+        })
+          .then(() => {
+            Swal.fire({
+              title: "New Request Added",
+              icon: "success"
+            }).then(() => {
+              window.location.href = 'patient-request-table.php'
+            })
+          })
+      }
+    });
 });
 </script>
 

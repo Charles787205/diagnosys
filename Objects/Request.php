@@ -13,7 +13,7 @@ class Request {
     public $services;
     public Float $total;
     public ?int $user_id;
-    public $comment;
+    public $comment,$payment;
 
     public function getTotal(){
         $total = 0;

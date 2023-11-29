@@ -85,8 +85,14 @@ $pdf->Ln(10);
 $pdf->Cell(128  , 10, '', 1);
 $pdf->Cell(70, 10, '', 1);
 $pdf->Ln(10);
+$pdf->Cell(128  , 10, 'Payment', 1);
+$pdf->Cell(70, 10,  $request->payment, 1);
+$pdf->Ln(10);
 $pdf->Cell(128  , 10, 'Total Amount', 1);
-$pdf->Cell(70, 10,  $request->total, 1);
+$pdf->Cell(70, 10,  $request->total .'.00', 1);
+$pdf->Ln(10);
+$pdf->Cell(128  , 10, 'Change', 1);
+$pdf->Cell(70, 10, abs($request->total - $request->payment) . '.00', 1);
 // Total
 
 
