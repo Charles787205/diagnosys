@@ -182,7 +182,7 @@
         id: <?php echo $appointment->id ?>,
         status: "<?php echo Appointment::REJECT ?>"
       }
-      const { value: text } = await Swal.fire({
+      const userResponse = await Swal.fire({
         input: "textarea",
         inputLabel: "Comment",
         inputPlaceholder: "Type your comment here...",
@@ -191,19 +191,22 @@
         },
         showCancelButton: true
       });
-      data.comment=text;
-      fetch('utils/update_appointment.php', {
-        method: 'POST',
-        body: JSON.stringify(data)
-      }).then((response) =>{
-        Swal.fire({
-          title: "Rejected!",
-          text: "The appointment has been rejected.",
-          icon: "success"
-      }).then(()=>{
-        window.location.href = 'appointment_forms.php';
-      })
-    })
+      if(userResponse.isConfirmed){
+
+          data.comment=userResponse.value;
+          fetch('utils/update_appointment.php', {
+            method: 'POST',
+            body: JSON.stringify(data)
+          }).then((response) =>{
+            Swal.fire({
+              title: "Rejected!",
+              text: "The appointment has been rejected.",
+              icon: "success"
+          }).then(()=>{
+            window.location.href = 'appointment_forms.php';
+          })
+        })
+      }
     }
   </script>
 </body>
