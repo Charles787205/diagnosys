@@ -25,6 +25,7 @@ require_once __DIR__ . '/../../Models/PatientModel.php';
     $request->total=$_POST['request_amount'];
     $request->user_id = $_POST['user_id'];
     $services_selected_arr=$_POST['request_test'];
+    
     $services = array();
     foreach($services_selected_arr as $serviceId){
         $service = new Services();
@@ -41,7 +42,7 @@ require_once __DIR__ . '/../../Models/PatientModel.php';
     $patientModel = new PatientModel();
     $checkPatient = $patientModel->getPatientWithFirstNameAndLastName($patient->first_name, $patient->last_name);
     if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == 0) {
-        $targetDir = "../uploads/";
+        $targetDir = __DIR__ . "/../../uploads/";
         
         $filename = str_replace(' ', '_',basename($_FILES["fileToUpload"]["name"]));
         // Generate a new file name (you can customize this logic)
@@ -50,7 +51,7 @@ require_once __DIR__ . '/../../Models/PatientModel.php';
         
          //returns Patient if exist and false if it doesn't exist
         
-        $fileuploaded = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile);
+        echo ($fileuploaded = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile));
         
     } 
     if(!$checkPatient){ //patient doesn't exist

@@ -122,7 +122,7 @@
                   </div>
                   <div class="col-12">
                   <label for="inputName5" class="form-label">ID</label>
-                  <img src=<?php echo "../uploads/".$request->patient->image_url?> style="width:400px;" alt="asdf" >
+                  <img src='<?php echo "../uploads/". $request->patient->image_url?>' style="width:400px;" alt="asdf" >
                   </div>
                 </div>
 
@@ -183,7 +183,7 @@
 
       }
       
-      const { value: text } = await Swal.fire({
+      const userResponse = await Swal.fire({
         input: "textarea",
         inputLabel: "Comment",
         inputPlaceholder: "Type your comment here...",
@@ -192,19 +192,24 @@
         },
         showCancelButton: true
       });
-      data.comment=text;
-      fetch('utils/update_request.php', {
-        method: 'POST',
-        body: JSON.stringify(data)
-      }).then((response) =>{
-        Swal.fire({
-          title: "Rejected!",
-          text: "The request has been rejected.",
-          icon: "success"
-      }).then(()=>{
-        window.location.href = 'pending_requests.php';
-      })
-      })
+      console.log(userResponse);
+      if(userResponse.isConfirmed){
+
+        data.comment=userResponse.value;
+        fetch('utils/update_request.php', {
+          method: 'POST',
+          body: JSON.stringify(data)
+        }).then((response) =>{
+          
+          Swal.fire({
+            title: "Rejected!",
+            text: "The request has been rejected.",
+            icon: "success"
+        }).then(()=>{
+          window.location.href = 'pending_requests.php';
+        })
+        })
+      }
     }
   </script>
 </body>

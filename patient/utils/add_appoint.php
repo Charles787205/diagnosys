@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once '../Objects/Patient.php';
-require_once '../Objects/Appointment.php';
-require_once '../Models/AppointmentModel.php';
-require_once '../Objects/Services.php';
-require_once '../Models/PatientModel.php';
+require_once __DIR__ .'/../../Objects/Patient.php';
+require_once __DIR__ .'/../../Objects/Appointment.php';
+require_once __DIR__ .'/../../Models/AppointmentModel.php';
+require_once __DIR__ .'/../../Objects/Services.php';
+require_once __DIR__ .'/../../Models/PatientModel.php';
 
 if(true){
     $appointment = new Appointment();
@@ -21,7 +21,7 @@ if(true){
     $patient->purok=$_POST['appointment_purok'];
     $patient->mobile_number=$_POST['appointment_phone'];
     $appointment->total=$_POST['appointment_amount'];
-    $appointment->user_id = $_SESSION['id'];
+    $appointment->user_id = $_POST['user_id'];
     $appointment->appointment_date = $_POST['appointment_date'];
     $services_selected_arr=$_POST['appointment_test'];
     $services = array();
@@ -38,7 +38,7 @@ if(true){
     $target_dir = "../uploads/";
     echo $_FILES['fileToUpload']['name'];
     if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == 0) {
-        $targetDir = "../uploads/";
+        $targetDir = "../../uploads/";
         $filename = str_replace(' ', '_',basename($_FILES["fileToUpload"]["name"]));
         // Generate a new file name (you can customize this logic)
         $newFileName = "user_id_" . time() . "_" . $filename;
@@ -56,7 +56,7 @@ if(true){
                 $appointment->patient=$patient;
                 $checkPatient = 
                 $appointmentModel->createAppointment($appointment);
-                header('Location: patient-tables-data.php');
+                
         
             } else {
                 echo "Sorry, there was an error uploading your file.";
@@ -64,7 +64,7 @@ if(true){
         }else{
             $appointment->patient = $checkPatient; 
             $appointmentModel->createAppointment($appointment);
-            header('Location: patient-tables-data.php');
+            
         }
     } else {
         echo "Error: " . $_FILES["fileToUpload"]["error"];

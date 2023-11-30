@@ -125,7 +125,8 @@ require_once '../Objects/Services.php';
 
               <div class="container">
                 <header>Add Appointment</header>
-                <form action="add_appoint.php" method="POST" enctype="multipart/form-data">
+                <form id="appointment_form" enctype="multipart/form-data">
+                  <input type="number" name="user_id" value="<?php echo $user->id ?>" hidden>
                   <div class="form first">
                     <div class="details personal">
                       <span class="title">Details</span>
@@ -410,14 +411,6 @@ require_once '../Objects/Services.php';
                                               ?>
                                                 <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price?>"><?php echo $service->name ?></option>
                                               <?php }?>
-                                             <!-- <option  disabled selected >Choose Test</option>
-                                              <php
-                                              $service = mysqli_query($conn, "SELECT * FROM service_offered");
-                                              while ($c = mysqli_fetch_array($service)) {
-                                              ?>
-                                                <option value="<php echo $c['Test'] ?>" data-price="<php echo $c['Price'] ?>"><php echo $c['Test'] ?>
-
-                                                  <php } ?> --->
                                                 </option>
                                             </select>
                                           </div>
@@ -440,10 +433,6 @@ require_once '../Objects/Services.php';
                                       </div>
                                     </div>
                                   </div>
-
-
-
-                                        
                                       </div>
                                     </div>
                                   </div>
@@ -511,7 +500,9 @@ require_once '../Objects/Services.php';
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <!-- Template Main JS File -->
   <script src="assets2/js/main.js"></script>
   <script src="assets2/js/script3.js"></script>
@@ -543,6 +534,38 @@ require_once '../Objects/Services.php';
       // Initial calculation
       updateTotalPrice();
     });
+
+    const form = document.getElementById("appointment_form");
+
+    form.addEventListener('submit', async function (event) {
+
+      event.preventDefault();
+      const formData = new FormData(form);
+      const { value: accept } = await Swal.fire({
+        title: "Terms and conditions",
+        input: "checkbox",
+        inputValue: 0,
+        grow: 'row',
+        inputPlaceholder: "I agree that my information will be seen by the clinic personnels.",
+        confirmButtonText: `Continue&nbsp;<i class="fa fa-arrow-right"></i>`,
+        inputValidator: (result) => {
+          return !result && "You need to agree with T&C";
+        }
+      });
+      if(accept){
+        fetch('utils/add_appoint.php', {
+          method: 'POST',
+          body: formData,
+        }).then(() => {
+          Swal.fire({
+              title: "New Appointment Added",
+              icon: "success"
+            }).then(() => {
+              window.location.href = 'patient-tables-data.php'
+            })
+        })
+      }
+    })
   </script>
 
 </body>
