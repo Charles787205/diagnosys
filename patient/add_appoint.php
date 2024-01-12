@@ -7,6 +7,7 @@ require_once '../Objects/Services.php';
 require_once '../Models/PatientModel.php';
 
 if (true) {
+
     $appointment = new Appointment();
     $patient = new Patient();
     $appointmentModel = new AppointmentModel();
@@ -67,6 +68,6 @@ if (true) {
         }
     } else {
         echo "Error: " . $_FILES["fileToUpload"]["error"];
-        header('Location: patient-appointment.php?error_message=Empty File');
+        header('Location: patient-tables-data.php?error_message=Empty File');
     }
 }
