@@ -1,0 +1,92 @@
+
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+    <li class="nav-item">
+      <a
+        class="nav-link collapsed"
+        data-bs-target="#forms-nav"
+        data-bs-toggle="collapse"
+        href="#"
+      >
+        <i class="bi bi-journal-text"></i><span>Request Form</span
+        ><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul
+        id="forms-nav"
+        class="nav-content collaps show"
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a href="patient-request.php" <?php if($page=='add_request_form'){echo 'class="active"';}?>> 
+            <i class="bi bi-circle"></i><span>Add Request Form</span>
+          </a>
+        </li>
+        <li>
+          <a href="patient-request-table.php" <?php if($page=='request_form'){echo 'class="active"';}?>>
+            <i class="bi bi-circle"></i><span>Request Forms</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- End Forms Nav -->
+    <li class="nav-item">
+      <a
+        class="nav-link collapsed"
+        data-bs-target="#components-nav"
+        data-bs-toggle="collapse"
+        href="#"
+      >
+        <i class="bi bi-menu-button-wide"></i><span>Appointment</span
+        ><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul
+        id="components-nav"
+        class="nav-content collapse show"
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a href="add-appoint-tables-general.php" <?php if($page=='add_appointment'){echo 'class="active"';}?>>
+            <i class="bi bi-circle"></i><span>Add Appointment</span>
+          </a>
+        </li>
+        <li>
+          <a href="patient-tables-data.php" <?php if($page=='appointment'){echo 'class="active"';}?>>
+            <i class="bi bi-circle"></i><span>Appointment</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- End Icons Nav -->
+
+    <li class="nav-heading">Pages</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="users-profile.php">
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="lab_result.php">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M10 2a1.5 1.5 0 0 0-1.5 1.5h-2A1.5 1.5 0 0 0 5 5v15.5A1.5 1.5 0 0 0 6.5 22h11a1.5 1.5 0 0 0 1.5-1.5V5a1.5 1.5 0 0 0-1.5-1.5h-2A1.5 1.5 0 0 0 14 2h-4Zm-.5 1.5A.5.5 0 0 1 10 3h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1Zm0 4V9H8v1h1.5v1.5h1V10H12V9h-1.5V7.5h-1Zm-1 5.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7ZM8 16a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 8 16Zm.5 2a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7Z" clip-rule="evenodd"></path>
+        </svg> &nbsp;
+        <span>Result</span>
+      </a>
+    </li>
+    <!-- End Profile Page Nav -->
+
+    <!-- End F.A.Q Page Nav -->
+
+    <!-- End Contact Page Nav -->
+
+    <!-- End Register Page Nav -->
+
+    <!-- End Login Page Nav -->
+
+    <!-- End Error 404 Page Nav -->
+
+    <!-- End Blank Page Nav -->
+  </ul>
+</aside>
+<!-- End Sidebar-->
