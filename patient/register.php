@@ -14,12 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user->newUser(strtoupper($firstname), strtoupper($lastname), $username, $password, $age, strtoupper($address), $mobile_number);
     $userModel = new UserModel();
     session_start();
-   
-    if($id = $userModel->registerUser($user)){
+
+    if ($id = $userModel->registerUser($user)) {
         $_SESSION['id'] = $id;
         header('Location: index.php');
     }
-
 }
 
 ?>
@@ -60,13 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                     <div class="content-wthree">
-                    <a href="index.php">
-                    <div class="alert-close" style="background-color: skyblue;">
-                       <span class="fa fa-close"></span>
-                    </div>
-                    </a> 
+                        <a href="index.php">
+                            <div class="alert-close" style="background-color: skyblue;">
+                                <span class="fa fa-close"></span>
+                            </div>
+                        </a>
                         <h2>Register Now</h2>
-                       
+
 
                         <form action="#" method="post">
                             <input type="text" class="name" name="register_lastname" placeholder="Enter Lastname" value="" required>
@@ -75,11 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <input type="text" class="name" name="register_address" placeholder="Enter Address" value="" required>
                             <input type="tel" class="password" id="mobile_number" pmaxlength="11" oninput="validateNumber(event)" name="mobile_number" placeholder="Enter Your Mobile Number" required>
                             <input type="text" class="username" name="register_username" placeholder="Enter Your Username" value="" required>
-                            <input type="password" class="password" name="register_password" placeholder="Enter Your Password" required>             
-                          
-                              
+                            <input type="password" class="password" name="register_password" placeholder="Enter Your Password" required>
 
-                                <button name="submit" class="btn" type="submit" style="background-color:dodgerblue">Register</button>
+
+
+                            <button name="submit" class="btn" type="submit" style="background-color:dodgerblue">Register</button>
                         </form>
                         <div class="social-icons">
                             <p>Have an account? <a href="index.php">Login</a>.</p>
@@ -95,28 +94,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="../js/jquery.min.js"></script>
     <script>
         $(document).ready(function(c) {
-            $('.alert-close').on('click', function(c) {     
+            $('.alert-close').on('click', function(c) {
                 $('.main-mockup').fadeOut('slow', function(c) {
                     $('.main-mockup').remove();
                 });
             });
         });
     </script>
-<script>
-    function validateNumber(event) {
-      const input = event.target;
-      const regex = /^[0-9]*$/; // Regular expression to match only numbers
-      
-      if (!regex.test(input.value)) {
-        input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-      }
+    <script>
+        function validateNumber(event) {
+            const input = event.target;
+            const regex = /^[0-9]*$/; // Regular expression to match only numbers
 
-      // Limit input to 11 digits
-      if (input.value.length > 11) {
-        input.value = input.value.slice(0, 11);
-      }
-    }
-  </script>
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            }
+
+            // Limit input to 11 digits
+            if (input.value.length > 11) {
+                input.value = input.value.slice(0, 11);
+            }
+        }
+    </script>
 </body>
 
 </html>

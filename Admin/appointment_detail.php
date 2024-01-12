@@ -1,20 +1,20 @@
-<?php 
-  require_once 'utils/is_login.php';
-  require_once '../Models/EmployeeModel.php';
-  require_once '../Models/PatientModel.php';
-  require_once '../Models/AppointmentModel.php';
-  $head_title = 'Patient Details';
-  $page_title = 'Dashboard';
-  $employeeModel = new EmployeeModel();
-  $employee = $employeeModel->getEmployeeById($_SESSION['id']);
-  $patientModel = new PatientModel(); 
-  $patient = $patientModel->getPatientById($_GET['patient_id']);
-  $appointmentModel = new AppointmentModel();
-  $appointment = $appointmentModel->getAppointmentById($_GET['appointment_id']);
-  $servicesList = '';
-  foreach($appointment->services as $services){
-    $servicesList .= $services->name. " ";
-  }
+<?php
+require_once 'utils/is_login.php';
+require_once '../Models/EmployeeModel.php';
+require_once '../Models/PatientModel.php';
+require_once '../Models/AppointmentModel.php';
+$head_title = 'Patient Details';
+$page_title = 'Dashboard';
+$employeeModel = new EmployeeModel();
+$employee = $employeeModel->getEmployeeById($_SESSION['id']);
+$patientModel = new PatientModel();
+$patient = $patientModel->getPatientById($_GET['patient_id']);
+$appointmentModel = new AppointmentModel();
+$appointment = $appointmentModel->getAppointmentById($_GET['appointment_id']);
+$servicesList = '';
+foreach ($appointment->services as $services) {
+  $servicesList .= $services->name . " ";
+}
 
 ?>
 <!DOCTYPE html>
@@ -22,17 +22,18 @@
 
 <?php require 'components/head.html' ?>
 <style>
-  label{
+  label {
     font-weight: 00;
   }
 </style>
+
 <body>
 
   <?php require 'components/header.html' ?>
-    <!-- End Header -->
+  <!-- End Header -->
 
-    <!-- ======= Sidebar ======= -->
-    <?php require 'components/sidebar.html' ?>
+  <!-- ======= Sidebar ======= -->
+  <?php require 'components/sidebar.html' ?>
 
   <main id="main" class="main">
 
@@ -50,9 +51,9 @@
     <section class="section">
       <div class="row align-items-top">
         <div class="col-lg-4">
-         
-          
-          
+
+
+
           <!-- Default Card -->
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
@@ -62,7 +63,7 @@
                 <input type="text" class="form-control " style="font-weight: 800; font-size: 20px; text-align:center;" id="inputName5" value="<?php echo $patient->getFullName() ?>" readonly>
               </div>
               <h3>ID #: <?php echo $patient->id ?></h3>
-              
+
 
 
             </div>
@@ -119,33 +120,33 @@
                 </div>
                 <div class="col-12">
                   <label for="inputName5" class="form-label">Service Avail</label>
-                  <input  type="text" class="form-control"  style="height:100px;" id="inputPassword5" value="<?php echo $servicesList ?>"  readonly>
-                  </div>
-                  <div class="col-12">
+                  <input type="text" class="form-control" style="height:100px;" id="inputPassword5" value="<?php echo $servicesList ?>" readonly>
+                </div>
+                <div class="col-12">
                   <label for="inputName5" class="form-label">ID</label>
-                  <img src=<?php echo "../uploads/".$patient->image_url?> style="width:400px;" alt="asdf" >
-                  </div>
+                  <img src=<?php echo "../uploads/" . $patient->image_url ?> style="width:400px;" alt="asdf">
                 </div>
+              </div>
 
-                <hr> 
-                <div class="text-center">
-                 
-                  <button onclick="approveAppointment()" class="btn btn-primary" value='approve'>Approve</button>
-                  <button onclick="rejectAppointment()" class="btn btn-danger" value='reject'>Reject</button>
-                  
+              <hr>
+              <div class="text-center">
 
-                </div>
-                <hr>
-              </div><!-- End Multi Columns Form -->
-             
+                <button onclick="approveAppointment()" class="btn btn-primary" value='approve'>Approve</button>
+                <button onclick="rejectAppointment()" class="btn btn-danger" value='reject'>Reject</button>
 
-            </div>
+
+              </div>
+              <hr>
+            </div><!-- End Multi Columns Form -->
+
+
           </div>
-
         </div>
+
       </div>
       </div>
-      
+      </div>
+
     </section>
 
   </main><!-- End #main -->
@@ -159,7 +160,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    function approveAppointment(){
+    function approveAppointment() {
       data = {
         id: <?php echo $appointment->id ?>,
         status: "<?php echo Appointment::APPROVED ?>"
@@ -167,17 +168,17 @@
       fetch('utils/update_appointment.php', {
         method: 'POST',
         body: JSON.stringify(data)
-      }).then((response) =>{
+      }).then((response) => {
         Swal.fire({
           title: "Approved!",
           text: "The appointment has been approved.",
           icon: "success"
-      }).then(()=>{
-        window.location.href = 'appointment_forms.php';
+        }).then(() => {
+          window.location.href = 'appointment_forms.php';
+        })
       })
-    })
     }
-    async function rejectAppointment(){
+    async function rejectAppointment() {
       data = {
         id: <?php echo $appointment->id ?>,
         status: "<?php echo Appointment::REJECT ?>"
@@ -191,18 +192,18 @@
         },
         showCancelButton: true
       });
-      if(userResponse.isConfirmed){
+      if (userResponse.isConfirmed) {
 
-          data.comment=userResponse.value;
-          fetch('utils/update_appointment.php', {
-            method: 'POST',
-            body: JSON.stringify(data)
-          }).then((response) =>{
-            Swal.fire({
-              title: "Rejected!",
-              text: "The appointment has been rejected.",
-              icon: "success"
-          }).then(()=>{
+        data.comment = userResponse.value;
+        fetch('utils/update_appointment.php', {
+          method: 'POST',
+          body: JSON.stringify(data)
+        }).then((response) => {
+          Swal.fire({
+            title: "Rejected!",
+            text: "The appointment has been rejected.",
+            icon: "success"
+          }).then(() => {
             window.location.href = 'appointment_forms.php';
           })
         })

@@ -108,7 +108,7 @@ $requests = $requestModel->getRequestsByStatus(Request::PAID); ?>
                 <button type="button" class="btn btn-secondary">
                   <i class="bi bi-printer-fill"></i> Print
                 </button>
-                
+
                 <table class="table table-bordered mt-3">
                   <thead>
                     <tr>

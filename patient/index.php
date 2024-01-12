@@ -26,7 +26,7 @@
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  
+
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
@@ -51,11 +51,11 @@
   <header id="header" style="height: 18%;" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <a href="index.php" class="logo me-auto"><img src="../assets/img/log.png"alt="" style="width: 70px"></a>
+      <a href="index.php" class="logo me-auto"><img src="../assets/img/log.png" alt="" style="width: 70px"></a>
       <div class="search">
         <input type="text" class="form-control" style="width: 15rem;" placeholder="Search services" id="serviceSearch">
         <ul class="card" id="serviceList" style="position: absolute; width: 15rem; display: none; list-style-type:none;">
-            <!-- List items will be dynamically added here based on $services array -->
+          <!-- List items will be dynamically added here based on $services array -->
         </ul>
       </div>
 
@@ -70,17 +70,17 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      
-      <?php if(!isset($_SESSION['id'])){?>
-      
+
+      <?php if (!isset($_SESSION['id'])) { ?>
+
 
         <a href="register.php" class="SignUp-btn"><span class="d-none d-md-inline"></span> Sign Up</a>
         <a href="login.php" class="LogIn-btn"><span class="d-none d-md-inline"></span>Log In</a>
 
-      
-      <?php }else{
-        echo '<a href="patient-request.php" class="LogIn-btn"><span class="d-none d-md-inline"></span>Patient Request</a>' ;
-      }?>
+
+      <?php } else {
+        echo '<a href="patient-request.php" class="LogIn-btn"><span class="d-none d-md-inline"></span>Patient Request</a>';
+      } ?>
     </div>
   </header><!-- End Header -->
 
@@ -186,7 +186,7 @@
 
         <div class="text-center">
           <h3>Take the first step, sign up today!</h3>
-      
+
           <a class="cta-btn scrollto" href="signup.html">Sign Up Now</a>
         </div>
 
@@ -208,9 +208,9 @@
           </div>
           <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
             <p>
-              Additionally, it has a total of seven employees with their specified expertise. The business has Pathologist, Medical technologist, Phlebotomist, Medical Clerk, and Liaison officer. 
+              Additionally, it has a total of seven employees with their specified expertise. The business has Pathologist, Medical technologist, Phlebotomist, Medical Clerk, and Liaison officer.
             </p>
-            <p class="fst-italic"> 
+            <p class="fst-italic">
               Six valuable features of Panabo City Diagnostic Center:
             </p>
             <ul>
@@ -221,7 +221,7 @@
               <li><i class="bi bi-check-circle"></i>Expert Employees Profile</li>
               <li><i class="bi bi-check-circle"></i>Advance Technology</li>
             </ul>
-           
+
           </div>
         </div>
 
@@ -229,7 +229,7 @@
     </section><!-- End About Us Section -->
 
     <!-- ======= Counts Section ======= -->
-    
+
 
     <!-- ======= Services Section ======= -->
     <section id="services" class="services services">
@@ -246,7 +246,7 @@
           <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="100">
             <div class="icon"><i class="bi bi-eyedropper"></i></div>
             <h4 class="title"><a href="">Hematology</a></h4>
-            <p class="description">The study of blood and blood problems is known as hematology.  Blood and bone marrow cells are examples of this.
+            <p class="description">The study of blood and blood problems is known as hematology. Blood and bone marrow cells are examples of this.
             </p>
           </div>
           <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="200">
@@ -276,7 +276,7 @@
             <h4 class="title"><a href="">Tumor Marks</a></h4>
             <p class="description">Tumor marker tests are most commonly utilized following a cancer diagnosis. Tumor markers, when combined with other tests, may aid in determining whether cancer has spread to other places of your body.
             </p>
-            
+
           </div>
         </div>
 
@@ -287,12 +287,12 @@
     <section id="pricing" class="pricing">
       <div class="container" data-aos="fade-up">
 
-        <div class="section-title" >
+        <div class="section-title">
           <h2>Laboratory Rates</h2>
         </div>
 
-        <div class="row" >
-          <div class="col-lg-12 col-md-12" >
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
             <div class="box" data-aos="fade-up" data-aos-delay="100">
               <table class="table table-borderless table-sm table table-striped table-hover">
                 <thead class="table table-primary">
@@ -302,7 +302,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="fw-bold" >
+                  <tr class="fw-bold">
                     <td>Hematology</td>
                     <td></td>
                   </tr>
@@ -316,14 +316,14 @@
                   </tr>
                   <tr>
                     <td>Hemoglobin count</td>
-                    <td>₱   50.00</td>
+                    <td>₱ 50.00</td>
                   </tr>
                   <tr>
                     <td>Platelet count</td>
                     <td>₱ 100.00</td>
                   </tr>
                   <tr>
-                    <td>Hematocrit count	</td>
+                    <td>Hematocrit count </td>
                     <td>₱ 50.00</td>
                   </tr>
                   <tr>
@@ -339,7 +339,7 @@
                     <td>₱ 700.00</td>
                   </tr>
                   <tr>
-                    <td>Prothrombin Time(PT) with INR	</td>
+                    <td>Prothrombin Time(PT) with INR </td>
                     <td>₱ 800.00</td>
                   </tr>
                   <tr>
@@ -350,7 +350,7 @@
                     <td>Erythrocytes Sedimentation Rat(ESR)</td>
                     <td>₱ 300.00</td>
                   </tr>
-                  <tr class="fw-bold" >
+                  <tr class="fw-bold">
                     <td>Hepatitis Profile-Qualitative</td>
                     <td></td>
                   </tr>
@@ -370,7 +370,7 @@
                     <td>Hepa C Virus (Anti-HCV)</td>
                     <td>₱ 300.00</td>
                   </tr>
-                  <tr class="fw-bold" >
+                  <tr class="fw-bold">
                     <td>Hepatitis Profile-Quantitative</td>
                     <td></td>
                   </tr>
@@ -394,7 +394,7 @@
                     <td>HBeAg</td>
                     <td>₱ 750.00</td>
                   </tr>
-                  <tr class="fw-bold" >
+                  <tr class="fw-bold">
                     <td>Urinalysis</td>
                     <td></td>
                   </tr>
@@ -414,7 +414,7 @@
                     <td>Urine Examination with 10 parameters</td>
                     <td>₱ 100.00</td>
                   </tr>
-                  <tr class="fw-bold" >
+                  <tr class="fw-bold">
                     <td>Fecalysis</td>
                     <td></td>
                   </tr>
@@ -430,144 +430,144 @@
                     <td>Stool Examination with Salmonella</td>
                     <td>₱ 900.00</td>
                   </tr>
-                      <tr class="fw-bold" >
-                        <td>Blood Chemistry and Electrolytes</td>
-                        <td></td>
-                      </tr>
-                      <td>FBS/RBS/2 hours Post Prandial</td>
-                      <td>₱ 100.00</td>
-                    </tr>
-                    <tr>
-                      <td>OGTT 2 takes</td>
-                      <td>₱ 300.00</td>
-                    </tr>
-                    <tr>
-                      <td>OGTT 3/4 takes</td>
-                      <td>₱ 450.00</td>
-                    </tr>
-                    <tr>
-                      <td>OGCT after 1hour</td>
-                      <td>₱ 250.00</td>
-                    </tr>
-                    <tr>
-                      <td>Lipid Profile (total cholesterol, Triglycerides,HDL,LDL)</td>
-                      <td>₱ 650.00</td>
-                    </tr>
-                    <tr>
-                      <td>Total Cholesterol</td>
-                      <td>₱ 150.00</td>
-                    </tr>
-                    <tr>
-                      <td>Triglycerides</td>
-                      <td>₱ 300.00</td>
-                    </tr>
-                    <tr>
-                      <td>HDL - Good Cholesterol</td>
-                      <td>₱ 300.00</td>
-                    </tr>
-                    <tr>
-                      <td>Serum Uric Acid</td>
-                      <td>₱ 150.00</td>
-                    </tr>
-                    <tr>
-                      <td>Serum Creatinine</td>
-                      <td>₱ 150.00</td>
-                    </tr>
-                    <tr>
-                      <td>SGPT/ALT</td>
-                      <td>₱ 200.00</td>
-                    </tr>
-                    <tr>
-                      <td>SGOT/AST</td>
-                      <td>₱ 200.00</td>
-                      <tr>
-                      <td>BUN - Urea</td>
-                        <td>₱ 300.00</td>
-                      </tr>
-                        <tr>
-                          <td>Alkaline phosphatase</td>
-                          <td>₱ 300.00</td>
-                        </tr>
-                          <td>Acid phosphatase </td>
-                          <td>₱ 300.00</td>
-                        </tr>
-                        <tr>
-                          <td>B1B2-Billirubin Test</td>
-                          <td>₱ 450.00</td>
-                        </tr>
-                          <tr>
-                            <td>TPAG Ratio</td>
-                            <td>₱ 450.00</td>
-                          </tr>
-                            <td>Total Protein</td>
-                            <td>₱ 300.00</td>
-                          </tr>
-                            <td>Albumin</td>
-                            <td>₱ 300.00</td>
-                          </tr>
-                            <td>GGT</td>
-                            <td>₱ 500.00</td>
-                          </tr>
-                            <td>Amylase</td>
-                            <td>₱ 400.00</td>
-                          </tr>
-                            <td>Ck-MB</td>
-                            <td>₱ 700.00</td>
-                          </tr>
-                            <tr>
-                              <td>Lipase</td>
-                              <td>₱ 800.00</td>
-                            </tr> 
-                              <tr>
-                                <td>Cholinesterase (RBC/Serum)</td>
-                              <td>₱ 550.00</td>
-                            </tr>
-                              <tr>
-                                <td>Electrolytes Package (K,Na,tCa,CI)</td>
-                              <td>₱ 1,000.00</td>
-                            </tr>
-                             </tr>
-                            <td>Potassium (K) </td>
-                            <td>₱ 300.00</td>
-                          </tr>
-                        </tr>
-                        <td>Sodium (Na) </td>
-                        <td>₱ 300.00</td>
-                        </tr>
-                      </tr>
-                      <td>Total Calcium (tCa) </td>
-                      <td>₱ 300.00</td>
-                      </tr>
-                    </tr>
-                    <td>Ionized Calcium (iCa)</td>
+                  <tr class="fw-bold">
+                    <td>Blood Chemistry and Electrolytes</td>
+                    <td></td>
+                  </tr>
+                  <td>FBS/RBS/2 hours Post Prandial</td>
+                  <td>₱ 100.00</td>
+                  </tr>
+                  <tr>
+                    <td>OGTT 2 takes</td>
                     <td>₱ 300.00</td>
-                    </tr>
+                  </tr>
+                  <tr>
+                    <td>OGTT 3/4 takes</td>
+                    <td>₱ 450.00</td>
+                  </tr>
+                  <tr>
+                    <td>OGCT after 1hour</td>
+                    <td>₱ 250.00</td>
+                  </tr>
+                  <tr>
+                    <td>Lipid Profile (total cholesterol, Triglycerides,HDL,LDL)</td>
+                    <td>₱ 650.00</td>
+                  </tr>
+                  <tr>
+                    <td>Total Cholesterol</td>
+                    <td>₱ 150.00</td>
+                  </tr>
+                  <tr>
+                    <td>Triglycerides</td>
+                    <td>₱ 300.00</td>
+                  </tr>
+                  <tr>
+                    <td>HDL - Good Cholesterol</td>
+                    <td>₱ 300.00</td>
+                  </tr>
+                  <tr>
+                    <td>Serum Uric Acid</td>
+                    <td>₱ 150.00</td>
+                  </tr>
+                  <tr>
+                    <td>Serum Creatinine</td>
+                    <td>₱ 150.00</td>
+                  </tr>
+                  <tr>
+                    <td>SGPT/ALT</td>
+                    <td>₱ 200.00</td>
+                  </tr>
+                  <tr>
+                    <td>SGOT/AST</td>
+                    <td>₱ 200.00</td>
+                  <tr>
+                    <td>BUN - Urea</td>
+                    <td>₱ 300.00</td>
+                  </tr>
+                  <tr>
+                    <td>Alkaline phosphatase</td>
+                    <td>₱ 300.00</td>
+                  </tr>
+                  <td>Acid phosphatase </td>
+                  <td>₱ 300.00</td>
+                  </tr>
+                  <tr>
+                    <td>B1B2-Billirubin Test</td>
+                    <td>₱ 450.00</td>
+                  </tr>
+                  <tr>
+                    <td>TPAG Ratio</td>
+                    <td>₱ 450.00</td>
+                  </tr>
+                  <td>Total Protein</td>
+                  <td>₱ 300.00</td>
+                  </tr>
+                  <td>Albumin</td>
+                  <td>₱ 300.00</td>
+                  </tr>
+                  <td>GGT</td>
+                  <td>₱ 500.00</td>
+                  </tr>
+                  <td>Amylase</td>
+                  <td>₱ 400.00</td>
+                  </tr>
+                  <td>Ck-MB</td>
+                  <td>₱ 700.00</td>
+                  </tr>
+                  <tr>
+                    <td>Lipase</td>
+                    <td>₱ 800.00</td>
+                  </tr>
+                  <tr>
+                    <td>Cholinesterase (RBC/Serum)</td>
+                    <td>₱ 550.00</td>
+                  </tr>
+                  <tr>
+                    <td>Electrolytes Package (K,Na,tCa,CI)</td>
+                    <td>₱ 1,000.00</td>
+                  </tr>
+                  </tr>
+                  <td>Potassium (K) </td>
+                  <td>₱ 300.00</td>
+                  </tr>
+                  </tr>
+                  <td>Sodium (Na) </td>
+                  <td>₱ 300.00</td>
+                  </tr>
+                  </tr>
+                  <td>Total Calcium (tCa) </td>
+                  <td>₱ 300.00</td>
+                  </tr>
+                  </tr>
+                  <td>Ionized Calcium (iCa)</td>
+                  <td>₱ 300.00</td>
+                  </tr>
                   </tr>
                   <td>Chloride (CI)</td>
                   <td>₱ 300.00</td>
                   </tr>
-                </tr>
-                <td>Phosphorous (P) </td>
-                <td>₱ 300.00</td>
-                </tr>
-              </tr>
-              <td>Ferritin (Fe) </td>
-              <td>₱ 800.00</td>
-              </tr>
-            </tr>
-            <td>Magnesium (Mg)</td>
-            <td>₱ 300.00</td>
-            </tr>
-          </tr>
-          <td>pH </td>
-          <td>₱ 300.00</td>
-          </tr>
-        </tr>
-                          
-         
+                  </tr>
+                  <td>Phosphorous (P) </td>
+                  <td>₱ 300.00</td>
+                  </tr>
+                  </tr>
+                  <td>Ferritin (Fe) </td>
+                  <td>₱ 800.00</td>
+                  </tr>
+                  </tr>
+                  <td>Magnesium (Mg)</td>
+                  <td>₱ 300.00</td>
+                  </tr>
+                  </tr>
+                  <td>pH </td>
+                  <td>₱ 300.00</td>
+                  </tr>
+                  </tr>
+
+
 
                   </tr>
-                  <tr class="fw-bold" >
+                  <tr class="fw-bold">
                     <td>Thyroid test</td>
                     <td></td>
                   </tr>
@@ -604,10 +604,10 @@
                     <td>₱ 1,300.00</td>
                   </tr>
                   <tr>
-                    <td>T uptake	</td>
+                    <td>T uptake </td>
                     <td> ₱ 600.00</td>
                   </tr>
-                  <tr class="fw-bold" >
+                  <tr class="fw-bold">
                     <td>Tumor Markers</td>
                     <td></td>
                   </tr>
@@ -644,116 +644,116 @@
                     <td>₱ 1,250.00</td>
                   </tr>
                   <tr>
-                    <td>LH	</td>
+                    <td>LH </td>
                     <td> ₱ 900.00</td>
                   </tr>
-                  
-                    <tr class="fw-bold" >
-                      <td>Special test</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>Pregnancy test (HCG-Urine)</td>
-                      <td>₱ 150.00</td>
-                    </tr>
-                      <td>Pregnancy test (HCG-Serum)</td>
-                      <td>₱ 200.00</td>
-                    </tr>
-                      <td>RPR/VDRL (Syphilis)</td>
-                      <td>₱ 200.00</td>
-                    </tr>
-                      <td>H. pylori</td>
-                      <td>₱ 550.00</td>
-                    </tr>
-                      <td>BSMP (Malarial Parasites)</td>
-                      <td>₱ 150.00</td>
-                    </tr>
-                      <td>Semenalysis</td>
-                      <td>₱ 200.00</td>
-                    </tr>
-                      <td>Peripheral smear</td>
-                      <td>₱ 600.00</td>
-                    </tr>
-                      <td>Typhi-Dot (Typhoid Fever)</td>
-                      <td>₱ 600.00</td>
-                    </tr>
-                      <td>Widal test </td>
-                      <td>₱ 400.00</td>
-                    </tr>
-                      <tr>
-                        <td>Gram Stain</td>
-                        <td>₱ 200.00</td>
-                      </tr>
-                        <td>AFB for Employment</td>
-                        <td>₱ 100.00</td>
-                      </tr>
-                        <td>Pap's Smear Reading Only</td>
-                        <td>₱ 150.00</td>
-                      </tr>
-                              <tr>
-                                <td>Active Partial Tromboplastin Time (APTT)</td>
-                                <td>₱ 900.00</td>
-                              </tr>
-                              <tr class="fw-bold" >
-                                <td>Other Test</td>
-                                <td></td>
-                              </tr>
-                              <tr>
-                                <td>Rheumatoid Factor-Qualitative test</td>
-                                <td>₱ 450.00</td>
-                              </tr>
-                              <tr>
-                                <td>Rheumatoid Factor-Quantitative test</td>
-                                <td>₱ 550.00</td>
-                              </tr>
-                              <tr>
-                                <td>ASO with titer</td>
-                                <td>₱   750.00</td>
-                              </tr>
-                              <tr>
-                                <td>Dengue-Dot</td>
-                                <td>₱ 850.00</td>
-                              </tr>
-                              <tr>
-                                <td>Trop I	</td>
-                                <td>₱ 850.00</td>
-                              </tr>
-                              <tr>
-                                <td>Trop T	</td>
-                                <td>₱ 850.00</td>
-                              </tr>
-                              <tr>
-                                <td>CRP with titer</td>
-                                <td>₱ 800.00</td>
-                              </tr>
-                              <tr>
-                                <td>Chest X-Ray-APL</td>
-                                <td>₱ 180.00</td>
-                              </tr>
-                              <tr>
-                                <td>Chest X-Ray-ALV</td>
-                                <td>₱ 150.00</td>
-                              </tr>
-                              <tr>
-                                <td>ECG</td>
-                                <td>₱ 200.00</td>
-                              </tr>
-                              <tr>
-                                <td>Drug Test</td>
-                                <td>₱ 250.00</td>
-                              </tr>
 
-                    
+                  <tr class="fw-bold">
+                    <td>Special test</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Pregnancy test (HCG-Urine)</td>
+                    <td>₱ 150.00</td>
+                  </tr>
+                  <td>Pregnancy test (HCG-Serum)</td>
+                  <td>₱ 200.00</td>
+                  </tr>
+                  <td>RPR/VDRL (Syphilis)</td>
+                  <td>₱ 200.00</td>
+                  </tr>
+                  <td>H. pylori</td>
+                  <td>₱ 550.00</td>
+                  </tr>
+                  <td>BSMP (Malarial Parasites)</td>
+                  <td>₱ 150.00</td>
+                  </tr>
+                  <td>Semenalysis</td>
+                  <td>₱ 200.00</td>
+                  </tr>
+                  <td>Peripheral smear</td>
+                  <td>₱ 600.00</td>
+                  </tr>
+                  <td>Typhi-Dot (Typhoid Fever)</td>
+                  <td>₱ 600.00</td>
+                  </tr>
+                  <td>Widal test </td>
+                  <td>₱ 400.00</td>
+                  </tr>
+                  <tr>
+                    <td>Gram Stain</td>
+                    <td>₱ 200.00</td>
+                  </tr>
+                  <td>AFB for Employment</td>
+                  <td>₱ 100.00</td>
+                  </tr>
+                  <td>Pap's Smear Reading Only</td>
+                  <td>₱ 150.00</td>
+                  </tr>
+                  <tr>
+                    <td>Active Partial Tromboplastin Time (APTT)</td>
+                    <td>₱ 900.00</td>
+                  </tr>
+                  <tr class="fw-bold">
+                    <td>Other Test</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Rheumatoid Factor-Qualitative test</td>
+                    <td>₱ 450.00</td>
+                  </tr>
+                  <tr>
+                    <td>Rheumatoid Factor-Quantitative test</td>
+                    <td>₱ 550.00</td>
+                  </tr>
+                  <tr>
+                    <td>ASO with titer</td>
+                    <td>₱ 750.00</td>
+                  </tr>
+                  <tr>
+                    <td>Dengue-Dot</td>
+                    <td>₱ 850.00</td>
+                  </tr>
+                  <tr>
+                    <td>Trop I </td>
+                    <td>₱ 850.00</td>
+                  </tr>
+                  <tr>
+                    <td>Trop T </td>
+                    <td>₱ 850.00</td>
+                  </tr>
+                  <tr>
+                    <td>CRP with titer</td>
+                    <td>₱ 800.00</td>
+                  </tr>
+                  <tr>
+                    <td>Chest X-Ray-APL</td>
+                    <td>₱ 180.00</td>
+                  </tr>
+                  <tr>
+                    <td>Chest X-Ray-ALV</td>
+                    <td>₱ 150.00</td>
+                  </tr>
+                  <tr>
+                    <td>ECG</td>
+                    <td>₱ 200.00</td>
+                  </tr>
+                  <tr>
+                    <td>Drug Test</td>
+                    <td>₱ 250.00</td>
+                  </tr>
+
+
                 </tbody>
               </table>
             </div>
-          </div>  
           </div>
-          
+        </div>
+
       </div>
 
     </section><!-- End Pricing Section -->
-   
+
 
 
     <!-- ======= Contact Section ======= -->
@@ -816,14 +816,14 @@
     </section><!-- End Contact Section -->
     <section id="copy" class="copy">
 
-        <div class="text-center">
-          <p class="p"><i class="bi bi-c-circle"></i>&nbsp;Copy right 2023 DIAGNOSYS. All rights reserved.</p>  
-        </div>
+      <div class="text-center">
+        <p class="p"><i class="bi bi-c-circle"></i>&nbsp;Copy right 2023 DIAGNOSYS. All rights reserved.</p>
+      </div>
     </section><!-- End Cta Section -->
 
   </main><!-- End #main -->
 
-  
+
 
   <div id="preloader"></div>
   <a href="index.html" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -835,76 +835,74 @@
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-  
+
   <!-- Templatein JS File -->
   <script src="assets/js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script>
-    
     $services = [
-    'CBC',
-    'Hemoglobin',
-    'Platelet Count',
-    'Blood Typing',
-    'HBsAG',
-    'VDRL/Syphilis',
-    'HA1c',
-    'TSH',
-    'T3',
-    'URINE ANALYSIS',
-    'Fecalysis',
-    'FBS',
-    'RBS',
-    'LIPID PROFILE',
-    'CHOLESTEROL',
-    'SUA',
-    'GREATININE',
-    'SGPT/ALT',
-    'SGOT/AST',
-    'BUN',
-    'ELECTROLYTES'
-  ];
-  $(document).ready(function () {
-        // Your array of services
-        var services = [
-            'CBC', 'Hemoglobin', 'Platelet Count', 'Blood Typing', 'HBsAG', 'VDRL/Syphilis',
-            'HA1c', 'TSH', 'T3', 'URINE ANALYSIS', 'Fecalysis', 'FBS', 'RBS',
-            'LIPID PROFILE', 'CHOLESTEROL', 'SUA', 'GREATININE', 'SGPT/ALT', 'SGOT/AST',
-            'BUN', 'ELECTROLYTES'
-        ];
+      'CBC',
+      'Hemoglobin',
+      'Platelet Count',
+      'Blood Typing',
+      'HBsAG',
+      'VDRL/Syphilis',
+      'HA1c',
+      'TSH',
+      'T3',
+      'URINE ANALYSIS',
+      'Fecalysis',
+      'FBS',
+      'RBS',
+      'LIPID PROFILE',
+      'CHOLESTEROL',
+      'SUA',
+      'GREATININE',
+      'SGPT/ALT',
+      'SGOT/AST',
+      'BUN',
+      'ELECTROLYTES'
+    ];
+    $(document).ready(function() {
+      // Your array of services
+      var services = [
+        'CBC', 'Hemoglobin', 'Platelet Count', 'Blood Typing', 'HBsAG', 'VDRL/Syphilis',
+        'HA1c', 'TSH', 'T3', 'URINE ANALYSIS', 'Fecalysis', 'FBS', 'RBS',
+        'LIPID PROFILE', 'CHOLESTEROL', 'SUA', 'GREATININE', 'SGPT/ALT', 'SGOT/AST',
+        'BUN', 'ELECTROLYTES'
+      ];
 
-        var serviceSearch = $('#serviceSearch');
-        var serviceList = $('#serviceList');
+      var serviceSearch = $('#serviceSearch');
+      var serviceList = $('#serviceList');
 
-        // Initial population of the list based on services array
-        
-        
-        serviceSearch.on('input', function () {
-          serviceList.empty();
-          
-          var searchTerm = $(this).val().toLowerCase();
-          var showedServices = [];
-          for(service of services){
-            if(service.toLowerCase().includes(searchTerm)){
-              $('<li class="">' + service + '</li>').appendTo(serviceList);
-            }
+      // Initial population of the list based on services array
+
+
+      serviceSearch.on('input', function() {
+        serviceList.empty();
+
+        var searchTerm = $(this).val().toLowerCase();
+        var showedServices = [];
+        for (service of services) {
+          if (service.toLowerCase().includes(searchTerm)) {
+            $('<li class="">' + service + '</li>').appendTo(serviceList);
           }
-          console.log(serviceList.children().length);
-          if(serviceList.children().length > 0){
-            serviceList.css('display', 'absolute');
-            serviceList.show();
-          }
-        });
+        }
+        console.log(serviceList.children().length);
+        if (serviceList.children().length > 0) {
+          serviceList.css('display', 'absolute');
+          serviceList.show();
+        }
+      });
 
 
-            
-            
-        serviceSearch.on('blur', function () {
-            // Hide the list when the input loses focus
-            serviceList.hide();
-        });
+
+
+      serviceSearch.on('blur', function() {
+        // Hide the list when the input loses focus
+        serviceList.hide();
+      });
     });
-
   </script>
 </body>
 

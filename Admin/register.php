@@ -70,10 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <input type="tel" class="password" id="mobile_number" pattern="[0-9]{11}" pmaxlength="11" oninput="validateNumber(event)" name="mobile_number" placeholder="Enter Your Mobile Number" required>
                             <input type="text" class="username" name="register_username" placeholder="Enter Your Username" value="" required>
                             <input type="password" class="password" name="register_password" placeholder="Enter Your Password" required>
-                            <select  class='form-select' name="position" id="position">
-                            <option value="Information Desk Officer">Information Desk Officer</option>
-                            <option value="cashier">Cashier</option>
-                           </select>
+                            <select class='form-select' name="position" id="position">
+                                <option value="Information Desk Officer">Information Desk Officer</option>
+                                <option value="cashier">Cashier</option>
+                            </select>
                             <button name="registerButton" class="btn" onclick="submitForm(event)" style="background-color:dodgerblue">Register</button>
                         </form>
                         <div class="social-icons">
@@ -90,54 +90,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="js/jquery.min.js"></script>
     <script>
         $(document).ready(function(c) {
-            $('.alert-close').on('click', function(c) {     
+            $('.alert-close').on('click', function(c) {
                 $('.main-mockup').fadeOut('slow', function(c) {
                     $('.main-mockup').remove();
                 });
             });
         });
-    
-  
-    function submitForm(e) {
-        e.preventDefault();
 
-        const form = document.getElementById('register-form');
-        console.log(form);
-        Swal.fire({
-            title: 'Registration Successful!',
-            text: 'You can now log in with your credentials.',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Use vanilla JavaScript to submit the form
-                document.getElementById('register-form').submit();
+
+        function submitForm(e) {
+            e.preventDefault();
+
+            const form = document.getElementById('register-form');
+            console.log(form);
+            Swal.fire({
+                title: 'Registration Successful!',
+                text: 'You can now log in with your credentials.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Use vanilla JavaScript to submit the form
+                    document.getElementById('register-form').submit();
+                }
+            });
+        }
+    </script>
+    <script>
+        function validateNumber(event) {
+            const input = event.target;
+            const regex = /^[0-9]*$/; // Regular expression to match only numbers
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
             }
-        });
-    }
 
-
-    
-</script>
-<script>
-    function validateNumber(event) {
-      const input = event.target;
-      const regex = /^[0-9]*$/; // Regular expression to match only numbers
-      
-      if (!regex.test(input.value)) {
-        input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-      }
-
-      // Limit input to 11 digits
-      if (input.value.length > 11) {
-        input.value = input.value.slice(0, 11);
-      }
-    }
-  </script>
+            // Limit input to 11 digits
+            if (input.value.length > 11) {
+                input.value = input.value.slice(0, 11);
+            }
+        }
+    </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </html>
-
-
-

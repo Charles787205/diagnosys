@@ -1,33 +1,34 @@
-<?php 
-  require_once 'utils/is_login.php';
-  require_once '../Models/EmployeeModel.php';
-  require_once '../Models/RequestModel.php';
-  require_once '../Models/PatientModel.php';
-  $head_title = 'Dashboard';
-  $page_title = 'Dashboard';
-  $employeeModel = new EmployeeModel();
-  $employee = $employeeModel->getEmployeeById($_SESSION['id']);
-  $requestModel = new RequestModel();
-  $salesRequest = $requestModel->getRequestsByStatus(Request::PAID);
-  $requestModel = new RequestModel();
-  $salesRequestToday = $requestModel->getRequestTodayByStatus(Request::PAID);
-  $patientModel = new PatientModel();
-  $patients = $patientModel->getAllPatients();
-  
-  $revenue = 0;
-  foreach($salesRequest as $sales){
-    $revenue += $sales->total;
-  }
-  
+<?php
+require_once 'utils/is_login.php';
+require_once '../Models/EmployeeModel.php';
+require_once '../Models/RequestModel.php';
+require_once '../Models/PatientModel.php';
+$head_title = 'Dashboard';
+$page_title = 'Dashboard';
+$employeeModel = new EmployeeModel();
+$employee = $employeeModel->getEmployeeById($_SESSION['id']);
+$requestModel = new RequestModel();
+$salesRequest = $requestModel->getRequestsByStatus(Request::PAID);
+$requestModel = new RequestModel();
+$salesRequestToday = $requestModel->getRequestTodayByStatus(Request::PAID);
+$patientModel = new PatientModel();
+$patients = $patientModel->getAllPatients();
+
+$revenue = 0;
+foreach ($salesRequest as $sales) {
+  $revenue += $sales->total;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <?php require 'components/head.html' ?>
 <style>
-  
-  
+
+
 </style>
+
 <body>
 
   <?php require 'components/header.html' ?>
@@ -75,28 +76,16 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <svg
-          width="40"
-          height="40"
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M19 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1Z"
-          ></path>
-          <path d="M12 11h4"></path>
-          <path d="M12 8h4"></path>
-          <path d="M8 20V4"></path>
-        </svg>
+                      <svg width="40" height="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1Z"></path>
+                        <path d="M12 11h4"></path>
+                        <path d="M12 8h4"></path>
+                        <path d="M8 20V4"></path>
+                      </svg>
                     </div>
                     <div class="ps-3">
                       <h6><?php echo count($salesRequestToday) ?></h6>
-                      
+
 
                     </div>
                   </div>
@@ -127,7 +116,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class='fa-solid fa-peso-sign'></i>
+                      <i class='fa-solid fa-peso-sign'></i>
                     </div>
                     <div class="ps-3">
                       <h6><?php echo $revenue ?></h6>
@@ -167,7 +156,7 @@
                     </div>
                     <div class="ps-3">
                       <h6><?php echo count($patients) ?></h6>
-                      
+
 
                     </div>
                   </div>
@@ -189,7 +178,7 @@
                     </li>
 
                     <li><a class="dropdown-item" href="#">Today</a></li>
-                    
+
                   </ul>
                 </div>
 
@@ -204,9 +193,9 @@
                       new ApexCharts(document.querySelector("#reportsChart"), {
                         series: [{
                           name: 'Sales',
-                          data: [<?php foreach($salesRequest as $request){
-                            echo "$request->total,";
-                          }?>],
+                          data: [<?php foreach ($salesRequest as $request) {
+                                    echo "$request->total,";
+                                  } ?>],
                         }],
                         chart: {
                           height: 350,
@@ -271,7 +260,7 @@
                   </ul>
                 </div>
 
-                
+
 
               </div>
             </div><!-- End Recent Sales -->
@@ -280,7 +269,7 @@
             <div class="col-12">
               <div class="card top-selling overflow-auto">
 
-              
+
 
               </div>
             </div><!-- End Top Selling -->
@@ -292,29 +281,29 @@
         <div class="col-lg-4">
 
           <!-- Recent Activity -->
-       <!-- End Recent Activity -->
+          <!-- End Recent Activity -->
 
           <!-- Budget Report -->
-          
+
 
           <!-- End Budget Report -->
 
           <!-- Website Traffic -->
-         
 
-      
+
+
           <!-- News & Updates Traffic -->
-         
 
-            <div class="card-body pb-0">
-            
 
-              </div><!-- End sidebar recent posts-->
+          <div class="card-body pb-0">
 
-            </div>
-          </div><!-- End News & Updates -->
 
-        </div><!-- End Right side columns -->
+          </div><!-- End sidebar recent posts-->
+
+        </div>
+      </div><!-- End News & Updates -->
+
+      </div><!-- End Right side columns -->
 
       </div>
     </section>
@@ -323,7 +312,7 @@
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
-   
+
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
