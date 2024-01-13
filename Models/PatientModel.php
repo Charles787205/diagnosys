@@ -105,4 +105,34 @@ class PatientModel extends Database
 
     $this->close();
   }
+  public function getPatientCountWithRequest(string $time)
+  {
+    $this->checkConnection();
+
+    switch ($time) {
+      case 'today':
+        $sql = "SELECT COUNT(DISTINCT patient_id) as count FROM request WHERE DATE(request_date) = CURDATE()";
+        break;
+      case 'month':
+        $sql = "SELECT COUNT(DISTINCT patient_id) as count FROM request WHERE MONTH(request_date) = MONTH(CURRENT_DATE()) AND YEAR(request_date) = YEAR(CURRENT_DATE())";
+        break;
+      case 'year':
+        $sql = "SELECT COUNT(DISTINCT patient_id) as count FROM request WHERE YEAR(request_date) = YEAR(CURRENT_DATE())";
+        break;
+      default:
+        throw new Exception("Invalid time parameter. Accepted values are 'today', 'month', or 'year'.");
+    }
+
+    $statement = $this->connection->prepare($sql);
+
+    if ($statement->execute()) {
+      $result = $statement->get_result();
+      $data = $result->fetch_assoc();
+      $this->close();
+      return $data['count'];
+    } else {
+      // Handle the case where the query execution fails
+      return false;
+    }
+  }
 }

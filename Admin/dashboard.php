@@ -65,14 +65,16 @@ foreach ($salesRequest as $sales) {
                       <h6>Filter</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterRequestForm('today')">Today</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterRequestForm('month')">This Month</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterRequestForm('year')">This Year</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Total Request Form <span>| Today</span></h5>
+                  <h5 class="card-title">Total Request Form <span>| <span id="request_form_indicator">
+                        Today
+                      </span> </span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -84,7 +86,7 @@ foreach ($salesRequest as $sales) {
                       </svg>
                     </div>
                     <div class="ps-3">
-                      <h6><?php echo count($salesRequestToday) ?></h6>
+                      <h6 id="request_form_count"><?php echo count($salesRequestToday) ?></h6>
 
 
                     </div>
@@ -105,22 +107,27 @@ foreach ($salesRequest as $sales) {
                       <h6>Filter</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterProfits('today')">Today</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterProfits('month')">This Month</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterProfits('year')">This Year</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title"> Profits <span>| Today</span></h5>
+                  <h5 class="card-title"> Profits <span>| <span>| <span id="profits_indicator">
+                          Today
+                        </span></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class='fa-solid fa-peso-sign'></i>
                     </div>
                     <div class="ps-3">
-                      <h6><?php echo $revenue ?></h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <h6 id="profits_total"><?php echo $revenue ?></h6>
+                      <div id="percentage_difference">
+
+                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      </div>
 
                     </div>
                   </div>
@@ -141,21 +148,23 @@ foreach ($salesRequest as $sales) {
                       <h6>Filter</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterPatientCount('today')">Today</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterPatientCount('month')">This Month</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterPatientCount('year')">This Year</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Patients <span>| This Year</span></h5>
+                  <h5 class="card-title">Patients <span>| <span id="patient_count_indicator">
+                        Today
+                      </span></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6><?php echo count($patients) ?></h6>
+                      <h6 id="patient_count"><?php echo count($patients) ?></h6>
 
 
                     </div>
@@ -188,54 +197,7 @@ foreach ($salesRequest as $sales) {
                   <!-- Line Chart -->
                   <div id="reportsChart"></div>
 
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                          name: 'Sales',
-                          data: [<?php foreach ($salesRequest as $request) {
-                                    echo "$request->total,";
-                                  } ?>],
-                        }],
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-                        markers: {
-                          size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                        },
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
-                        }
-                      }).render();
-                    });
-                  </script>
+
                   <!-- End Line Chart -->
 
                 </div>
@@ -280,20 +242,6 @@ foreach ($salesRequest as $sales) {
         <!-- Right side columns -->
         <div class="col-lg-4">
 
-          <!-- Recent Activity -->
-          <!-- End Recent Activity -->
-
-          <!-- Budget Report -->
-
-
-          <!-- End Budget Report -->
-
-          <!-- Website Traffic -->
-
-
-
-          <!-- News & Updates Traffic -->
-
 
           <div class="card-body pb-0">
 
@@ -326,10 +274,18 @@ foreach ($salesRequest as $sales) {
   <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="../assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>
-
+  <script>
+    const saleRequest = <?php echo json_encode($salesRequest); ?>;
+    console.log(saleRequest);
+    const salesRequestsData = [<?php foreach ($salesRequest as $request) {
+                                  echo "$request->total,";
+                                } ?>];
+  </script>
+  <script src="../assets/js/admin/dashboard.js"></script>
 </body>
 
 </html>

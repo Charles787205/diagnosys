@@ -681,4 +681,71 @@ class RequestModel extends Database
       return false;
     }
   }
+
+  public function getRequestCount(string $time)
+  {
+    $this->checkConnection();
+
+    switch ($time) {
+      case 'today':
+        $sql = "SELECT COUNT(*) as count FROM request WHERE DATE(request_date) = CURDATE()";
+        break;
+      case 'month':
+        $sql = "SELECT COUNT(*) as count FROM request WHERE MONTH(request_date) = MONTH(CURRENT_DATE()) AND YEAR(request_date) = YEAR(CURRENT_DATE())";
+        break;
+      case 'year':
+        $sql = "SELECT COUNT(*) as count FROM request WHERE YEAR(request_date) = YEAR(CURRENT_DATE())";
+        break;
+      default:
+        throw new Exception("Invalid time parameter. Accepted values are 'today', 'month', or 'year'.");
+    }
+
+    $statement = $this->connection->prepare($sql);
+
+    if ($statement->execute()) {
+      $result = $statement->get_result();
+      $data = $result->fetch_assoc();
+      $this->close();
+      return $data['count'];
+    } else {
+      // Handle the case where the query execution fails
+      return false;
+    }
+  }
+  public function getPaidRequestTotal(string $time) // return [total:int, prev_total:int]
+  {
+    $this->checkConnection();
+
+    switch ($time) {
+      case 'today':
+        $sql = "SELECT SUM(total) as total, 
+                    (SELECT SUM(total) FROM request WHERE status = 'paid' AND DATE(request_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)) as prev_total 
+                    FROM request WHERE status = 'paid' AND DATE(request_date) = CURDATE()";
+        break;
+      case 'month':
+        $sql = "SELECT SUM(total) as total, 
+                    (SELECT SUM(total) FROM request WHERE status = 'paid' AND MONTH(request_date) = MONTH(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AND YEAR(request_date) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))) as prev_total 
+                    FROM request WHERE status = 'paid' AND MONTH(request_date) = MONTH(CURRENT_DATE()) AND YEAR(request_date) = YEAR(CURRENT_DATE())";
+        break;
+      case 'year':
+        $sql = "SELECT SUM(total) as total, 
+                    (SELECT SUM(total) FROM request WHERE status = 'paid' AND YEAR(request_date) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR))) as prev_total 
+                    FROM request WHERE status = 'paid' AND YEAR(request_date) = YEAR(CURRENT_DATE())";
+        break;
+      default:
+        throw new Exception("Invalid time parameter. Accepted values are 'today', 'month', or 'year'.");
+    }
+
+    $statement = $this->connection->prepare($sql);
+
+    if ($statement->execute()) {
+      $result = $statement->get_result();
+      $data = $result->fetch_assoc();
+      $this->close();
+      return $data;  // Returns an associative array with 'total' and 'prev_total'
+    } else {
+      // Handle the case where the query execution fails
+      return false;
+    }
+  }
 }
