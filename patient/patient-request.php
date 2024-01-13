@@ -194,12 +194,12 @@ $page = 'add_request_form'; // for the components/sidebar.html
                         </div>
                         <div class="input-field">
                           <label>Subdivision/Street Name</label>
-                          <input type="text" id="purok" name="request_sub" placeholder="Enter your Subdivision/Street Name">
+                          <input type="text" id="subdivision" name="request_subdivision" placeholder="Enter your Subdivision/Street Name">
                         </div>
 
                         <div class="input-field">
                           <label>Building/ House Number</label>
-                          <input type="text" id="purok" name="request_house" placeholder="Enter your Building/ House Number">
+                          <input type="text" id="house_no" name="request_house_no" placeholder="Enter your Building/ House Number">
                         </div>
 
 
@@ -333,75 +333,75 @@ $page = 'add_request_form'; // for the components/sidebar.html
 
       // Initial calculation
       updateTotalPrice();
-      const form = document.getElementById('request_form');
+    });
+    const form = document.getElementById('request_form');
 
 
-      form.addEventListener('submit', async function(event) {
+    form.addEventListener('submit', async function(event) {
 
-        event.preventDefault();
+      event.preventDefault();
 
 
-        const formData = new FormData(form);
-        console.log('hello')
-        const {
-          value: accept
-        } = await Swal.fire({
-          title: "Terms and conditions",
-          html: `
-        <div style="text-align: justify;">
-            Please read these terms and conditions carefully before using our healthcare services. <br>
-            <b>1. Acceptance of Terms</b><br>
-            By accessing or using our healthcare services, you agree to be bound by these terms and conditions. If you do not agree to all the terms and conditions of this agreement, you may not access or use our services.<br>
-            <b>2. Services</b><br>
-            We provide healthcare services including but not limited to medical consultations, examinations, treatments, and other related services. These services are offered based on the information provided by the patient and the professional judgment of our healthcare providers.<br>
-            <b>3. Patient Responsibility</b><br>
-            Patients are responsible for providing accurate and complete information about their health history, current conditions, medications, and other relevant information necessary for the provision of healthcare services.<br>
-            <b>4. Medical Advice</b><br>
-            The information provided by our healthcare providers is for informational purposes only and does not constitute medical advice. It is not a substitute for professional medical advice, diagnosis, or treatment.<br>
-            <b>5. Privacy</b><br>
-            We are committed to protecting the privacy of our patients. All personal health information is handled in accordance with applicable laws and our privacy policy. By using our services, you consent to the collection and use of your information as described in our privacy policy.<br>
-            <b>6. Payment</b><br>
-            Payment for services rendered is due at the time of service unless other arrangements have been made in advance. We accept various forms of payment as outlined in our billing policy.<br>
-            <b>7. Cancellations and Rescheduling</b><br>
-            Patients are requested to provide advance notice for cancellations or rescheduling of appointments. Failure to do so may result in a cancellation fee as outlined in our appointment policy.<br>
-            <b>8. Limitation of Liability</b><br>
-            We strive to provide high-quality healthcare services, but we do not guarantee outcomes or results. We shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use our services.<br>
-            <b>9. Changes to Terms</b><br>
-            We reserve the right to modify or replace these terms and conditions at any time. It is your responsibility to review these terms periodically for changes. Your continued use of our services after any modifications constitutes acceptance of the revised terms and conditions.<br>
-            <b>10. Contact Information</b><br>
-            If you have any questions or concerns about these terms and conditions, please contact us at panabo.diagnostic@yahoo/gmail.com. <br>
-        </div>
-    `,
-          input: "checkbox",
-          inputValue: 0,
-          grow: 'row',
-          inputPlaceholder: `
-          I agree that my information will be seen by the clinic personnels.
-        `,
-          confirmButtonText: `
-          Continue&nbsp;<i class="fa fa-arrow-right"></i>
-        `,
-          inputValidator: (result) => {
-            return !result && "You need to agree with T&C";
-          }
-        });
-        if (accept) {
-
-          fetch('utils/add_request.php', {
-              method: 'POST',
-              body: formData,
-
-            })
-            .then(() => {
-              Swal.fire({
-                title: "New Request Added",
-                icon: "success"
-              }).then(() => {
-                window.location.href = 'patient-request-table.php'
-              })
-            })
+      const formData = new FormData(form);
+      console.log('hello')
+      const {
+        value: accept
+      } = await Swal.fire({
+        title: "Terms and conditions",
+        html: `
+      <div style="text-align: justify;">
+          Please read these terms and conditions carefully before using our healthcare services. <br>
+          <b>1. Acceptance of Terms</b><br>
+          By accessing or using our healthcare services, you agree to be bound by these terms and conditions. If you do not agree to all the terms and conditions of this agreement, you may not access or use our services.<br>
+          <b>2. Services</b><br>
+          We provide healthcare services including but not limited to medical consultations, examinations, treatments, and other related services. These services are offered based on the information provided by the patient and the professional judgment of our healthcare providers.<br>
+          <b>3. Patient Responsibility</b><br>
+          Patients are responsible for providing accurate and complete information about their health history, current conditions, medications, and other relevant information necessary for the provision of healthcare services.<br>
+          <b>4. Medical Advice</b><br>
+          The information provided by our healthcare providers is for informational purposes only and does not constitute medical advice. It is not a substitute for professional medical advice, diagnosis, or treatment.<br>
+          <b>5. Privacy</b><br>
+          We are committed to protecting the privacy of our patients. All personal health information is handled in accordance with applicable laws and our privacy policy. By using our services, you consent to the collection and use of your information as described in our privacy policy.<br>
+          <b>6. Payment</b><br>
+          Payment for services rendered is due at the time of service unless other arrangements have been made in advance. We accept various forms of payment as outlined in our billing policy.<br>
+          <b>7. Cancellations and Rescheduling</b><br>
+          Patients are requested to provide advance notice for cancellations or rescheduling of appointments. Failure to do so may result in a cancellation fee as outlined in our appointment policy.<br>
+          <b>8. Limitation of Liability</b><br>
+          We strive to provide high-quality healthcare services, but we do not guarantee outcomes or results. We shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use our services.<br>
+          <b>9. Changes to Terms</b><br>
+          We reserve the right to modify or replace these terms and conditions at any time. It is your responsibility to review these terms periodically for changes. Your continued use of our services after any modifications constitutes acceptance of the revised terms and conditions.<br>
+          <b>10. Contact Information</b><br>
+          If you have any questions or concerns about these terms and conditions, please contact us at panabo.diagnostic@yahoo/gmail.com. <br>
+      </div>
+  `,
+        input: "checkbox",
+        inputValue: 0,
+        grow: 'row',
+        inputPlaceholder: `
+        I agree that my information will be seen by the clinic personnels.
+      `,
+        confirmButtonText: `
+        Continue&nbsp;<i class="fa fa-arrow-right"></i>
+      `,
+        inputValidator: (result) => {
+          return !result && "You need to agree with T&C";
         }
       });
+      if (accept) {
+
+        fetch('utils/add_request.php', {
+            method: 'POST',
+            body: formData,
+
+          })
+          .then(() => {
+            Swal.fire({
+              title: "New Request Added",
+              icon: "success"
+            }).then(() => {
+              window.location.href = 'patient-request-table.php'
+            })
+          })
+      }
     });
   </script>
   <script>

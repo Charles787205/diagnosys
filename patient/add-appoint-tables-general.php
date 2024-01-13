@@ -118,7 +118,7 @@ $services = $servicesModel->getAllServices();
 
               <div class="container">
                 <header>Add Appointment</header>
-                <form id="appointment_form" enctype="multipart/form-data">
+                <form method="" id="appointment_form" enctype="multipart/form-data">
                   <input type="number" name="user_id" value="<?php echo $user->id ?>" hidden>
                   <div class="form first">
                     <div class="details personal">
@@ -195,12 +195,12 @@ $services = $servicesModel->getAllServices();
                         </div>
                         <div class="input-field">
                           <label>Subdivision/Street Name</label>
-                          <input type="text" id="purok" name="appointment_sub" placeholder="Enter your Subdivision/Street Name">
+                          <input type="text" id="subdivision" name="appointment_subdivision" placeholder="Enter your Subdivision/Street Name">
                         </div>
 
                         <div class="input-field">
                           <label>Building/ House Number</label>
-                          <input type="text" id="purok" name="appointment_house" placeholder="Enter your Building/ House Number">
+                          <input type="text" id="house_no" name="appointment_house_no" placeholder="Enter your Building/ House Number">
                         </div>
                         <div class="input-field">
                           <label>Appointment Date</label>
@@ -360,16 +360,14 @@ $services = $servicesModel->getAllServices();
       updateTotalPrice();
     });
 
-    const form = document.getElementById("appointment_form");
-
-    form.addEventListener('submit', async function(event) {
+    const form = $("#appointment_form").get(0)
+    console.log(form);
+    form.addEventListener('submit', function(event) {
 
       event.preventDefault();
       const formData = new FormData(form);
       console.log(formData);
-      const {
-        value: accept
-      } = await Swal.fire({
+      Swal.fire({
         title: "Terms and conditions",
         html: `
         <div style="text-align: justify;">
@@ -404,20 +402,24 @@ $services = $servicesModel->getAllServices();
         inputValidator: (result) => {
           return !result && "You need to agree with T&C";
         }
-      });
-      if (accept) {
-        fetch('utils/add_appoint.php', {
-          method: 'POST',
-          body: formData,
-        }).then(() => {
-          Swal.fire({
-            title: "New Appointment Added",
-            icon: "success"
-          }).then(() => {
-            //window.location.href = 'patient-tables-data.php'
+      }).then((accept) => {
+
+        if (accept) {
+          fetch('utils/add_appoint.php', {
+            method: 'POST',
+            body: formData,
+          }).then(async (res) => {
+            console.log(await res.json());
+            console.log(res);
+            Swal.fire({
+              title: "New Appointment Added",
+              icon: "success"
+            }).then(() => {
+              //window.location.href = 'patient-tables-data.php'
+            })
           })
-        })
-      }
+        }
+      })
     })
   </script>
   <script>

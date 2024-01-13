@@ -210,6 +210,7 @@ class RequestModel extends Database
         $request->status = $d['status'];
         $request->request_date = $d['request_date'];
         $request->total = $d['total'];
+        $request->result_date = $d['result_date'];
         $requests[] = $request;
       }
       foreach ($requests as $request) {
@@ -242,13 +243,7 @@ class RequestModel extends Database
       $requests = array();
       foreach ($data as $d) {
         $request = new Request();
-        $request->id = $d['id'];
-        $request->user_id = $d['user_id'];
-        $request->patient_id = $d['patient_id'];
-        $request->status = $d['status'];
-        $request->request_date = $d['request_date'];
-        $request->result_date = $d['result_date'];
-        $request->total = $d['total'];
+        $request->fill($d);
         $requests[] = $request;
       }
       foreach ($requests as $request) {
@@ -338,12 +333,7 @@ class RequestModel extends Database
       $requests = array();
       foreach ($data as $d) {
         $request = new Request();
-        $request->id = $d['id'];
-        $request->user_id = $d['user_id'];
-        $request->patient_id = $d['patient_id'];
-        $request->status = $d['status'];
-        $request->request_date = $d['request_date'];
-        $request->total = $d['total'];
+        $request->fill($d);
 
         // Include patient and services information
         $patientModel = new PatientModel();
@@ -364,80 +354,104 @@ class RequestModel extends Database
   public function getApprovedRequestTodayByUserId($userId)
   {
     $this->checkConnection();
-    $sql = 'SELECT * FROM request WHERE user_id = ? AND status = "Approved" AND DATE(request_date) = CURDATE()';
+    $sql = 'SELECT requestTable.*, patientTable.* FROM request as requestTable JOIN patient as patientTable ON requestTable.patient_id = patientTable.id WHERE requestTable.user_id = ? AND requestTable.status = "Approved" AND DATE(requestTable.request_date) = CURDATE()';
 
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('i', $userId);
 
     if ($statement->execute()) {
       $result = $statement->get_result();
-      $data = $result->fetch_all(MYSQLI_ASSOC);
-      $this->close();
-
       $requests = array();
-      foreach ($data as $d) {
+      while ($row = $result->fetch_object()) {
         $request = new Request();
-        $request->id = $d['id'];
-        $request->user_id = $d['user_id'];
-        $request->patient_id = $d['patient_id'];
-        $request->status = $d['status'];
-        $request->request_date = $d['request_date'];
-        $request->total = $d['total'];
-
-        // Include patient and services information
-        $patientModel = new PatientModel();
-        $servicesModel = new ServicesModel();
-        $request->patient = $patientModel->getPatientById($request->patient_id);
-        $request->services = $servicesModel->getServicesByRequestId($request->id);
-
+        $request->fill($row);
+        $patient = new Patient();
+        $patient->fill($row);
+        $request->patient = $patient;
         $requests[] = $request;
       }
+      $this->close();
 
-
+      foreach ($requests as $request) {
+        $servicesModel = new ServicesModel();
+        $request->services = $servicesModel->getServicesByRequestId($request->id);
+      }
       return $requests;
     } else {
       // Handle the case where the query execution fails
       return false;
     }
   }
+
+  //public function getRequestToday1()
+  //{
+  //  $this->checkConnection();
+  //  $sql = 'SELECT * FROM request WHERE DATE(request_date) = CURDATE()';
+  //
+  //  $statement = $this->connection->prepare($sql);
+  //
+  //  if ($statement->execute()) {
+  //    $result = $statement->get_result();
+  //    $data = $result->fetch_all(MYSQLI_ASSOC);
+  //    $this->close();
+  //
+  //    $requests = array();
+  //    foreach ($data as $d) {
+  //      $request = new Request();
+  //      $request->id = $d['id'];
+  //      $request->user_id = $d['user_id'];
+  //      $request->patient_id = $d['patient_id'];
+  //      $request->status = $d['status'];
+  //      $request->request_date = $d['request_date'];
+  //      $request->total = $d['total'];
+  //
+  //      // Include patient and services information
+  //      $patientModel = new PatientModel();
+  //      $servicesModel = new ServicesModel();
+  //      $request->patient = $patientModel->getPatientById($request->patient_id);
+  //      $request->services = $servicesModel->getServicesByRequestId($request->id);
+  //
+  //      $requests[] = $request;
+  //    }
+  //
+  //
+  //    return $requests;
+  //  } else {
+  //    // Handle the case where the query execution fails
+  //    return false;
+  //  }
+  //}
   public function getRequestToday()
   {
     $this->checkConnection();
-    $sql = 'SELECT * FROM request WHERE DATE(request_date) = CURDATE()';
+    $sql = 'SELECT requestTable.*, patientTable.* FROM request as requestTable JOIN patient as patientTable ON requestTable.patient_id = patientTable.id WHERE DATE(requestTable.request_date) = CURDATE()';
 
     $statement = $this->connection->prepare($sql);
 
     if ($statement->execute()) {
       $result = $statement->get_result();
-      $data = $result->fetch_all(MYSQLI_ASSOC);
-      $this->close();
-
       $requests = array();
-      foreach ($data as $d) {
+      while ($row = $result->fetch_object()) {
         $request = new Request();
-        $request->id = $d['id'];
-        $request->user_id = $d['user_id'];
-        $request->patient_id = $d['patient_id'];
-        $request->status = $d['status'];
-        $request->request_date = $d['request_date'];
-        $request->total = $d['total'];
-
-        // Include patient and services information
-        $patientModel = new PatientModel();
-        $servicesModel = new ServicesModel();
-        $request->patient = $patientModel->getPatientById($request->patient_id);
-        $request->services = $servicesModel->getServicesByRequestId($request->id);
-
+        $request->fill($row);
+        $patient = new Patient();
+        $patient->fill($row);
+        $request->patient = $patient;
         $requests[] = $request;
       }
+      $this->close();
 
-
+      foreach ($requests as $request) {
+        $servicesModel = new ServicesModel();
+        $request->services = $servicesModel->getServicesByRequestId($request->id);
+      }
       return $requests;
     } else {
       // Handle the case where the query execution fails
       return false;
     }
   }
+
 
   function deleteRequest($request_id)
   {
@@ -464,12 +478,7 @@ class RequestModel extends Database
       $requests = array();
       foreach ($data as $d) {
         $request = new Request();
-        $request->id = $d['id'];
-        $request->user_id = $d['user_id'];
-        $request->patient_id = $d['patient_id'];
-        $request->status = $d['status'];
-        $request->request_date = $d['request_date'];
-        $request->total = $d['total'];
+        $request->fill($d);
 
 
 
@@ -506,12 +515,7 @@ class RequestModel extends Database
       $requests = array();
       foreach ($data as $d) {
         $request = new Request();
-        $request->id = $d['id'];
-        $request->user_id = $d['user_id'];
-        $request->patient_id = $d['patient_id'];
-        $request->status = $d['status'];
-        $request->request_date = $d['request_date'];
-        $request->total = $d['total'];
+        $request->fill($d);
 
         // Include patient and services information
 
@@ -549,12 +553,8 @@ class RequestModel extends Database
       $requests = array();
       foreach ($data as $d) {
         $request = new Request();
-        $request->id = $d['id'];
-        $request->user_id = $d['user_id'];
-        $request->patient_id = $d['patient_id'];
-        $request->status = $d['status'];
-        $request->request_date = $d['request_date'];
-        $request->total = $d['total'];
+        $request->fill($d);
+
 
         // Include patient and services information
 
@@ -607,6 +607,78 @@ class RequestModel extends Database
       echo "Request rejected successfully.";
     } else {
       echo "Error rejecting request.";
+    }
+  }
+  public function addServices($request)
+  {
+    $this->checkConnection();
+
+    // Begin a transaction
+    $this->connection->begin_transaction();
+
+    try {
+      // Delete existing services for the request
+      $sql = "DELETE FROM request_services WHERE request_id = ?;";
+      $statement = $this->connection->prepare($sql);
+      $statement->bind_param('i', $request->id);
+      $statement->execute();
+
+      // Add new services to the request
+      $sql = "INSERT INTO request_services (request_id, service_id) VALUES (?, ?);";
+      $statement = $this->connection->prepare($sql);
+
+      foreach ($request->services as $service) {
+        $statement->bind_param('ii', $request->id, $service->id);
+        $statement->execute();
+      }
+
+      // Update the total of the request
+      $sql = "UPDATE request SET total = ? WHERE id = ?;";
+      $statement = $this->connection->prepare($sql);
+      $statement->bind_param('di', $request->total, $request->id);
+      $statement->execute();
+
+      // Commit the transaction
+      $this->connection->commit();
+    } catch (Exception $e) {
+      // An error occurred; rollback the transaction
+      $this->connection->rollback();
+
+      // Re-throw the exception
+      throw $e;
+    } finally {
+      $this->close();
+    }
+  }
+
+  public function getRequestWithResult($user_id)
+  {
+    $sql = 'SELECT r.*, p.* FROM request r JOIN patient p ON r.patient_id = p.id WHERE r.user_id = ? AND r.result_date IS NOT NULL';
+    $this->checkConnection();
+    $statement = $this->connection->prepare($sql);
+    $statement->bind_param('i', $user_id);
+
+    if ($statement->execute()) {
+      $result = $statement->get_result();
+      $requests = array();
+      while ($row = $result->fetch_object()) {
+        $request = new Request();
+        $request->fill($row);
+        $patient = new Patient();
+        $patient->fill($row);
+        $request->patient = $patient;
+        $requests[] = $request;
+      }
+      $this->close();
+
+      foreach ($requests as $request) {
+        $servicesModel = new ServicesModel();
+        $request->services = $servicesModel->getServicesByRequestId($request->id);
+      }
+      return $requests;
+    } else {
+      // Handle the case where the query execution fails
+      return false;
     }
   }
 }

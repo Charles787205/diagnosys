@@ -2,23 +2,26 @@
 require_once 'utils/is_login.php';
 require_once '../Models/EmployeeModel.php';
 require_once '../Models/ServicesModel.php';
-require_once '../Models/AppointmentModel.php';
+require_once '../Models/RequestModel.php';
+
+
 $head_title = 'Add Request';
 $page_title = 'Add Request';
 $employeeModel = new EmployeeModel();
 $employee = $employeeModel->getEmployeeById($_SESSION['id']);
 $servicesModel = new ServicesModel();
 $services = $servicesModel->getAllServices();
-$appointmentModel = new AppointmentModel();
-$appointments =  $appointmentModel->getApprovedFutureAppointments();
+$requestModel = new RequestModel();
+$request_id = $_GET['request_id'];
 
+$request = $requestModel->getRequestById($request_id);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Add Request Form<?php echo $_SESSION['id'];  ?></title>
+  <title>Edit Request Form <?php echo $_SESSION['id'];  ?></title>
   <?php require 'components/head.html' ?>
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 </head>
@@ -101,11 +104,12 @@ $appointments =  $appointmentModel->getApprovedFutureAppointments();
 
     <div class="pagetitle">
       <h1>Request Form</h1>
+
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item">Request Form</li>
-          <li class="breadcrumb-item active">Add Request Form</li>
+          <li class="breadcrumb-item active">Edit Request Form</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -118,16 +122,9 @@ $appointments =  $appointmentModel->getApprovedFutureAppointments();
             <div class="card-body">
               <hr>
               <div class="container">
-                <header>Add Request Form</header>
+                <header>Edit Request Form</header>
                 <form id="request_form" enctype="multipart/form-data">
-                  <select name="" id="appointment-select" class="form-select form-select-sm">
-                    <option selected>Select Appointments</option>
-                    <?php foreach ($appointments as $appointment) :
-                      $patient_name = $appointment->patient->getFullName();
-                    ?>
-                      <option value="<?php echo $appointment->id ?>"><?php echo "Appointment  #$appointment->id: $patient_name " ?></option>
-                    <?php endforeach ?>
-                  </select>
+                  <input type="number" name="patient_id" id="" value="<?php echo $request->patient->id ?>" hidden>
                   <div class="form first">
                     <div class="details personal">
                       <label>Date</label>
@@ -153,6 +150,7 @@ $appointments =  $appointmentModel->getApprovedFutureAppointments();
                           <label>Lastname</label>
                           <input type="text" id='last_name' name="request_lastname" placeholder="Enter your Lastame" required>
                         </div>
+                        <input type="number" name="request_id" id="" value="<?php echo $request->id ?>" hidden>
                         <div class="input-field">
                           <label>Firstname</label>
                           <input type="text" id='first_name' name="request_firstname" placeholder="Enter your Firstname" required>
@@ -224,6 +222,8 @@ $appointments =  $appointmentModel->getApprovedFutureAppointments();
                         <div class="col-lg-12">
                           <div class="card">
                             <div class="card-body">
+
+
                               <br>
 
                               <div class="row mb-3">
@@ -401,10 +401,118 @@ $appointments =  $appointmentModel->getApprovedFutureAppointments();
   <?php require 'components/required_js.html' ?>
 
   <script>
-    const appointments = <?php echo json_encode($appointments); ?>;
+    document.addEventListener("DOMContentLoaded", function() {
+      // Loop through test1 to test8
+      for (var i = 1; i <= 8; i++) {
+        var select = document.getElementById("test" + i);
+        select.addEventListener("change", function() {
+          updateTotalPrice();
+        });
+      }
+    });
+
+    //FUNCTIONS
+
+
+    function FindAge() {
+      var day = document.getElementById("dob").value;
+      var DOB = new Date(day);
+      var today = new Date();
+      var Age = today.getTime() - DOB.getTime();
+      Age = Math.floor(Age / (1000 * 60 * 60 * 24 * 365.25));
+      document.getElementById("age").value = Age;
+    }
+
+    function updateTotalPrice() {
+      var total = 0;
+      for (var i = 1; i <= 8; i++) {
+        var select = document.getElementById("test" + i);
+        var selectedOption = select.options[select.selectedIndex];
+        var selectedPrice = parseFloat(selectedOption.getAttribute("data-price"));
+        if (!isNaN(selectedPrice)) {
+          total += selectedPrice;
+        }
+      }
+      var totalInput = document.getElementById("total");
+      totalInput.value = total.toFixed(2);
+    }
+
+
+    const form = document.getElementById('request_form');
+
+
+    form.addEventListener('submit', function(event) {
+
+      event.preventDefault();
+
+
+      const formData = new FormData(form);
+      console.log('hello')
+
+      fetch('utils/edit_request.php', {
+          method: 'POST',
+          body: formData,
+
+        })
+        .then(() => {
+          Swal.fire({
+            title: "Request Edited",
+            icon: "success",
+          }).then(() => {
+            window.location.href = 'pending_requests.php'
+          })
+        })
+    });
+
     const user_id = <?php echo $_SESSION['id'] ?>;
+    const request = <?php echo json_encode($request) ?>;
+    document.addEventListener("DOMContentLoaded", () => {
+      const appointmentSelect = document.getElementById('appointment-select');
+      changeData();
+      console.log(request.id);
+
+      function changeData() {
+
+        $('#request_date').val(request.request_date.split(' ')[0]);
+        $('#last_name').val(request.patient.last_name);
+        $('#first_name').val(request.patient.first_name);
+        $('#gender').val(request.patient.gender);
+        $('#dob').val(request.patient.birthdate);
+        $('#age').val(request.patient.age)
+        $('#mobile_number').val(request.patient.mobile_number);
+        $('#province').html(`<option value="${request.patient.province}">${request.patient.province}</option>`);
+        $('#city').html(`<option value="${request.patient.city}">${request.patient.city}</option>`);
+        $('#barangay').html(`<option value="${request.patient.barangay}">${request.patient.barangay}</option>`);
+        $('#purok').val(request.patient.purok);
+        $('#total').val(request.total);
+        $('#user_id').val(request.user_id)
+        $('#subdivision').val(request.patient.subdivision);
+        $('#house_no').val(request.patient.house_no);
+        for (var i = 0; i < request.services.length; i++) {
+          $(`#test${i+1}`).val(request.services[i].id).change();
+
+        }
+
+
+
+      }
+    })
   </script>
-  <script src="../assets/js/admin/add_request.js"></script>
+  <script>
+    function validateNumber(event) {
+      const input = event.target;
+      const regex = /^[0-9]*$/; // Regular expression to match only numbers
+
+      if (!regex.test(input.value)) {
+        input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+      }
+
+      // Limit input to 11 digits
+      if (input.value.length > 11) {
+        input.value = input.value.slice(0, 11);
+      }
+    }
+  </script>
 
 
 

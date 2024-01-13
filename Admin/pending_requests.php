@@ -141,7 +141,7 @@ $pendingRequests = $requestModel->getPendingRequests();
                         <a href=<?php echo "request_details.php?patient_id=$request->patient_id&request_id=$request->id" ?> style="color: #ffff; text-decoration: none"><button type="button" name="submit" class="btn btn-primary">
                             <i class="bi bi-eye-fill"></i>
                           </button></a>
-                        <a href="#" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
+                        <a href="edit_request.php?request_id=<?php echo $request->id ?>" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
                         <button class="btn btn-danger" onclick='<?php echo "deleteRequest($request->id)" ?>'> <i class="bi bi-trash3-fill"></i></button>
                       </td>
                     </tr>

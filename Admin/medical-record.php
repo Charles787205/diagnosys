@@ -206,7 +206,9 @@ $paidRequests = $requestModel->getRequestsByStatus(Request::PAID);
                     <option selected>--------Select Patient---------</option>
                     <?php foreach ($paidRequests as $request) {
                       $p_fullName = $request->patient->getFullName();
-                      echo "<option class='form-option' value='$request->id'>$p_fullName</option>";
+                      if (!isset($request->result_date)) {
+                        echo "<option class='form-option' value='$request->id'>$p_fullName</option>";
+                      }
                     } ?>
 
                   </select>
@@ -305,7 +307,7 @@ $paidRequests = $requestModel->getRequestsByStatus(Request::PAID);
   <?php require 'components/required_js.html' ?>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script>
-    requests = <?php echo json_encode($paidRequests) ?>;
+    const requests = <?php echo json_encode($paidRequests) ?>;
   </script>
   <script src="../assets/js/admin/medicalRecord.js"></script>
 

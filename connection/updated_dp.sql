@@ -29,6 +29,8 @@ CREATE TABLE patient (
   city varchar(255) NOT NULL,
   barangay varchar(50) NOT NULL,
   purok varchar(50) NOT NULL,
+  subdivision varchar(50) NOT NULL,
+  house_no varchar(50) NOT NULL,
   mobile_number varchar(11) NOT NULL,
   image_url varchar(255) NOT NULL,
   gender varchar(11) NOT NULL
@@ -100,8 +102,11 @@ INSERT INTO `services` (`name`, `price`, `normal_value`) VALUES
 ('Serum Creatinine', 150.00, '53-97 μmol/L'),
 ('Hemoglobin Count', 50.00, '120-160 g/dL'),
 ('Hematocrit Count', 50.00, '38-47 %'),
-('White Blood Cells', 50.00, '4.5-11.0x10^3/μL');
-
+('White Blood Cells', 50.00, '4.5-11.0x10^3/μL'),
+ ('Serum Uric Acid (Female)', 150 , '149-404'),       
+(' Serum Creatinine (Female)', 180 , '53-97 '),           
+ ('Serum Uric Acid (Male)', 150 , '214-458'),         
+ ('Serum Creatinine (Male)', 180 , '80-115');
 
 INSERT INTO patient (
   first_name,
@@ -111,15 +116,17 @@ INSERT INTO patient (
   province,
   city,
   barangay,
+  subdivision,
+  house_no,
   purok,
   mobile_number,
   image_url,
   gender
 ) VALUES
-('John', 'Doe', '1990-05-15', 32, 'Province1', 'City1', 'Barangay1', 'Purok1', '12345678901', 'image_url1.jpg', 'Male'),
-('Jane', 'Smith', '1985-08-21', 37, 'Province2', 'City2', 'Barangay2', 'Purok2', '23456789012', 'image_url2.jpg', 'Female'),
-('Mike', 'Johnson', '1995-02-10', 27, 'Province3', 'City3', 'Barangay3', 'Purok3', '34567890123', 'image_url3.jpg', 'Male'),
-('Sarah', 'Williams', '1980-11-03', 42, 'Province4', 'City4', 'Barangay4', 'Purok4', '45678901234', 'image_url4.jpg', 'Female');
+('John', 'Doe', '1990-05-15', 32, 'Province1', 'City1', 'Barangay1', 'NewSubdivision1', 'NewHouseNo1', 'Purok1', '12345678901', 'image_url1.jpg', 'Male'),
+('Jane', 'Smith', '1985-08-21', 37, 'Province2', 'City2', 'Barangay2', 'NewSubdivision2', 'NewHouseNo2', 'Purok2', '23456789012', 'image_url2.jpg', 'Female'),
+('Mike', 'Johnson', '1995-02-10', 27, 'Province3', 'City3', 'Barangay3', 'NewSubdivision3', 'NewHouseNo3', 'Purok3', '34567890123', 'image_url3.jpg', 'Male'),
+('Sarah', 'Williams', '1980-11-03', 42, 'Province4', 'City4', 'Barangay4', 'NewSubdivision4', 'NewHouseNo4', 'Purok4', '45678901234', 'image_url4.jpg', 'Female');
 
 INSERT INTO `user` (first_name, last_name, username, password, age, address, mobile_number)
 VALUES ('John', 'Doe', 'johndoe', 'password123', 30, '123 Main St', '1234567890');

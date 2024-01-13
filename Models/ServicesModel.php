@@ -42,11 +42,11 @@ class ServicesModel extends Database
         $statement = $this->connection->prepare($sql);
         $statement->bind_param('i', $id);
 
+        $services = array();
         if ($statement->execute()) {
             $result = $statement->get_result();
             $data = $result->fetch_all(MYSQLI_ASSOC);
             $this->close();
-            $services = array();
             foreach ($data as $d) {
                 $service = new Services();
                 $service->name = $d['service_name'];

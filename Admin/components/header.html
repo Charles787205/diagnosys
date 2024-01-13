@@ -50,7 +50,7 @@
               ></a
             >
           </li>
-          <?php foreach($newlyApprovedRequest as $request): ?>
+          <?php foreach($newlyApprovedRequest as $r): ?>
           <li>
             <hr class="dropdown-divider" />
           </li>
@@ -61,7 +61,7 @@
               <div>
                 <h4 style="color: black">
                   New request from
-                  <?php echo $request->patient->first_name ?>
+                  <?php echo $r->patient->first_name ?>
                 </h4>
               </div>
             </li>

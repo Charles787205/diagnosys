@@ -74,8 +74,9 @@ function submit_form() {
   }).then(() => {
     Swal.fire({
       title: "Result Saved",
-
       icon: "success",
+    }).then(() => {
+      location.href("patient-table.php");
     });
   });
 }
@@ -87,18 +88,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputRow = document.getElementsByClassName("input-row");
 
   function changeData() {
+    console.log(this.value);
     const serviceSelect = document.getElementsByClassName("service-select");
     const tableData = document.getElementsByClassName("table-data");
 
     var chosenRequest = null;
     for (const request of requests) {
-      if (request.id == patientSelect.value) {
+      if (request.id == this.value) {
         chosenRequest = request;
+        for (const row of $(".input-row").get()) {
+          $(row).remove();
+        }
+        for (const service of request.services) {
+          add_more(service);
+        }
       }
 
-      for (const service of request.services) {
-        add_more(service);
-      }
+      console.log($(".input-row").get());
     }
 
     if (chosenRequest != null) {
@@ -121,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
             break;
           case "address":
             data.textContent = `${chosenRequest.patient.purok}, ${chosenRequest.patient.barangay}, ${chosenRequest.patient.city}, ${chosenRequest.patient.province}`;
-            console.log(chosenRequest);
+
             break;
           case "age_gender":
             data.textContent = `${chosenRequest.patient.age} / ${chosenRequest.patient.gender}`;

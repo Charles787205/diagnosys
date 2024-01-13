@@ -7,7 +7,6 @@ require_once '../Objects/Services.php';
 require_once '../Models/PatientModel.php';
 
 if (true) {
-
     $appointment = new Appointment();
     $patient = new Patient();
     $appointmentModel = new AppointmentModel();
@@ -32,7 +31,7 @@ if (true) {
     //$services[] = $service;
     //echo $serviceId;
     ///}
-    $appointment->services = $services;
+    //$appointment->services= $services;
 
 
 
@@ -55,8 +54,7 @@ if (true) {
                 echo "File has been uploaded successfully.";
                 $patient->image_url = $newFileName;
                 $appointment->patient = $patient;
-                $checkPatient =
-                    $appointmentModel->createAppointment($appointment);
+                $appointmentModel->createAppointment($appointment);
                 header('Location: patient-tables-data.php');
             } else {
                 echo "Sorry, there was an error uploading your file.";
@@ -68,6 +66,6 @@ if (true) {
         }
     } else {
         echo "Error: " . $_FILES["fileToUpload"]["error"];
-        header('Location: patient-tables-data.php?error_message=Empty File');
+        header('Location: patient-appointment.php?error_message=Empty File');
     }
 }

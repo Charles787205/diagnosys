@@ -21,18 +21,14 @@ $patient->province = $_POST['request_province'];
 $patient->city = $_POST['request_city'];
 $patient->barangay = $_POST['request_barangay'];
 $patient->purok = $_POST['request_purok'];
+$patient->subdivision = $_POST['request_subdivision'];
+$patient->house_no = $_POST['request_house_no'];
 $patient->mobile_number = $_POST['request_phone'];
-$request->total = $_POST['request_amount'];
+$request->total = 0;
 $request->user_id = $_POST['user_id'];
-$services_selected_arr = $_POST['request_test'];
 
 $services = array();
-foreach ($services_selected_arr as $serviceId) {
-    $service = new Services();
-    $service->id = $serviceId;
-    $services[] = $service;
-    echo $serviceId;
-}
+
 $request->services = $services;
 
 
@@ -52,19 +48,19 @@ if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == 0) {
     //returns Patient if exist and false if it doesn't exist
 
     echo ($fileuploaded = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile));
-}
-if (!$checkPatient) { //patient doesn't exist
+    if (!$checkPatient) { //patient doesn't exist
 
 
 
-    $patient->image_url = $newFileName;
-    $request->patient = $patient;
+        $patient->image_url = $newFileName;
+        $request->patient = $patient;
 
-    $requestModel->createRequest($request);
-} else {
+        $requestModel->createRequest($request);
+    } else {
 
-    $request->patient = $checkPatient;
-    $requestModel->createRequest($request);
+        $request->patient = $checkPatient;
+        $requestModel->createRequest($request);
+    }
 }
 
 echo json_encode('Success');

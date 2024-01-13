@@ -8,7 +8,6 @@ require_once __DIR__ . '/../../Models/PatientModel.php';
 
 
 
-$jsonData = json_decode(file_get_contents("php://input"), true);
 
 if (true) {
     $appointment = new Appointment();
@@ -23,18 +22,20 @@ if (true) {
     $patient->city = $_POST['appointment_city'];
     $patient->barangay = $_POST['appointment_barangay'];
     $patient->purok = $_POST['appointment_purok'];
+    $patient->subdivision = $_POST['appointment_subdivision'];
+    $patient->house_no = $_POST['appointment_house_no'];
     $patient->mobile_number = $_POST['appointment_phone'];
-    $appointment->total = $_POST['appointment_amount'];
+    $appointment->total = 0;
     $appointment->user_id = $_POST['user_id'];
     $appointment->appointment_date = $_POST['appointment_date'];
-    $services_selected_arr = $_POST['appointment_test'];
+    //$services_selected_arr = $_POST['appointment_test'];
     $services = array();
-    foreach ($services_selected_arr as $serviceId) {
-        $service = new Services();
-        $service->id = $serviceId;
-        $services[] = $service;
-        echo $serviceId;
-    }
+    //foreach ($services_selected_arr as $serviceId) {
+    //    $service = new Services();
+    //    $service->id = $serviceId;
+    //    $services[] = $service;
+    //    echo $serviceId;
+    //}
     $appointment->services = $services;
 
 
@@ -58,8 +59,8 @@ if (true) {
                 echo "File has been uploaded successfully.";
                 $patient->image_url = $newFileName;
                 $appointment->patient = $patient;
-                $checkPatient =
-                    $appointmentModel->createAppointment($appointment);
+
+                $appointmentModel->createAppointment($appointment);
             } else {
                 echo "Sorry, there was an error uploading your file.";
             }
@@ -68,7 +69,7 @@ if (true) {
             $appointmentModel->createAppointment($appointment);
         }
     } else {
-        echo "Error: " . $_FILES["fileToUpload"]["error"];
-        header('Location: patient-appointment.php?error_message=Empty File');
+        echo json_encode(array("message" => "Error: " . $_FILES["fileToUpload"]["error"]));
+        //header('Location: patient-appointment.php?error_message=Empty File');
     }
 }

@@ -28,4 +28,12 @@ class Request
             throw new Error('services not set');
         }
     }
+    public function fill($data)
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
+    }
 }
