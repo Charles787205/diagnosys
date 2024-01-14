@@ -86,13 +86,49 @@ async function filterPatientCount(time) {
       break;
   }
 }
+console.log(
+  salesRequests.map((salesRequest) =>
+    new Date(salesRequest.request_date).toLocaleDateString()
+  )
+);
 
+function getSalesData() {
+  const salesData = {};
+  const s = "2024-01-13 14:50:46";
+  console.log(
+    "hhhh",
+    new Date(s).toLocaleDateString("en-US", {
+      month: "numeric",
+      day: "numeric",
+      year: "numeric",
+    })
+  );
+  salesRequests.map((salesRequest) => {
+    const dateString = new Date(salesRequest.request_date).toLocaleDateString(
+      "en-US",
+      { month: "numeric", day: "numeric", year: "numeric" }
+    );
+
+    if (salesData[dateString]) {
+      salesData[dateString] += salesRequest.total;
+    } else {
+      salesData[dateString] = salesRequest.total;
+    }
+  });
+  console.log({ salesData });
+  const salesDataArray = Object.keys(salesData).map((key) => {
+    console.log({ x: key, y: salesData[key] });
+    return { x: key, y: salesData[key] };
+  });
+  console.log(salesDataArray);
+  return salesDataArray;
+}
 function renderApexChart() {
   new ApexCharts(document.querySelector("#reportsChart"), {
     series: [
       {
         name: "Sales",
-        data: salesRequestsData,
+        data: getSalesData(),
       },
     ],
     chart: {
@@ -123,20 +159,12 @@ function renderApexChart() {
       width: 2,
     },
     xaxis: {
-      type: "datetime",
-      categories: [
-        "2018-09-19T00:00:00.000Z",
-        "2018-09-19T01:30:00.000Z",
-        "2018-09-19T02:30:00.000Z",
-        "2018-09-19T03:30:00.000Z",
-        "2018-09-19T04:30:00.000Z",
-        "2018-09-19T05:30:00.000Z",
-        "2018-09-19T06:30:00.000Z",
-      ],
+      type: "date",
+      categories: [,],
     },
     tooltip: {
       x: {
-        format: "dd/MM/yy HH:mm",
+        format: "yy-dd-mm",
       },
     },
   }).render();

@@ -279,8 +279,8 @@ foreach ($salesRequest as $sales) {
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>
   <script>
-    const saleRequest = <?php echo json_encode($salesRequest); ?>;
-    console.log(saleRequest);
+    const salesRequests = <?php echo json_encode($salesRequest); ?>;
+    console.log(salesRequests);
     const salesRequestsData = [<?php foreach ($salesRequest as $request) {
                                   echo "$request->total,";
                                 } ?>];
