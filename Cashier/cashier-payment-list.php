@@ -105,9 +105,9 @@ $requests = $requestModel->getRequestsByStatus(Request::PAID); ?>
                 <br>
 
 
-                <button type="button" class="btn btn-secondary">
+                <a href="utils/generate_payment_list_pdf.php" type="button" class="btn btn-secondary">
                   <i class="bi bi-printer-fill"></i> Print
-                </button>
+                </a>
 
                 <table class="table table-bordered mt-3">
                   <thead>

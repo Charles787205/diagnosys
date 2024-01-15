@@ -11,6 +11,14 @@ $employee = $employeeModel->getEmployeeById($_SESSION['id']);
 $requestModel = new RequestModel();
 $requests = $requestModel->getRequestsByStatus(Request::PAID);
 
+$patientModel = new PatientModel();
+$patients = $patientModel->getAllPatients();
+$inactivePatients = [];
+foreach ($patients as $patient) {
+  if ($patient->status == 'Inactive') {
+    $inactivePatients[] = $patient;
+  }
+}
 $dates = [];
 foreach ($requests as $request) {
   if (!isset($dates[$request->request_date])) {
@@ -141,20 +149,21 @@ foreach ($requests as $request) {
                     <th scope="col">ID</th>
 
                     <th scope="col">Patient Name</th>
-                    <th scope="col">Date</th>
-
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
 
-                  <?php foreach ($requests as $request) { ?>
+                  <?php foreach ($inactivePatients as $patient) { ?>
 
-                    <tr class="data-row" onclick="openLabResults(<?php echo $request->id ?> )" data-type="request" data-date="<?php echo $request->request_date ?>">
+                    <tr class="data-row" onclick="" data-type="request" data-date="<?php echo $request->request_date ?>">
 
-                      <th scope="row"><?php echo $request->id ?></th>
+                      <th scope="row"><?php echo $patient->id ?></th>
 
-                      <td><?php echo $request->patient->getFullName() ?></td>
-                      <td><?php echo $request->request_date ?></td>
+                      <td><?php echo $patient->getFullName() ?></td>
+                      <td><?php echo $patient->status ?></td>
+                      <td><a class="btn btn-secondary">Retrieve</a></td>
                     </tr>
                   <?php } ?>
 

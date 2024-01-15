@@ -13,7 +13,7 @@ class Patient extends User
   public $user_id, $gender;
   public $image_url;
   public $subdivision, $house_no;
-
+  public $status;
 
   public function getFullName()
   {

@@ -2,24 +2,27 @@
 require_once 'utils/is_login.php';
 require_once '../Models/EmployeeModel.php';
 require_once '../Models/ServicesModel.php';
-require_once '../Models/AppointmentModel.php';
+require_once '../Models/PatientModel.php';
+
+
 $head_title = 'Add Request';
 $page_title = 'Add Request';
 $employeeModel = new EmployeeModel();
 $employee = $employeeModel->getEmployeeById($_SESSION['id']);
 $servicesModel = new ServicesModel();
 $services = $servicesModel->getAllServices();
-$appointmentModel = new AppointmentModel();
-$appointments =  $appointmentModel->getApprovedFutureAppointments();
-$servicesModel = new ServicesModel();
-$packages = $servicesModel->getAllPackages();
+$patientModel = new PatientModel();
+$patient_id = $_GET['patient_id'];
+
+$patient = $patientModel->getPatientById($patient_id);
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Add Request Form<?php echo $_SESSION['id'];  ?></title>
+  <title>Edit Request Form <?php echo $_SESSION['id'];  ?></title>
   <?php require 'components/head.html' ?>
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 </head>
@@ -83,14 +86,9 @@ $packages = $servicesModel->getAllPackages();
   }
 
   .tbl-scroll {
-
+    overflow: hidden;
     overflow-y: scroll;
     height: 220px;
-  }
-
-  #request_form {
-
-    min-height: 1050px;
   }
 </style>
 
@@ -107,11 +105,12 @@ $packages = $servicesModel->getAllPackages();
 
     <div class="pagetitle">
       <h1>Request Form</h1>
+
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item">Request Form</li>
-          <li class="breadcrumb-item active">Add Request Form</li>
+          <li class="breadcrumb-item active">Edit Request Form</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -120,20 +119,13 @@ $packages = $servicesModel->getAllPackages();
       <div class="row">
         <div class="col-md-12">
 
-          <div class="card" style="overflow: auto;">
+          <div class="card">
             <div class="card-body">
               <hr>
               <div class="container">
-                <header>Add Request Form</header>
+                <header>Edit Request Form</header>
                 <form id="request_form" enctype="multipart/form-data">
-                  <select name="" id="appointment-select" class="form-select form-select-sm">
-                    <option selected>Select Appointments</option>
-                    <?php foreach ($appointments as $appointment) :
-                      $patient_name = $appointment->patient->getFullName();
-                    ?>
-                      <option value="<?php echo $appointment->id ?>"><?php echo "Appointment  #$appointment->id: $patient_name " ?></option>
-                    <?php endforeach ?>
-                  </select>
+                  <input type="number" name="patient_id" id="" value="<?php echo $patient->id ?>" hidden>
                   <div class="form first">
                     <div class="details personal">
                       <label>Date</label>
@@ -159,6 +151,7 @@ $packages = $servicesModel->getAllPackages();
                           <label>Lastname</label>
                           <input type="text" id='last_name' name="request_lastname" placeholder="Enter your Lastame" required>
                         </div>
+                        <input type="number" name="request_id" id="" value="<?php echo $patient->id ?>" hidden>
                         <div class="input-field">
                           <label>Firstname</label>
                           <input type="text" id='first_name' name="request_firstname" placeholder="Enter your Firstname" required>
@@ -230,32 +223,18 @@ $packages = $servicesModel->getAllPackages();
                         <div class="col-lg-12">
                           <div class="card">
                             <div class="card-body">
+
+
                               <br>
 
                               <div class="row mb-3">
 
 
                                 <div class="col-lg-12">
-                                  <div class="row">
-                                    <div class="col">
-                                      <h5>Select service</h5>
-                                    </div>
-                                    <div class="col row">
-                                      <select onchange="fillPackageServices()" id="package-select">
-                                        <option disabled selected>Select Package</option>
-                                        <?php
-                                        foreach ($packages as $package) {
-                                        ?>
-                                          <option value="<?php echo $package['id'] ?>"><?php echo $package['name'] ?></option>
-                                        <?php } ?>
 
-                                        </option>
-                                      </select>
-                                    </div>
-                                  </div>
                                   <div class="row">
                                     <div class="col-sm-6">
-                                      <br>
+                                      <h5>Select service</h5>
                                       <div class="form-group">
                                         <select class="form-select" id="test1" name="request_test[]" aria-label="Default select example">
                                           <option disabled selected>Choose Test</option>
@@ -378,19 +357,21 @@ $packages = $servicesModel->getAllPackages();
 
                             </div>
                             <input hidden id="user_id" type='number' name="user_id" value=<?php echo $_SESSION['id'] ?>>
+
+
                           </div>
+                          <br>
+                          <div class="total">
+                            <div class="row mb-3">
+                              <label for="" style=" margin-top: 35px;  font-size: 30px;">Total Amount</label>
+                              <label for="" style="position: absolute; margin-top: 80px;  font-size: 40px;">&#x20B1;</label>
+                              <div class="col-sm-10 end-0">
+                                <input type="text" style="border:none; font-size: 30px; text-indent: 45px;" id="total" name="request_amount" class="form-control" value="0.00" readonly>
+                              </div>
 
-
-                          <div class="row">
-                            <div class="col-sm-4" style="margin-left:auto">
-                              <label for="" class="row" style="  font-size: 30px;">Total Amount</label>
-                              <label class="col" for="" style=" font-size: 40px;">&#x20B1;</label>
-                              <input class="col-sm-10" type="text" style="border:none; font-size: 30px; text-indent: 45px;" id="total" name="request_amount" class="form-control" value="0.00" readonly>
-                              <button type="submit" id="third" name="submit" class="btn btn-primary">Submit</button>
                             </div>
-
+                            <button type="submit" id="third" name="submit" class="btn btn-primary">Submit</button>
                           </div>
-
                         </div>
                       </div>
                     </div>
@@ -418,16 +399,121 @@ $packages = $servicesModel->getAllPackages();
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="../assets/js/script3.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  <script src="../assets/js/main.js"></script>
+  <?php require 'components/required_js.html' ?>
 
   <script>
-    const appointments = <?php echo json_encode($appointments); ?>;
+    document.addEventListener("DOMContentLoaded", function() {
+      // Loop through test1 to test8
+      for (var i = 1; i <= 8; i++) {
+        var select = document.getElementById("test" + i);
+        select.addEventListener("change", function() {
+          updateTotalPrice();
+        });
+      }
+    });
+
+    //FUNCTIONS
+
+
+    function FindAge() {
+      var day = document.getElementById("dob").value;
+      var DOB = new Date(day);
+      var today = new Date();
+      var Age = today.getTime() - DOB.getTime();
+      Age = Math.floor(Age / (1000 * 60 * 60 * 24 * 365.25));
+      document.getElementById("age").value = Age;
+    }
+
+    function updateTotalPrice() {
+      var total = 0;
+      for (var i = 1; i <= 8; i++) {
+        var select = document.getElementById("test" + i);
+        var selectedOption = select.options[select.selectedIndex];
+        var selectedPrice = parseFloat(selectedOption.getAttribute("data-price"));
+        if (!isNaN(selectedPrice)) {
+          total += selectedPrice;
+        }
+      }
+      var totalInput = document.getElementById("total");
+      totalInput.value = total.toFixed(2);
+    }
+
+
+    const form = document.getElementById('request_form');
+
+
+    form.addEventListener('submit', function(event) {
+
+      event.preventDefault();
+
+
+      const formData = new FormData(form);
+      console.log('hello')
+
+      fetch('utils/add_request.php', {
+          method: 'POST',
+          body: formData,
+        })
+        .then(() => {
+          Swal.fire({
+            title: "Request Edited",
+            icon: "success",
+          }).then(() => {
+            window.location.href = 'pending_requests.php'
+          })
+        })
+    });
+
     const user_id = <?php echo $_SESSION['id'] ?>;
-    const packages = <?php echo json_encode($packages) ?>;
-    const services = <?php echo json_encode($services) ?>;
+
+    const patient = <?php echo json_encode($patient); ?>;
+    document.addEventListener("DOMContentLoaded", () => {
+      const appointmentSelect = document.getElementById('appointment-select');
+      changeData();
+
+
+      function changeData() {
+
+        //$('#request_date').val(request.request_date.split(' ')[0]);
+        $('#last_name').val(patient.last_name);
+        $('#first_name').val(patient.first_name);
+        $('#gender').val(patient.gender);
+        $('#dob').val(patient.birthdate);
+        $('#age').val(patient.age)
+        $('#mobile_number').val(patient.mobile_number);
+        $('#province').html(`<option value="${patient.province}">${patient.province}</option>`);
+        $('#city').html(`<option value="${patient.city}">${patient.city}</option>`);
+        $('#barangay').html(`<option value="${patient.barangay}">${patient.barangay}</option>`);
+        $('#purok').val(patient.purok);
+        //$('#user_id').val(request.user_id)
+        //$('#total').val(request.total);
+        $('#subdivision').val(patient.subdivision);
+        $('#house_no').val(patient.house_no);
+        //for (var i = 0; i < request.services.length; i++) {
+        //  $(`#test${i+1}`).val(request.services[i].id).change();
+        //
+        //}
+
+
+
+      }
+    })
   </script>
-  <script src="../assets/js/admin/add_request.js"></script>
+  <script>
+    function validateNumber(event) {
+      const input = event.target;
+      const regex = /^[0-9]*$/; // Regular expression to match only numbers
+
+      if (!regex.test(input.value)) {
+        input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+      }
+
+      // Limit input to 11 digits
+      if (input.value.length > 11) {
+        input.value = input.value.slice(0, 11);
+      }
+    }
+  </script>
 
 
 

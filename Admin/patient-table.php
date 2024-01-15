@@ -125,14 +125,18 @@ $patients = $patientModel->getAllPatients(); ?>
                         <th scope="row"><?php echo $patient->id ?></th>
                         <td><?php echo strtoupper($patient->last_name) ?></td>
                         <td><?php echo strtoupper($patient->first_name) ?></td>
-                        <td></td>
+                        <td class="text-<?php if ($patient->status == "Active") {
+                                          echo "success";
+                                        } else {
+                                          echo "danger";
+                                        } ?>"><?php echo $patient->status ?></td>
 
                         <td>
                           <a href=<?php echo "patient-view.php?patient_id=" . $patient->id ?>>
                             <button type="button" class="btn btn-primary">
                               <i class="bi bi-eye-fill"></i>
                             </button></a>
-                          <a href="#" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
+                          <a href="<?php echo "edit_patient.php?patient_id=" . $patient->id ?>" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
                           <button class="btn btn-danger" onclick='<?php echo "deletePatient($patient->id)" ?>'> <i class="bi bi-trash3-fill"></i></button>
 
 

@@ -40,17 +40,17 @@ $pdf->Ln(5);
 // Table header
 
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(30, 10, 'Name:', 1);
-$pdf->SetFont('Arial', '', 12);
-$pdf->Cell(48, 10, $request->patient->getFullName(), 1);
+$pdf->Cell(15, 10, 'Name:', 1);
+$pdf->SetFont('Arial', '', 10);
+$pdf->Cell(60, 10, $request->patient->getFullName(), 1, 0, "C");
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(30, 10, 'Billing Date:', 1);
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(30, 10,  date("m/d/Y"), 1);
+$pdf->Cell(43, 10,  date("F/d/Y"), 1, 0, "C");
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(30, 10, 'Age:', 1);
+$pdf->Cell(20, 10, 'Age:', 1);
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(30, 10, $request->patient->age, 1);
+$pdf->Cell(30, 10, $request->patient->age, 1, 0, "C");
 $pdf->Ln(10);
 
 // Table rows

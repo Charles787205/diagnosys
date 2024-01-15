@@ -10,7 +10,11 @@ class PatientModel extends Database
 
   public function getAllPatients()
   {
-    $sql = 'SELECT * FROM patient';
+    $sql = "SELECT p.*, 
+    CASE WHEN r.request_date >= DATE_SUB(NOW(), INTERVAL 6 MONTH) THEN 'Active' ELSE 'Inactive' END AS status
+  FROM patient p
+  LEFT JOIN (SELECT patient_id, MAX(request_date) AS request_date FROM request GROUP BY patient_id) r
+  ON p.id = r.patient_id;";
     $result = $this->connection->query($sql);
 
     if ($result) {

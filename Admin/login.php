@@ -76,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </form>
                         <div class="social-icons">
                             <p>Don't have an Account? <a href="register.php">Register</a>.</p>
+                            <p>Forgot your password? <a href="forgot_password.php">Forgot Password</a>.</p>
                         </div>
                     </div>
                 </div>

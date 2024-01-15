@@ -2,6 +2,13 @@ DROP DATABASE diagnostic_db;
 CREATE DATABASE diagnostic_db;
 USE diagnostic_db;
 
+
+
+CREATE TABLE `security_questions` (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  question varchar(255) NOT NULL
+);
+
 CREATE TABLE `user` (
   id INT AUTO_INCREMENT PRIMARY KEY,
   first_name varchar(50) NOT NULL,
@@ -12,6 +19,15 @@ CREATE TABLE `user` (
   address varchar(255) NOT NULL,
   mobile_number varchar(12) NOT NULL
 );
+CREATE TABLE `user_questions` (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  question_id INT,
+  user_id INT,
+  answer varchar(255),
+  FOREIGN KEY (question_id) REFERENCES security_questions (id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+);
+
 CREATE TABLE employee (
   
   user_id INT NOT NULL PRIMARY KEY,
@@ -47,7 +63,6 @@ CREATE TABLE request (
   total DECIMAL(10, 2) NOT NULL, 
   comment VARCHAR(255) DEFAULT '',
   payment DECIMAL(10, 2) DEFAULT 0,
-  
   result_date DATETIME,
   FOREIGN KEY (patient_id) REFERENCES patient (id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE SET NULL
@@ -93,13 +108,46 @@ CREATE TABLE appointment_services(
   FOREIGN KEY (appointment_id) REFERENCES appointment (id) ON DELETE CASCADE,
   FOREIGN KEY (service_id) REFERENCES services (id)
 );
+CREATE TABLE package (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  package_name VARCHAR(255) NOT NULL
+);
+CREATE TABLE package_services (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  package_id INT NOT NULL,
+  service_id INT NOT NULL,
+  FOREIGN KEY (package_id) REFERENCES package(id) ON DELETE CASCADE,
+  FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
+);
 
+
+
+
+
+--insert security questions
+INSERT INTO security_questions (question) VALUES 
+  ("What is your mother's maiden name?"), 
+  ('What is the name of your first pet?'), 
+  ('What is your favorite color?'),
+  ('What is the name of the street you grew up on?'),
+  ('What is your favorite movie?'),
+  ('What is your favorite food?'),
+  ('What is your favorite book?'),
+  ('What is your favorite hobby?'),
+  ('What is your favorite animal?'),
+  ('What is your favorite song?');
+
+
+
+
+
+
+
+--services
 
 INSERT INTO `services` (`name`, `price`, `normal_value`) VALUES
 ('Glucose(Fasting Blood Sugar)', 100.00, '3.85-5.78 mmol/L'),
 ('Cholesterol total', 150.00, '2.60-4.90 mmol/L'),
-('Serum Uric Acid(SUA)', 150.00, '149-404 μmol/L'),
-('Serum Creatinine', 150.00, '53-97 μmol/L'),
 ('Hemoglobin Count', 50.00, '120-160 g/dL'),
 ('Hematocrit Count', 50.00, '38-47 %'),
 ('White Blood Cells', 50.00, '4.5-11.0x10^3/μL'),
@@ -130,7 +178,8 @@ INSERT INTO patient (
 
 INSERT INTO `user` (first_name, last_name, username, password, age, address, mobile_number)
 VALUES ('John', 'Doe', 'johndoe', 'password123', 30, '123 Main St', '1234567890');
-
+INSERT INTO `user_questions` (question_id, user_id, answer) VALUES 
+(1,1,'SOMEONE');
 
 INSERT INTO `request` (user_id, patient_id, status, total)
 VALUES

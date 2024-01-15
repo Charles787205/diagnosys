@@ -1,6 +1,8 @@
 <?php
 require_once '../Objects/Employee.php';
 require_once '../Models/EmployeeModel.php';
+$employeeModel = new EmployeeModel();
+$security_questions = $employeeModel->getSecurityQuestions();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lastname = $_POST['register_lastname'];
@@ -13,11 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mobile_number = $_POST['mobile_number'];
     $employee = new Employee();
     $employee->newEmployee($firstname, $lastname, $username, $password, $position, $age, $address, $mobile_number);
-    $employeeModel = new EmployeeModel();
+    $employee->addSecurityQuestion($_POST['security_question'], $_POST['register_answer']);
     $id = $employeeModel->registerEmployee($employee);
+    header('Location: dashboard.php');
+
+
+
     session_start();
     $_SESSION['id'] = $id;
-    header('Location: login.php');
 }
 
 ?>
@@ -43,6 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://kit.fontawesome.com/af562a2a63.js" crossorigin="anonymous"></script>
 
 </head>
+<style>
+    .border-red {
+        border: 1px solid red !important;
+    }
+</style>
 
 <body>
 
@@ -63,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
                         <form action="register.php" method="post" id='register-form'>
+
                             <input type="text" class="name" name="register_lastname" placeholder="Enter Lastname" value="" required>
                             <input type="text" class="name" name="register_firstname" placeholder="Enter Firstname" value="" required>
                             <input type="number" class="name" name="register_age" placeholder="Enter Age" value="" required>
@@ -74,6 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <option value="Information Desk Officer">Information Desk Officer</option>
                                 <option value="cashier">Cashier</option>
                             </select>
+                            <select class='form-select' name="security_question" placeholder="Security Question" id="security_question">
+                                <?php foreach ($security_questions as $security_question) : ?>
+                                    <option value=<?php echo $security_question['id']; ?>><?php echo $security_question['question']; ?></option>
+                                <?php endforeach ?>
+                            </select>
+                            <input type="text" class="name" name="register_answer" placeholder="Enter Answer" required>
                             <button name="registerButton" class="btn" onclick="submitForm(event)" style="background-color:dodgerblue">Register</button>
                         </form>
                         <div class="social-icons">
@@ -87,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </section>
     <!-- //form section start -->
 
-    <script src="js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function(c) {
             $('.alert-close').on('click', function(c) {
@@ -99,21 +116,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         function submitForm(e) {
-            e.preventDefault();
 
-            const form = document.getElementById('register-form');
-            console.log(form);
-            Swal.fire({
-                title: 'Registration Successful!',
-                text: 'You can now log in with your credentials.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Use vanilla JavaScript to submit the form
-                    document.getElementById('register-form').submit();
+            e.preventDefault();
+            console.log()
+            formInputs = $('#register-form').find('input');
+            let isError = false;
+            for (const input of formInputs) {
+                if ($(input).val() == "") {
+                    $(input).addClass("border-red")
+                    isError = true;
+                } else {
+                    console.log("hello")
+                    $(input).removeClass("border-red");
                 }
-            });
+            }
+            const form = $("#register-form").get(0);
+
+            if (!isError) {
+                Swal.fire({
+                    title: 'Registration Successful!',
+                    text: 'You can now log in with your credentials.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('register-form').submit();
+                    }
+                });
+            }
+
+
         }
     </script>
     <script>

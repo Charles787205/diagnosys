@@ -217,4 +217,63 @@ class ServicesModel extends Database
             return false;
         }
     }
+    public function addPackageServices($serviceIds, $packageName)
+    {
+        $this->checkConnection();
+
+        try {
+            // Start a transaction
+            $this->connection->begin_transaction();
+
+            // Insert the package
+            $sql = "INSERT INTO package (package_name) VALUES (?)";
+            $statement = $this->connection->prepare($sql);
+            $statement->bind_param("s", $packageName);
+            $statement->execute();
+
+            // Get the package ID
+            $packageId = $this->connection->insert_id;
+
+            // Insert mappings for each service ID
+            foreach ($serviceIds as $serviceId) {
+                $sql = "INSERT INTO package_services (package_id, service_id) VALUES (?, ?)";
+                $statement = $this->connection->prepare($sql);
+                $statement->bind_param("ii", $packageId, $serviceId);
+                $statement->execute();
+            }
+
+            // Commit the transaction
+            $this->connection->commit();
+
+            return true;
+        } catch (Exception $e) {
+            // Rollback the transaction on error
+            $this->connection->rollback();
+            throw $e;
+        }
+    }
+    public function getAllPackages()
+    {
+        $this->checkConnection();
+
+        $sql = "SELECT p.id AS package_id, p.package_name, GROUP_CONCAT(s.id) AS service_ids
+            FROM package p
+            JOIN package_services ps ON p.id = ps.package_id
+            JOIN services s ON ps.service_id = s.id
+            GROUP BY p.id";
+
+        $result = $this->connection->query($sql);
+        $packages = array();
+
+        while ($row = $result->fetch_assoc()) {
+            $package = array();
+            $package['id'] = $row['package_id'];
+            $package['name'] = $row['package_name'];
+            $package['service_ids'] = explode(',', $row['service_ids']); // Convert string of IDs to array
+            $packages[] = $package;
+        }
+
+        $this->close();
+        return $packages;
+    }
 }

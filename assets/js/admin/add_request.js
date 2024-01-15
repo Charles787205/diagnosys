@@ -108,3 +108,22 @@ function validateNumber(event) {
     input.value = input.value.slice(0, 11);
   }
 }
+
+function fillPackageServices() {
+  const packageSelect = $("#package-select");
+  console.log(packageSelect);
+  console.log(packageSelect.get(0).value);
+  console.log(packages);
+  const selectedPackage = packages.find((package) => package.id == 1);
+  console.log(selectedPackage);
+  const servicesSelect = $("[name='request_test[]']");
+  for (const select of servicesSelect) {
+    console.log(select);
+    select.selectedIndex = 0;
+  }
+
+  selectedPackage.service_ids.map((service_id, index) => {
+    servicesSelect[index].selectedIndex = service_id;
+  });
+  updateTotalPrice();
+}
