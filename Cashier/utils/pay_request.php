@@ -9,6 +9,9 @@ $requestModel = new RequestModel();
 
 $id = $jsonData['id'];
 $payment = $jsonData['payment'];
-$requestModel->updateRequestStatus($id, Request::PAID, $payment);
+$insurance = $jsonData['insurance'];
+$company = $jsonData['company'];
+$account_number = $jsonData['account_number'];
+$requestModel->payRequest($payment, $id, $insurance, $company, $account_number);
 
 echo json_encode('Success');

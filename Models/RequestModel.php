@@ -168,7 +168,10 @@ class RequestModel extends Database
   public function getRequestById($id)
   {
     $this->checkConnection();
-    $sql = 'SELECT * FROM request WHERE id = ?';
+    $sql = 'SELECT r.*, p.amount, p.account_number, p.insurance, p.company, p.date_paid 
+            FROM request r
+            LEFT JOIN payment p ON r.payment = p.id
+            WHERE r.id = ?';
 
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('i', $id);
@@ -177,10 +180,15 @@ class RequestModel extends Database
       $result = $statement->get_result();
       $request = $result->fetch_object('Request');
       $this->close();
+
+      // Assuming you have Patient and Services models
       $patientModel = new PatientModel();
       $request->patient = $patientModel->getPatientById($request->patient_id);
       $servicesModel = new ServicesModel();
       $request->services = $servicesModel->getServicesByRequestId($request->id);
+
+      // Add payment date to Request object
+      $request->payment_date = $request->date_paid; // Assuming "date_paid" is in Request object
 
       return $request;
     } else {
@@ -188,6 +196,7 @@ class RequestModel extends Database
       return false;
     }
   }
+
 
   public function getRequestsByStatus($status)
   {
@@ -383,44 +392,7 @@ class RequestModel extends Database
     }
   }
 
-  //public function getRequestToday1()
-  //{
-  //  $this->checkConnection();
-  //  $sql = 'SELECT * FROM request WHERE DATE(request_date) = CURDATE()';
-  //
-  //  $statement = $this->connection->prepare($sql);
-  //
-  //  if ($statement->execute()) {
-  //    $result = $statement->get_result();
-  //    $data = $result->fetch_all(MYSQLI_ASSOC);
-  //    $this->close();
-  //
-  //    $requests = array();
-  //    foreach ($data as $d) {
-  //      $request = new Request();
-  //      $request->id = $d['id'];
-  //      $request->user_id = $d['user_id'];
-  //      $request->patient_id = $d['patient_id'];
-  //      $request->status = $d['status'];
-  //      $request->request_date = $d['request_date'];
-  //      $request->total = $d['total'];
-  //
-  //      // Include patient and services information
-  //      $patientModel = new PatientModel();
-  //      $servicesModel = new ServicesModel();
-  //      $request->patient = $patientModel->getPatientById($request->patient_id);
-  //      $request->services = $servicesModel->getServicesByRequestId($request->id);
-  //
-  //      $requests[] = $request;
-  //    }
-  //
-  //
-  //    return $requests;
-  //  } else {
-  //    // Handle the case where the query execution fails
-  //    return false;
-  //  }
-  //}
+
   public function getRequestToday()
   {
     $this->checkConnection();
@@ -746,6 +718,98 @@ class RequestModel extends Database
     } else {
       // Handle the case where the query execution fails
       return false;
+    }
+  }
+
+  //new pay request function instead of the update request 
+  function payRequest($amount, $requestId, $insurance, $company, $account_number)
+  {
+    $this->checkConnection();
+
+    $this->connection->begin_transaction();
+
+    try {
+      $paymentStmt = $this->connection->prepare("INSERT INTO payment (amount, insurance, company, account_number) VALUES (?, ?, ?, ?)");
+      $paymentStmt->bind_param('dsss', $amount, $insurance, $company, $account_number);
+      $paymentStmt->execute();
+
+      $paymentId = $paymentStmt->insert_id;
+
+      $requestStmt = $this->connection->prepare("UPDATE request SET status = 'Paid', payment = ?, request_date = NOW() WHERE id = ?");
+      $requestStmt->bind_param('ii', $paymentId, $requestId);
+      $requestStmt->execute();
+
+      $this->connection->commit();
+
+      echo "Request paid successfully";
+    } catch (Exception $e) {
+      $this->connection->rollback();
+
+      echo "Error processing payment: " . $e->getMessage();
+    }
+  }
+  function updateRessult($data)
+  {
+    $this->checkConnection();
+    foreach ($data as $item) {
+      $requestId = $item['request_id'];
+      $serviceId = $item['service_id'];
+      $test = $item['test'];
+      $result = $item['result'];
+      $normalValue = $item['normal_value'];
+
+      $this->updateResultInDatabase($requestId, $serviceId, $result, $normalValue, $test);
+    }
+    $sql = "UPDATE `request` SET `result_date` = NOW() WHERE `id` = ?";
+    $statement = $this->connection->prepare($sql);
+
+
+    $statement->bind_param("i", $requestId);
+
+    $statement->execute();
+  }
+  function addResults($results)
+  {
+    $this->checkConnection();
+
+    // Begin transaction for data integrity
+    $this->connection->begin_transaction();
+
+    try {
+      foreach ($results as $item) {
+        $requestId = $item['request_id'];
+        $serviceId = $item['service_id'];
+        $test = $item['test'];
+        $result = $item['result'];
+
+        // Insert the result into the request_result table
+        $sql = 'INSERT INTO request_result (request_id, service_id, name, result) VALUES (?, ?, ?, ?)';
+        $statement = $this->connection->prepare($sql);
+        $statement->bind_param('iiss', $requestId, $serviceId, $test, $result);
+
+        if (!$statement->execute()) {
+          throw new Exception("Error adding result for request ID $requestId: " . $statement->error);
+        }
+      }
+
+      // Update request date if any results were added
+      if (!empty($results)) {
+        $sql = "UPDATE `request` SET `result_date` = NOW() WHERE `id` = ?";
+        $statement = $this->connection->prepare($sql);
+        $statement->bind_param("i", $requestId); // Use the last request ID from the loop
+        $statement->execute();
+      }
+
+      // Commit the transaction if all queries executed successfully
+      $this->connection->commit();
+
+      echo "Results added successfully";
+    } catch (Exception $e) {
+      // Rollback the transaction on error
+      $this->connection->rollback();
+
+      // Handle the error appropriately (e.g., log, throw exception, etc.)
+      throw $e;  // Re-throw the exception for further handling
     }
   }
 }

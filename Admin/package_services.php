@@ -47,10 +47,12 @@ $services = $servicesModel->getAllServices();
                 <div class="card">
                   <div class="card-body">
                     <h5 class="card-title">Add Package Service</h5>
-                    <form action="" class="row g-3" onsubmit="handleAddButtonClick(event)">
+                    <form action="" class="row g-3" onsubmit="handlePackageSubmit(event)">
                       <div class="col-12">
                         <label for="inputNanme4" class="form-label">Service Name</label>
                         <input type="text" class="form-control" id="add_service_name" />
+                        <label for="inputNanme4" class="form-label">Price</label>
+                        <input type="text" class="form-control" id="add_service_price" />
                       </div>
 
                       <div class="text-center">
@@ -60,6 +62,9 @@ $services = $servicesModel->getAllServices();
                         <button type="reset" class="btn btn-secondary">
                           Reset
                         </button>
+                        <a href="package_services_list.php" class="btn btn-secondary">
+                          See package list
+                        </a>
                       </div>
                     </form>
                   </div>
@@ -134,6 +139,9 @@ $services = $servicesModel->getAllServices();
   <!-- Template Main JS File -->
   <script src="../assets/js/admin/package_services.js"></script>
   <script src="../assets/js/main.js"></script>
+  <script>
+
+  </script>
 </body>
 
 </html>

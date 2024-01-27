@@ -139,6 +139,15 @@ $requests = $requestModel->getRequestsByStatus(Request::PAID); ?>
                   </tbody>
                 </table>
               </div>
+              <div class="container">
+                <div class="col-sm-4" style="margin-left:auto">
+                  <label for="" class="row" style="  font-size: 30px;">Total </label>
+                  <label class="col" for="" style=" font-size: 40px;">&#x20B1;</label>
+                  <input class="col-sm-10" type="text" style="border:none; font-size: 30px; text-indent: 45px;" id="total" class="form-control" value="0.00" readonly>
+
+                </div>
+
+              </div>
             </div>
           </div>
 

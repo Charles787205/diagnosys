@@ -28,9 +28,8 @@ class ServicesModel extends Database
                 services.id AS service_id,
                 services.name AS service_name,
                 services.price,
-                services.normal_value,
-                request_services.test,
-                request_services.result
+                services.normal_value
+                
                 
             FROM
                 request_services
@@ -46,16 +45,18 @@ class ServicesModel extends Database
         if ($statement->execute()) {
             $result = $statement->get_result();
             $data = $result->fetch_all(MYSQLI_ASSOC);
-            $this->close();
+
             foreach ($data as $d) {
                 $service = new Services();
                 $service->name = $d['service_name'];
                 $service->id = $d['service_id'];
                 $service->price = $d['price'];
-                $service->result = $d['result'];
-                $service->test = $d['test'];
+
                 $service->normal_value = $d['normal_value'];
                 $services[] = $service;
+            }
+            foreach ($services as $service) {
+                $service->results = $this->getResultsByServiceAndRequestId($service->id, $id);
             }
 
             return $services;
@@ -64,6 +65,25 @@ class ServicesModel extends Database
 
             return false;
         }
+    }
+    function getResultsByServiceAndRequestId($serviceId, $requestId)
+    {
+        $this->checkConnection();
+
+        $sql = "SELECT * FROM request_result WHERE service_id = ? AND request_id = ?";
+        $statement = $this->connection->prepare($sql);
+        $statement->bind_param("ii", $serviceId, $requestId);
+
+        if (!$statement->execute()) {
+            throw new Exception("Error fetching results: " . $statement->error);
+        }
+
+        $result = $statement->get_result();
+        $results = $result->fetch_all(MYSQLI_ASSOC);
+
+        $statement->close();
+
+        return $results;
     }
     public function getServicesByAppointmentId($id)
     {
@@ -217,7 +237,7 @@ class ServicesModel extends Database
             return false;
         }
     }
-    public function addPackageServices($serviceIds, $packageName)
+    public function addPackageServices($serviceIds, $packageName, $total_price)
     {
         $this->checkConnection();
 
@@ -226,9 +246,9 @@ class ServicesModel extends Database
             $this->connection->begin_transaction();
 
             // Insert the package
-            $sql = "INSERT INTO package (package_name) VALUES (?)";
+            $sql = "INSERT INTO package (package_name, package_price) VALUES (?,?)";
             $statement = $this->connection->prepare($sql);
-            $statement->bind_param("s", $packageName);
+            $statement->bind_param("si", $packageName, $total_price);
             $statement->execute();
 
             // Get the package ID
@@ -256,7 +276,7 @@ class ServicesModel extends Database
     {
         $this->checkConnection();
 
-        $sql = "SELECT p.id AS package_id, p.package_name, GROUP_CONCAT(s.id) AS service_ids
+        $sql = "SELECT p.id AS package_id, p.package_name, p.package_price, GROUP_CONCAT(s.id) AS service_ids
             FROM package p
             JOIN package_services ps ON p.id = ps.package_id
             JOIN services s ON ps.service_id = s.id
@@ -269,11 +289,76 @@ class ServicesModel extends Database
             $package = array();
             $package['id'] = $row['package_id'];
             $package['name'] = $row['package_name'];
+            $package['price'] = $row['package_price'];
             $package['service_ids'] = explode(',', $row['service_ids']); // Convert string of IDs to array
             $packages[] = $package;
         }
 
         $this->close();
         return $packages;
+    }
+    public function editPackageService($packageService)
+    {
+        $this->checkConnection();
+
+        try {
+            // Start a transaction
+            $this->connection->begin_transaction();
+
+            // Validate and extract data from $packageService
+            if (!isset($packageService['id'], $packageService['name'], $packageService['price'])) {
+                throw new Exception("Invalid package service data provided.");
+            }
+            $packageId = $packageService['id'];
+            $packageName = $packageService['name'];
+            $totalPrice = $packageService['price'];
+
+            // Update the package details with only editable fields
+            $sql = "UPDATE package SET package_name = ?, package_price = ? WHERE id = ?";
+            $statement = $this->connection->prepare($sql);
+            $statement->bind_param("sii", $packageName, $totalPrice, $packageId);
+            $statement->execute();
+
+            // No need to modify service mappings, as they aren't editable
+
+            // Commit the transaction
+            $this->connection->commit();
+
+            return true;
+        } catch (Exception $e) {
+            // Rollback the transaction on error
+            $this->connection->rollback();
+            throw $e;
+        }
+    }
+    public function deletePackageService($id)
+    {
+        $this->checkConnection();
+
+        try {
+            // Start a transaction
+            $this->connection->begin_transaction();
+
+            // Delete mappings in package_services table
+            $sql = "DELETE FROM package_services WHERE package_id = ?";
+            $statement = $this->connection->prepare($sql);
+            $statement->bind_param("i", $id);
+            $statement->execute();
+
+            // Delete the package itself
+            $sql = "DELETE FROM package WHERE id = ?";
+            $statement = $this->connection->prepare($sql);
+            $statement->bind_param("i", $id);
+            $statement->execute();
+
+            // Commit the transaction
+            $this->connection->commit();
+
+            return true;
+        } catch (Exception $e) {
+            // Rollback the transaction on error
+            $this->connection->rollback();
+            throw $e;
+        }
     }
 }

@@ -20,6 +20,8 @@ function FindAge() {
 }
 
 function updateTotalPrice() {
+  $("#package-select");
+  console.log($("#package-select").val("Select Package"));
   var total = 0;
   for (var i = 1; i <= 8; i++) {
     var select = document.getElementById("test" + i);
@@ -111,19 +113,21 @@ function validateNumber(event) {
 
 function fillPackageServices() {
   const packageSelect = $("#package-select");
-  console.log(packageSelect);
-  console.log(packageSelect.get(0).value);
+
   console.log(packages);
-  const selectedPackage = packages.find((package) => package.id == 1);
-  console.log(selectedPackage);
+  const packageId = packageSelect.get(0).value;
+  const selectedPackage = packages.find((package) => package.id == packageId);
+
   const servicesSelect = $("[name='request_test[]']");
   for (const select of servicesSelect) {
-    console.log(select);
     select.selectedIndex = 0;
   }
 
   selectedPackage.service_ids.map((service_id, index) => {
     servicesSelect[index].selectedIndex = service_id;
   });
-  updateTotalPrice();
+  var totalInput = document.getElementById("total");
+
+  totalInput.value = parseInt(selectedPackage.price).toFixed(2);
+  console.log(typeof selectedPackage.price);
 }

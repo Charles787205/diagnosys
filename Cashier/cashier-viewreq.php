@@ -152,7 +152,8 @@ $request = $requestModel->getRequestById($_GET['request_id']);
               </div>
               <div class="col-md-6">
                 <label for="inputPassword5" class="form-label">Total Amount</label>
-                <input type="text" class="form-control" id="inputPassword5" value="<?php echo $request->total ?>" readonly />
+                <label class="col" for="" style=" position:absolute; margin-top:35px; margin-left:-90px; font-size: 20px; ">&#x20B1;</label>
+                <input type="text" class="form-control" id="inputPassword5" style="text-indent: 25px;" value="<?php echo $request->total ?>.00" readonly />
               </div>
 
               <hr />
@@ -183,12 +184,21 @@ $request = $requestModel->getRequestById($_GET['request_id']);
           </div>
           <form method="POST" id="payment-form" onsubmit="submitForm(event)">
             <div class="modal-body">
+              <label for="inputPassword5" class="form-label">Plan/Acct Number</label>
+              <input type="text" class="form-control" placeholder="Input Plan/Acct Number " name="account_number" />
+              <label for="inputPassword5" class="form-label">Company</label>
+              <input type="text" class="form-control" placeholder="Input Company " name="company" />
+              <label for="inputPassword5" class="form-label">Insurance</label>
+              <input type="text" class="form-control" placeholder="Input Insurance " name="insurance" />
               <label for="inputPassword5" class="form-label">Money</label>
-              <input type="number" class="form-control" id="number1" oninput="calculateChange()" placeholder="Input Money" name="payment" required />
+              <label class="col" for="" style=" position:absolute; margin-top:35px; margin-left:-45px; font-size: 20px;  ">&#x20B1;</label>
+              <input type="number" class="form-control" style="text-indent:10px;" id="number1" oninput="calculateChange()" placeholder="Input Money" name="payment" required />
               <label for="inputPassword5" class="form-label">Total Amount</label>
-              <input type="number" name="total_amount" class="form-control" id="number2" value="<?php echo $request->total ?>" readonly />
+              <label class="col" for="" style=" position:absolute; margin-top:35px; margin-left:-95px; font-size: 20px;  ">&#x20B1;</label>
+              <input type="number" name="total_amount" style="text-indent:10px;" class="form-control" id="number2" value="<?php echo $request->total ?>.00" readonly />
               <label for="inputPassword5" class="form-label">Change</label>
-              <input type="number" class="form-control" id="result" readonly />
+              <label class="col" for="" style=" position:absolute; margin-top:35px; margin-left:-55px; font-size: 20px;  ">&#x20B1;</label>
+              <input type="number" class="form-control" value="0.00" style="text-indent:10px;" id="result" readonly />
             </div>
 
             <div class="modal-footer">
@@ -219,11 +229,17 @@ $request = $requestModel->getRequestById($_GET['request_id']);
       const paymentForm = e.target
       const change = paymentForm.elements['result'].value
       const payment = paymentForm.elements['payment'].value
+      const company = paymentForm.elements['company'].value
+      const insurance = paymentForm.elements['insurance'].value
+      const accountNumber = paymentForm.elements['account_number'].value
       if (change >= 0) {
         fetch('utils/pay_request.php', {
           method: 'POST',
           body: JSON.stringify({
             payment: payment,
+            company: company,
+            insurance: insurance,
+            account_number: accountNumber,
             id: <?php echo $request->id ?>,
           })
         }).then(() => {

@@ -202,18 +202,30 @@ $services = $servicesModel->getAllServices();
                           <label>Building/ House Number</label>
                           <input type="text" id="house_no" name="appointment_house_no" placeholder="Enter your Building/ House Number">
                         </div>
+                       
+
                         <div class="input-field">
-                          <label>Appointment Date</label>
-                          <input type="date" name="appointment_date" id="appointment_date" placeholder="Enter your Purok" required>
+                          <label>Select type of ID</label>
+                          <select required>
+                            <option disabled selected>Select ID</option>
+                            <option value="">Voter's ID</option>
+                            <option value="">Drivers License</option>
+                            <option value="">Philippine Identification Card</option>
+                            <option value="">Barangay ID</option>
+                            <option value="">Passport</option>
+                          </select>
                         </div>
 
                         <div class="form-group">
-
                           <label for="inputNumber" class="col-sm-8 col-form-label ">Upload Image of your ID</label>
                           <div class="col-sm-12">
                             <input class="form-control" name="fileToUpload" type="file" id="fileToUpload">
                           </div>
 
+                        </div>
+                        <div class="input-field">
+                          <label>Appointment Date</label>
+                          <input type="date" name="appointment_date" id="appointment_date" placeholder="Enter your Purok" required>
                         </div>
 
 

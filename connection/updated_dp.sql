@@ -52,6 +52,14 @@ CREATE TABLE patient (
   gender varchar(11) NOT NULL
   
 );
+CREATE TABLE payment (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  account_number VARCHAR(255),
+  amount DECIMAL (10,2) NOT NULL,
+  insurance VARCHAR(255) DEFAULT '',
+  company VARCHAR(255) DEFAULT '',
+  date_paid DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 
 CREATE TABLE request (
@@ -62,7 +70,7 @@ CREATE TABLE request (
   request_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   total DECIMAL(10, 2) NOT NULL, 
   comment VARCHAR(255) DEFAULT '',
-  payment DECIMAL(10, 2) DEFAULT 0,
+  payment INT DEFAULT NULL,
   result_date DATETIME,
   FOREIGN KEY (patient_id) REFERENCES patient (id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE SET NULL
@@ -81,11 +89,20 @@ CREATE TABLE `services` (
 CREATE TABLE request_services(
   request_id INT NOT NULL,
   service_id INT NOT NULL,
-  result VARCHAR(255) DEFAULT '',
-  test VARCHAR(255) DEFAULT '',
   FOREIGN KEY (request_id) REFERENCES request (id) ON DELETE CASCADE,
   FOREIGN KEY (service_id) REFERENCES services (id)
 );
+
+CREATE TABLE request_result(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  request_id INT NOT NULL,
+  service_id INT NOT NULL,
+  name VARCHAR(255),
+  result VARCHAR(255) DEFAULT NULL,
+  FOREIGN KEY (request_id) REFERENCES request (id) ON DELETE CASCADE,
+  FOREIGN KEY (service_id) REFERENCES services (id)
+);
+
 
 
 CREATE TABLE appointment (
@@ -110,7 +127,8 @@ CREATE TABLE appointment_services(
 );
 CREATE TABLE package (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  package_name VARCHAR(255) NOT NULL
+  package_name VARCHAR(255) NOT NULL,
+  package_price INT NOT NULL
 );
 CREATE TABLE package_services (
   id INT AUTO_INCREMENT PRIMARY KEY,

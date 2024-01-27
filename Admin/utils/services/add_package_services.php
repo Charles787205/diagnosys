@@ -13,12 +13,13 @@ $services = $jsonData['services'];
 $serviceModel = new ServicesModel();
 
 $service_ids = [];
+$total_price = intVal($jsonData['price']);
 foreach ($services as $service) {
   $service_ids[] = intval($service);
 }
 
 
-$isSuccess = $serviceModel->addPackageServices($service_ids, $name);
+$isSuccess = $serviceModel->addPackageServices($service_ids, $name, $total_price);
 if ($isSuccess) {
   echo json_encode(["message" => "Success"]);
 } else {

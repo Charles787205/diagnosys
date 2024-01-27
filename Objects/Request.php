@@ -14,7 +14,7 @@ class Request
     public $services;
     public Float $total;
     public ?int $user_id;
-    public $comment, $payment;
+    public $comment, $payment, $account_number, $insurance, $company, $date_paid;
 
     public function getTotal()
     {

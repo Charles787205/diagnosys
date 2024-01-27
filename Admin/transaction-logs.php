@@ -71,7 +71,7 @@ $date_now_format = date_create_from_format("F d, Y", $date_now);
               <div class="col-12">
                 <div class="container">
                   <div class="flex-container">
-                    <button type="button" class="btn btn-secondary" style="right: 0;"><i class="bi bi-printer"></i> Print</button>
+                    <button type="button" class="btn btn-secondary" style="right: 0;" onclick="onPrint()"><i class="bi bi-printer"></i> Print</button>
 
                   </div>
                   <div class="filter" ">
@@ -183,6 +183,11 @@ $date_now_format = date_create_from_format("F d, Y", $date_now);
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
   <script src="../assets/js/main.js"></script>
+  <script>
+    function onPrint() {
+      location.href = "utils/printing/transaction_logs.php"
+    }
+  </script>
 </body>
 
 </html>
