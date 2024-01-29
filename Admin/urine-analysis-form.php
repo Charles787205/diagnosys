@@ -15,7 +15,7 @@ $paidRequests = [];
 $service_id = null;
 foreach ($requests as $request) {
     foreach ($request->services as $service) {
-        if ($service->name == "Urinalysis" && count($service->results) == 0) {
+        if ($service->name == "Urine Analysis" && count($service->results) == 0) {
             $paidRequests[] = $request;
             $service_id = $service->id;
         }

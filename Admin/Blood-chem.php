@@ -17,7 +17,7 @@ foreach ($requests as $request) {
   $services = [];
   foreach ($request->services as $service) {
     $name = $service->name;
-    if (($name == "FBS" || $name == "Cholesterol" || str_contains($name, "Serum Uric Acid") || str_contains($name, "Creatinine")) && count($service->results) == 0) {
+    if (($name == "FBS" || str_contains($name, "Cholesterol") || str_contains($name, "Serum Uric Acid") || str_contains($name, "Creatinine")) && count($service->results) == 0) {
       $services[] = $service;
     }
   }
@@ -261,13 +261,15 @@ foreach ($requests as $request) {
                   </tr>
                   <tr>
                     <td scope="row">Mode of Test</td>
-                    <th data-type='request_date' class='table-data'>Quantitative </th>
+                    <th data-type='' class='table-data'>Quantitative </th>
                     <td>Time</td>
                     <th>10:20am</th>
                   </tr>
                   <tr>
                     <td scope="row">Examination Taken</td>
-                    <th data-type='request_date' class='table-data'>FBS,Cholesterol, SUA, Creatinine</th>
+                    <td data-type='services' class='table-data'>
+                      <b>FBS,Cholesterol, SUA, Creatinine</b>
+                    </td>
                     <td>Specimen</td>
                     <th>Serum</th>
                   </tr>
@@ -299,21 +301,19 @@ foreach ($requests as $request) {
                       <input class="service-select form-control" aria-label="Default select example" data-type="service_name" readonly />
                     </div>
                     <div class="col-md-2">
-                      <input type="text" class="form-control" data-type="result">
+                      <input type="text" class="form-control" data-type="result" name="result">
                     </div>
                     <div class="col-md-4">
 
                       <input type="text" class="form-control" data-type="normal_value" readonly>
                     </div>
-                    <div class="col-md-2">
-                      <button onclick="delete_row('1')" type="button" class="btn btn-danger">Delete</button>
-                    </div>
+
 
                   </div>
                 </form>
               </div>
               <div class="card-footer text-end">
-                <button onclick="add_more()" class="btn btn-dark">Add More</button>
+
                 <button onclick="submit_form()" id="#third" class="btn btn-info">Save</button>
               </div>
             </div>

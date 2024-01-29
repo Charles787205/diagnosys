@@ -164,15 +164,15 @@ INSERT INTO security_questions (question) VALUES
 --services
 
 INSERT INTO `services` (`name`, `price`, `normal_value`) VALUES
-('Glucose(Fasting Blood Sugar)', 100.00, '3.85-5.78 mmol/L'),
-('Cholesterol total', 150.00, '2.60-4.90 mmol/L'),
-('Hemoglobin Count', 50.00, '120-160 g/dL'),
-('Hematocrit Count', 50.00, '38-47 %'),
-('White Blood Cells', 50.00, '4.5-11.0x10^3/μL'),
- ('Serum Uric Acid (Female)', 150 , '149-404'),       
+('Serum Uric Acid (Female)', 150 , '149-404'),       
 (' Serum Creatinine (Female)', 180 , '53-97 '),           
- ('Serum Uric Acid (Male)', 150 , '214-458'),         
- ('Serum Creatinine (Male)', 180 , '80-115');
+('Serum Uric Acid (Male)', 150 , '214-458'),         
+('Serum Creatinine (Male)', 180 , '80-115'),
+('Cholesterol total', 150.00, '2.60-4.90 mmol/L'),
+('Hemoglobin Determination', 50.00, '120-160 g/dL'),
+('Urine Analysis', 50.00, '120-160 g/dL'),
+('Complete Blood Count', 50.00, '120-160 g/dL'),
+('Blood Chemistry and SGPT', 50.00, '120-160 g/dL');
 
 INSERT INTO patient (
   first_name,

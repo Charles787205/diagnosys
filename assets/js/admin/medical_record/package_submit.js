@@ -26,7 +26,7 @@ function saveResult() {
       title: "Result Saved",
       icon: "success",
     }).then(() => {
-      location.href("patient-table.php");
+      location.href = "patient-table.php";
     });
   });
 }

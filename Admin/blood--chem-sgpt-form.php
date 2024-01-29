@@ -10,8 +10,24 @@ $employee = $employeeModel->getEmployeeById($_SESSION['id']);
 $patientModel = new PatientModel();
 $patients = [];
 $requestModel = new RequestModel();
-$paidRequests = $requestModel->getRequestsByStatus(Request::PAID);
-
+$requests = $requestModel->getRequestsByStatus(Request::PAID);
+$paidRequests = [];
+$service_id;
+foreach ($requests as $request) {
+    $services = [];
+    foreach ($request->services as $service) {
+        $name = $service->name;
+        if (($name == "Blood Chemistry and SGPT")) {
+            $service->name = "Blood Chemistry";
+            $services[] = $service;
+            $service_id = $service->id;
+        }
+    }
+    $request->services = $services;
+    if (count($services) != 0) {
+        $paidRequests[] = $request;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -246,13 +262,13 @@ $paidRequests = $requestModel->getRequestsByStatus(Request::PAID);
                                     </tr>
                                     <tr>
                                         <td scope="row">Mode of Test</td>
-                                        <th data-type='request_date' class='table-data'>Quantitative </th>
+                                        <th data-type='' class='table-data'>Quantitative </th>
                                         <td>Time</td>
                                         <th>10:20am</th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Examination Taken</td>
-                                        <th data-type='request_date' class='table-data'>FBS,Cholesterol, SUA, Creatinine</th>
+                                        <th data-type='' class='table-data'>Blood Chemistry and SGPT</th>
                                         <td>Specimen</td>
                                         <th>Serum</th>
                                     </tr>
@@ -284,7 +300,7 @@ $paidRequests = $requestModel->getRequestsByStatus(Request::PAID);
                                             <input class="service-select form-control" aria-label="Default select example" data-type="service_name" readonly />
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" data-type="result">
+                                            <input type="text" class="form-control" data-type="result" name="blood_chemistry">
                                         </div>
                                         <div class="col-md-4">
 
@@ -338,7 +354,7 @@ $paidRequests = $requestModel->getRequestsByStatus(Request::PAID);
                                             <input type="text" style="text-align: center;" value="SGPT(Serum Glutamate Pyruvate Transaminase)" class="form-control" readonly>
                                         </div>
                                         <div class="col-sm-2 mt-3">
-                                            <input type="text" style="text-align: center;" value="" class="form-control">
+                                            <input type="text" style="text-align: center;" value="" class="form-control" data-type="result" name="sgpt">
                                         </div>
                                         <div class="col-sm-5 mt-3">
                                             <input type="text" style="text-align: center;" value="<34 U/L" class="form-control" readonly>
@@ -351,8 +367,8 @@ $paidRequests = $requestModel->getRequestsByStatus(Request::PAID);
 
                             </div>
                             <div class="card-footer text-end">
-                                <button onclick="add_more()" class="btn btn-dark">Add More</button>
-                                <button onclick="submit_form()" id="#third" class="btn btn-info">Save</button>
+
+                                <button onclick="saveResult()" id="#third" class="btn btn-info">Save</button>
                             </div>
                         </div>
                     </div>
@@ -378,8 +394,10 @@ $paidRequests = $requestModel->getRequestsByStatus(Request::PAID);
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         const requests = <?php echo json_encode($paidRequests) ?>;
+        const serviceId = <?php echo $service_id ?>
     </script>
     <script src="../assets/js/admin/medicalRecord.js"></script>
+    <script src="../assets/js/admin/medical_record/package_submit.js"></script>
 
 
 </body>

@@ -43,10 +43,11 @@ function delete_row_dynamic(rowId) {
 function submit_form() {
   const inputRows = document.getElementsByClassName("input-row");
   const results = [];
+  console.log("Hell");
   for (const row of inputRows) {
     const idInput = row.querySelector("[name=service_id]");
     console.log(idInput.value);
-    const resultInput = row.querySelector('[data-type="result"]');
+    const resultInput = row.querySelector('[name="result"]');
 
     const normalValueInput = row.querySelector('[data-type="normal_value"]');
     const requestSelect = document.getElementById("patient-select");
@@ -58,8 +59,8 @@ function submit_form() {
 
     const data = {
       service_id: service_id,
-      result: resultInput.value,
-      normal_value: normalValueInputValue,
+      result: resultInputValue,
+      test: "result",
       request_id: requestId,
     };
 
@@ -76,7 +77,7 @@ function submit_form() {
       title: "Result Saved",
       icon: "success",
     }).then(() => {
-      location.href("patient-table.php");
+      location.href = "patient-table.php";
     });
   });
 }
@@ -100,7 +101,9 @@ document.addEventListener("DOMContentLoaded", function () {
           $(row).remove();
         }
         for (const service of request.services) {
-          add_more(service);
+          try {
+            add_more(service);
+          } catch (e) {}
         }
       }
 
@@ -134,6 +137,12 @@ document.addEventListener("DOMContentLoaded", function () {
             break;
           case "request_date":
             data.textContent = chosenRequest.request_date;
+            break;
+          case "services":
+            data.innerHTML = `<b>${chosenRequest.services.map(
+              (service) => `${service.name} `
+            )}</b>`;
+
             break;
         }
       }

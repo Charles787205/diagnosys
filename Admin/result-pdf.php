@@ -4,6 +4,19 @@ require('../fpdf186/fpdf.php');
 require '../Models/RequestModel.php';
 $requestModel = new RequestModel();
 $request = $requestModel->getRequestById($_GET['request_id']);
+
+$services = [];
+foreach ($request->services as $service) {
+  $name = $service->name;
+  if (($name == "FBS" || str_contains($name, "Cholesterol") || str_contains($name, "Serum Uric Acid") || str_contains($name, "Creatinine"))) {
+    $services[] = $service;
+  }
+}
+$request->services = $services;
+if (count($services) != 0) {
+  $paidRequests[] = $request;
+}
+
 $pdf = new FPDF('P', 'mm', 'Letter');
 
 $pdf->AddPage();
@@ -115,13 +128,20 @@ $pdf->Cell(70, 8, 'Normal Value', 1, 0, 'C');
 $pdf->Ln(8);
 $pdf->SetTextColor(0, 0, 0);
 foreach ($request->services as $service) {
-
+  $pdf->SetFont('Arial', '', 14);
+  $name = str_replace("(Female)", "", $service->name);
+  $name = str_replace("(Male)", '', $name);
   $pdf->SetTextColor(50, 200, 50);
-  $pdf->Cell(70, 8, $service->name, 1, 0, 'C');
+  $pdf->Cell(70, 8, $name, 1, 0, 'C');
 
   $pdf->SetTextColor(0, 0, 0);
   $pdf->SetFont('Arial', 'B', 14);
-  $pdf->Cell(55, 8, $service->result, 1, 0, 'C');
+  if (count($service->results) == 0) {
+    $pdf->Cell(55, 8, "N/A", 1, 0, 'C');
+  } else {
+
+    $pdf->Cell(55, 8, $service->results[0]["result"], 1, 0, 'C');
+  }
 
   $pdf->SetFont('Arial', '', 14);
   $pdf->SetTextColor(50, 200, 50);

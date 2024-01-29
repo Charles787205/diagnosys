@@ -36,4 +36,12 @@ class Request
             }
         }
     }
+    public function getResultDate()
+    {
+        return date("F d, Y", strtotime($this->result_date));
+    }
+    public function getResultTime()
+    {
+        return date("g:i A", strtotime($this->result_date));
+    }
 }
