@@ -17,7 +17,7 @@ foreach ($requests as $request) {
     $services = [];
     foreach ($request->services as $service) {
         $name = $service->name;
-        if (($name == "Blood Chemistry and SGPT")) {
+        if ($name == "Blood Chemistry and SGPT") {
             $service->name = "Blood Chemistry";
             $services[] = $service;
             $service_id = $service->id;
@@ -222,9 +222,7 @@ foreach ($requests as $request) {
                                         <option selected>--------Select Patient---------</option>
                                         <?php foreach ($paidRequests as $request) {
                                             $p_fullName = $request->patient->getFullName();
-                                            if (!isset($request->result_date)) {
-                                                echo "<option class='form-option' value='$request->id'>$p_fullName</option>";
-                                            }
+                                            echo "<option class='form-option' value='$request->id'>$p_fullName</option>";
                                         } ?>
 
                                     </select>
@@ -394,7 +392,8 @@ foreach ($requests as $request) {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         const requests = <?php echo json_encode($paidRequests) ?>;
-        const serviceId = <?php echo $service_id ?>
+        const serviceId = <?php echo $service_id ?>;
+        console.log(<?php echo json_encode($requests) ?>);
     </script>
     <script src="../assets/js/admin/medicalRecord.js"></script>
     <script src="../assets/js/admin/medical_record/package_submit.js"></script>

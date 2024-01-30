@@ -215,7 +215,6 @@ foreach ($requests as $request) {
                                         <option selected>--------Select Patient---------</option>
                                         <?php foreach ($paidRequests as $request) {
                                             $p_fullName = $request->patient->getFullName();
-
                                             echo "<option class='form-option' value='$request->id'>$p_fullName</option>";
                                         } ?>
 

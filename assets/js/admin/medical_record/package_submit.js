@@ -15,6 +15,7 @@ function saveResult() {
     };
     results.push(result);
   }
+  console.log(resultInputs);
   fetch("utils/add_result.php", {
     method: "POST",
     headers: {
