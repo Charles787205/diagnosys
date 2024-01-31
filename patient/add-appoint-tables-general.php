@@ -202,7 +202,7 @@ $services = $servicesModel->getAllServices();
                           <label>Building/ House Number</label>
                           <input type="text" id="house_no" name="appointment_house_no" placeholder="Enter your Building/ House Number">
                         </div>
-                       
+
 
                         <div class="input-field">
                           <label>Select type of ID</label>
@@ -421,8 +421,7 @@ $services = $servicesModel->getAllServices();
             method: 'POST',
             body: formData,
           }).then(async (res) => {
-            console.log(await res.json());
-            console.log(res);
+
             Swal.fire({
               title: "New Appointment Added",
               icon: "success"

@@ -35,7 +35,7 @@ class PatientModel extends Database
     $sql = 'SELECT * FROM patient WHERE id = ?';
     try {
       $stmt = $this->connection->prepare($sql);
-      $stmt->bind_param('i', $patientId);
+      $stmt->bind_param('s', $patientId);
       $stmt->execute();
 
       $result = $stmt->get_result();
@@ -60,7 +60,10 @@ class PatientModel extends Database
       $statement->bind_param('sssisssssssss', $patient->first_name, $patient->last_name, $patient->birthdate, $patient->age, $patient->province, $patient->city, $patient->barangay, $patient->purok, $patient->subdivision, $patient->house_no, $patient->mobile_number, $patient->image_url, $patient->gender);
       $statement->execute();
       $id = $this->connection->insert_id;
-      $patient->id = $id;
+      $result = $this->connection->query("SELECT id FROM patient ORDER BY id DESC LIMIT 1");
+      $row = $result->fetch_assoc();
+      $patient->id = $row["id"];
+
       $this->connection->close();
       return $patient;
     }
@@ -86,7 +89,7 @@ class PatientModel extends Database
     $sql = 'DELETE FROM patient WHERE id = ?';
 
     $statement = $this->connection->prepare($sql);
-    $statement->bind_param('i', $patientId);
+    $statement->bind_param('s', $patientId);
 
     if ($statement->execute()) {
       // Patient deleted successfully
@@ -104,7 +107,7 @@ class PatientModel extends Database
     // Update the patient
     $sql = "UPDATE patient SET first_name = ?, last_name = ?, birthdate = DATE(?), age = ?, province = ?, city = ?, barangay = ?, purok = ?, mobile_number = ?, image_url = ?, gender = ? WHERE id = ?;";
     $statement = $this->connection->prepare($sql);
-    $statement->bind_param('sssisssssssi', $patient->first_name, $patient->last_name, $patient->birthdate, $patient->age, $patient->province, $patient->city, $patient->barangay, $patient->purok, $patient->mobile_number, $patient->image_url, $patient->gender, $patient->id);
+    $statement->bind_param('sssissssssss', $patient->first_name, $patient->last_name, $patient->birthdate, $patient->age, $patient->province, $patient->city, $patient->barangay, $patient->purok, $patient->mobile_number, $patient->image_url, $patient->gender, $patient->id);
     $statement->execute();
 
     $this->close();

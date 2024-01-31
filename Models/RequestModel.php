@@ -16,7 +16,7 @@ class RequestModel extends Database
     $request->patient = $patientModel->getOrCreatePatient($request->patient);
     $sql = 'INSERT INTO request (user_id, patient_id, total) VALUES (?,?,?)';
     $statement = $this->connection->prepare($sql);
-    $statement->bind_param('iid', $request->user_id, $request->patient->id, $request->total);
+    $statement->bind_param('isd', $request->user_id, $request->patient->id, $request->total);
     if ($statement->execute()) {
       if (count($request->services) != 0) {
 
@@ -94,7 +94,7 @@ class RequestModel extends Database
     $sql = 'SELECT * FROM request WHERE patient_id = ?';
 
     $statement = $this->connection->prepare($sql);
-    $statement->bind_param('i', $id);
+    $statement->bind_param('s', $id);
 
 
     if ($statement->execute()) {

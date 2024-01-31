@@ -36,7 +36,7 @@ CREATE TABLE employee (
 );
 
 CREATE TABLE patient (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id VARCHAR(255) PRIMARY KEY,
   first_name varchar(50) NOT NULL,
   last_name varchar(50) NOT NULL,
   birthdate date NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE payment (
 CREATE TABLE request (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
-  patient_id INT,
+  patient_id VARCHAR(255),
   status ENUM('Pending', 'Approved', 'Reject', 'Paid') NOT NULL DEFAULT 'Pending',
   request_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   total DECIMAL(10, 2) NOT NULL, 
@@ -108,7 +108,7 @@ CREATE TABLE request_result(
 CREATE TABLE appointment (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
-  patient_id INT,
+  patient_id VARCHAR(255),
   status ENUM('Pending', 'Approved', 'Reject', 'Paid') NOT NULL DEFAULT 'Pending',
   appointment_date DATE NOT NULL,
   total DECIMAL(10, 2) NOT NULL, 
@@ -140,6 +140,19 @@ CREATE TABLE package_services (
 
 
 
+DELIMITER //
+CREATE TRIGGER before_patient_insert BEFORE INSERT ON patient FOR EACH ROW
+BEGIN
+  DECLARE next_id INT DEFAULT 1;  -- Initialize counter for daily sequence
+  
+  SET NEW.id = CONCAT(
+    YEAR(CURDATE()), 
+    MONTH(CURDATE()), 
+    DAY(CURDATE()), 
+    (SELECT COUNT(*) FROM patient));
+END;
+//
+DELIMITER ;
 
 
 --insert security questions

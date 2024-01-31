@@ -8,7 +8,12 @@ $page_title = 'Dashboard';
 $employeeModel = new EmployeeModel();
 $employee = $employeeModel->getEmployeeById($_SESSION['id']);
 $requestModel = new RequestModel();
-$requests = $requestModel->getRequestsByStatus(Request::PAID); ?>
+$requests = $requestModel->getRequestsByStatus(Request::PAID);
+$total = 0;
+foreach ($requests as $request) {
+  $total += $request->total;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -143,7 +148,7 @@ $requests = $requestModel->getRequestsByStatus(Request::PAID); ?>
                 <div class="col-sm-4" style="margin-left:auto">
                   <label for="" class="row" style="  font-size: 30px;">Total </label>
                   <label class="col" for="" style=" font-size: 40px;">&#x20B1;</label>
-                  <input class="col-sm-10" type="text" style="border:none; font-size: 30px; text-indent: 45px;" id="total" class="form-control" value="0.00" readonly>
+                  <input class="col-sm-10" type="text" style="border:none; font-size: 30px; text-indent: 45px;" id="total" class="form-control" value="<?php echo $total ?>.00" readonly>
 
                 </div>
 
