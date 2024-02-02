@@ -17,7 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $employee->newEmployee($firstname, $lastname, $username, $password, $position, $age, $address, $mobile_number);
     $employee->addSecurityQuestion($_POST['security_question'], $_POST['register_answer']);
     $id = $employeeModel->registerEmployee($employee);
-    header('Location: dashboard.php');
+
+    if ($position == "Cashier") {
+        header("Location: ../Cashier/index.php");
+    } else {
+
+        header('Location: dashboard.php');
+    }
 
 
 
@@ -83,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <input type="password" class="password" name="register_password" placeholder="Enter Your Password" required>
                             <select class='form-select' name="position" id="position">
                                 <option value="Information Desk Officer">Information Desk Officer</option>
-                                <option value="cashier">Cashier</option>
+                                <option value="Cashier">Cashier</option>
                             </select>
                             <select class='form-select' name="security_question" placeholder="Security Question" id="security_question">
                                 <?php foreach ($security_questions as $security_question) : ?>
