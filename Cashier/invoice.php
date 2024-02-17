@@ -100,12 +100,7 @@
                <div class="position-relative">
                  <h5 class="card-title">List of Invoices</h5>
                  <div class="col-5 position-absolute top-0 end-0">
-                   <div class="search">
-                     <form class="search-form">
-                       <input type="text" placeholder="Search Patient By Name" id="search-bar" oninput='filterRequests()' />
-                       <input type="submit" value="Submit" />
-                     </form>
-                   </div>
+                  
 
                  </div>
                </div>
@@ -127,7 +122,7 @@
                    <tbody>
                      <?php foreach ($requests as $request) : ?>
                        <tr id="request-row-<?php echo $request->id ?>">
-                         <th scope="row"><?php echo $request->id ?></th>
+                         <th scope="row">2024-<?php echo $request->id ?></th>
                          <td><?php echo $request->patient->last_name ?></td>
                          <td><?php echo $request->patient->first_name ?></td>
                          <td>

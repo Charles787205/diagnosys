@@ -24,15 +24,18 @@ $pdf->AddPage();
 
 
 // Set font
-$pdf->SetFont('Arial', 'B', 25);
+$pdf->SetFont('Arial', 'B', 16);
 $pdf->SetTextColor(255, 0, 0);
 
 // Title
-$pdf->Image('../assets/img/logo01.png', 1, 10, 28, 28, 'PNG');
-$pdf->Image('../assets/img/logo02.png', 180, 10, 33, 33, 'PNG');
+$pdf->Image('../assets/img/logo01.png', 3, 3, 33, 33, 'PNG');
+$pdf->Image('../assets/img/logo02.png', 173, 3, 38, 38, 'PNG');
+
+$pdf->SetFont('Arial', 'B', 22);
+$pdf->SetTextColor(255, 0, 0);
 
 $pdf->Cell(193, 10, 'PANABO CITY DIAGNOSTIC CENTER', 0, 1, 'C');
-$pdf->SetFont('Arial', 'B', 15);
+$pdf->SetFont('Arial', 'B', 13);
 $pdf->SetTextColor(0, 0, 0);
 
 $pdf->Cell(190, 3, 'PARTNERSHIP, COMMITMENT, DEVOTION, AND CARE', 0, 1, 'C');
@@ -43,7 +46,6 @@ $pdf->Cell(190, 5, 'PLDT Landline:(084) 217-3824', 0, 1, 'C');
 $pdf->Cell(190, 5, '_____________________________________________________', 0, 1, 'C');
 $pdf->SetFont('Arial', 'B', 15);
 $pdf->Cell(190, 8, 'MEDICAL LABORATORY', 0, 1, 'C', $pdf->SetTextColor(135, 206, 235));
-
 // Line break
 
 
@@ -55,50 +57,50 @@ $pdf->Ln(0);
 
 
 // Table rows
-$pdf->SetFont('Arial', '', 12);
+$pdf->SetFont('Arial', '', 10);
 
-$pdf->Cell(40, 10, 'Firstname', 1);
+$pdf->Cell(40, 6, 'Firstname', 1);
 $pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(75, 10, $request->patient->first_name, 1);
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(75, 6, $request->patient->first_name, 1);
 $pdf->SetTextColor(135, 206, 235);
-$pdf->SetFont('Arial', '', 12);
-$pdf->Cell(30, 10, 'Family Name', 1);
-$pdf->SetFont('Arial', 'B', 14);
+$pdf->SetFont('Arial', '', 10);
+$pdf->Cell(30, 6, 'Family Name', 1);
+$pdf->SetFont('Arial', 'B', 12);
 $pdf->SetTextColor(0, 0, 0);
-$pdf->Cell(50, 10, $request->patient->last_name, 1);
-$pdf->Ln(10);
+$pdf->Cell(50, 6, $request->patient->last_name, 1);
+$pdf->Ln(6);
 $pdf->SetTextColor(135, 206, 235);
-$pdf->SetFont('Arial', '', 12);
-$pdf->Cell(40, 10, 'Address', 1);
+$pdf->SetFont('Arial', '', 10);
+$pdf->Cell(40, 6, 'Address', 1);
 $pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', '', 14);
-$pdf->Cell(75, 10, $request->patient->city, 1);
+$pdf->SetFont('Arial', '', 12);
+$pdf->Cell(75, 6, $request->patient->city, 1);
 $pdf->SetTextColor(135, 206, 235);
-$pdf->SetFont('Arial', '', 12);
-$pdf->Cell(30, 10, 'Age/Gender', 1);
+$pdf->SetFont('Arial', '', 10);
+$pdf->Cell(30, 6, 'Age/Gender', 1);
 $pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', '', 14);
+$pdf->SetFont('Arial', '', 12);
 $age = $request->patient->age;
 $gender = $request->patient->gender;
-$pdf->Cell(50, 10, "$age/$gender", 1);
-$pdf->Ln(10);
+$pdf->Cell(50, 6, "$age/$gender", 1);
+$pdf->Ln(6);
 $pdf->SetTextColor(135, 206, 235);
-$pdf->SetFont('Arial', '', 12);
-$pdf->Cell(40, 10, 'Date Performed', 1);
+$pdf->SetFont('Arial', '', 10);
+$pdf->Cell(40, 6, 'Date Performed', 1);
 $pdf->SetTextColor(0, 0, 0);
 
 
 $result_date = date("F d, Y", strtotime($request->result_date));
-$pdf->SetFont('Arial', '', 14);
-$pdf->Cell(75, 10, $result_date, 1);
-$pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(30, 10, 'Physician', 1);
+$pdf->Cell(75, 6, $result_date, 1);
+$pdf->SetTextColor(135, 206, 235);
+$pdf->SetFont('Arial', '', 10);
+$pdf->Cell(30, 6, 'Physician', 1);
 $pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', '', 14);
-$pdf->Cell(50, 10, 'MD', 1);
-$pdf->Ln(10);
+$pdf->SetFont('Arial', '', 12);
+$pdf->Cell(50, 6, 'MD', 1);
+$pdf->Ln(13);
 //$pdf->SetTextColor(135, 206, 235);
 //$pdf->SetFont('Arial', '', 12);
 //$pdf->Cell(40, 10, 'Mode of Test', 1);
@@ -115,7 +117,7 @@ $pdf->Ln(10);
 //$pdf->SetTextColor(135, 206, 235);
 //$pdf->SetFont('Arial', '', 12);
 
-$pdf->Ln(8);
+
 
 
 // Total

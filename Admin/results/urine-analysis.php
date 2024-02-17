@@ -25,16 +25,18 @@ $pdf->AddPage();
 
 
 // Set font
-$pdf->SetFont('Arial', 'B', 25);
+$pdf->SetFont('Arial', 'B', 16);
 
 $pdf->SetTextColor(255, 0, 0);
 
 // Title
-$pdf->Image('../../assets/img/logo01.png', 1, 10, 28, 28, 'PNG');
-$pdf->Image('../../assets/img/logo02.png', 180, 10, 33, 33, 'PNG');
+$pdf->Image('../../assets/img/logo01.png',3, 3, 33, 33, 'PNG');
+$pdf->Image('../../assets/img/logo02.png', 173, 3, 38, 38, 'PNG');
+$pdf->SetFont('Arial', 'B', 22);
+$pdf->SetTextColor(255, 0, 0);
 
 $pdf->Cell(193, 10, 'PANABO CITY DIAGNOSTIC CENTER', 0, 1, 'C');
-$pdf->SetFont('Arial', 'B', 15);
+$pdf->SetFont('Arial', 'B', 13);
 $pdf->SetTextColor(0, 0, 0);
 
 $pdf->Cell(190, 3, 'PARTNERSHIP, COMMITMENT, DEVOTION, AND CARE', 0, 1, 'C');

@@ -99,7 +99,7 @@ $appointmentModel->getAppointments(); ?>
                   <div class="search">
                     <form class="search-form">
                       <input type="text" placeholder="Search Patient By Name" id="search-bar" oninput='filterRequests()' />
-                      <input type="submit" value="Submit" />
+                      <input type="submit" value="Search" />
                     </form>
                   </div>
                 </div>
@@ -132,6 +132,7 @@ $appointmentModel->getAppointments(); ?>
                           <a href="cashier-viewreq.php?request_id=<?php echo $request->id ?>" style="color: #ffff; text-decoration: none" class="btn btn-primary">
                             <i class="bi bi-eye-fill"></i>
                           </a>
+                          <a href="edit-test.php" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
                         </td>
                       </tr>
                     <?php } ?>

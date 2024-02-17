@@ -65,8 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <span class="fa fa-close"></span>
                             </div>
                         </a>
+                        <center>
+                        <h1 class="card-title" style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-style:italic;">DIAGNOSYS</h1>
                         <h2>Login Now</h2>
 
+                        </center>
+                        
                         <form action="login.php" method="POST">
                             <input type="username" name="register_username" placeholder="Enter Your Email" required>
                             <input type="password" name="register_password" placeholder="Enter Your Password" style="margin-bottom: 2px;" required>

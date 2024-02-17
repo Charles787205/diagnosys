@@ -72,9 +72,18 @@ $date_now_format = date_create_from_format("F d, Y", $date_now);
                 <div class="container">
                   <div class="flex-container">
                     <button type="button" class="btn btn-secondary" style="right: 0;" onclick="onPrint()"><i class="bi bi-printer"></i> Print</button>
-
                   </div>
-                  <div class="filter" ">
+                  <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
+                  <div class="col-sm-4">
+                    <input type="date" class="form-control">
+                  </div>
+                  <label for="inputDate" class="col-sm-2 col-form-label">End</label>
+                  <div class="col-sm-4">
+                    <input type="date" class="form-control">
+                  </div>
+                </div>
+                  <div class="filter" >
                     <a class=" icon" style="float:right" href=" #" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                       <li class="dropdown-header text-start">
@@ -144,15 +153,9 @@ $date_now_format = date_create_from_format("F d, Y", $date_now);
 
 
 
-                </div>
-              </div>
-
-
-
-
-
-              </tbody>
-              </table>
+              
+            </div>
+          </div>
             </div>
           </div>
         </div>

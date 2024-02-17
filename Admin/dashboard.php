@@ -3,6 +3,7 @@ require_once 'utils/is_login.php';
 require_once '../Models/EmployeeModel.php';
 require_once '../Models/RequestModel.php';
 require_once '../Models/PatientModel.php';
+require_once '../Models/ServicesModel.php';
 $head_title = 'Dashboard';
 $page_title = 'Dashboard';
 $employeeModel = new EmployeeModel();
@@ -13,6 +14,11 @@ $requestModel = new RequestModel();
 $salesRequestToday = $requestModel->getRequestTodayByStatus(Request::PAID);
 $patientModel = new PatientModel();
 $patients = $patientModel->getAllPatients();
+$servicesModel = new ServicesModel();
+$services = $servicesModel->getServiceSales();
+$servicesModel = new ServicesModel();
+$servicesSales = $servicesModel->getServicesByDateAndName();
+$servicesModel->close();
 
 $revenue = 0;
 foreach ($salesRequest as $sales) {
@@ -204,7 +210,48 @@ foreach ($salesRequest as $sales) {
 
               </div>
             </div><!-- End Reports -->
+            <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Services Availed</h5>
 
+              <!-- Bar Chart -->
+              <div id="barChart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new ApexCharts(document.querySelector("#barChart"), {
+                    series: [{
+                      data: [<?php foreach ($services as $service) {
+                                echo $service->price . ',';
+                              } ?>]
+                    }],
+                    chart: {
+                      type: 'bar',
+                      height: 350
+                    },
+                    plotOptions: {
+                      bar: {
+                        borderRadius: 4,
+                        horizontal: true,
+                      }
+                    },
+                    dataLabels: {
+                      enabled: false
+                    },
+                    xaxis: {
+                      categories: [<?php foreach ($services as $service) {
+                                      echo "'$service->name',";
+                                    } ?>],
+                    }
+                  }).render();
+                });
+              </script>
+              <!-- End Bar Chart -->
+
+            </div>
+          </div>
+        </div>
             <!-- Recent Sales -->
             <div class="col-12">
               <div class="card recent-sales overflow-auto">

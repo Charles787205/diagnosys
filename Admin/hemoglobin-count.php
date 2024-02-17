@@ -15,7 +15,7 @@ $paidRequests = [];
 $service_id = null;
 foreach ($requests as $request) {
     foreach ($request->services as $service) {
-        if ($service->name == "Hemoglobin Determination" && count($service->results) == 0) {
+        if ( $service->name == "Hemoglobin count" && count($service->results) == 0) {
             $paidRequests[] = $request;
             $service_id = $service->id;
         }
@@ -255,7 +255,7 @@ foreach ($requests as $request) {
 
                                     <tr>
                                         <td scope="row">Examination Taken</td>
-                                        <th data-type='' class='table-data'>Hemoglobin determination</th>
+                                        <th data-type='' class='table-data'>Hemoglobin Countd</th>
                                         <td>Specimen</td>
                                         <th>Whole Blood</th>
                                     </tr>
@@ -318,67 +318,8 @@ foreach ($requests as $request) {
                                         </table>
                                         <?php require "components/urinalysis_template.html" ?>
 
-                                        <table class="table table-bordered mt-3">
-                                            <tbody>
-                                                <tr>
-                                                    <th>Examination Taken</th>
-                                                    <th>Blood Typing</th>
-                                                    <th>Specimen</th>
-                                                    <th>Whole Blood</th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div class="col-sm-6 mt-3">
-                                            <input type="text" style="text-align: center;" value="Test" class="form-control" readonly>
-                                        </div>
-                                        <div class="col-sm-6 mt-3">
-                                            <input type="text" style="text-align: center;" value="Result" class="form-control" readonly>
-                                        </div>
-                                        <div class="col-sm-6 mt-3">
-                                            <input type="text" style="text-align: center;" value="Blood type" class="form-control" readonly>
-                                        </div>
-                                        <div class="col-sm-6 mt-3">
-                                            <input type="text" style="text-align: center;" class="form-control" name="blood_type" data-type="result">
-                                        </div>
-                                        <div class="col-sm-6 mt-3">
-                                            <input type="text" style="text-align: center;" value="Rhesus  (Rh) type" class="form-control" readonly>
-                                        </div>
-                                        <div class="col-sm-5 mt-3">
-                                            <input type="text" style="text-align: center;" value="Positive" class="form-control" readonly>
-                                        </div>
-                                        <div class="col-sm-1 mt-3">
-                                            <input type="text" style="text-align: center;" value="+" class="form-control" readonly>
-                                        </div>
-                                        <table class="table table-bordered mt-3">
-                                            <tbody>
-                                                <tr>
-                                                    <th>Mode of Test</th>
-                                                    <th>Qualitative</th>
-                                                    <th></th>
-                                                </tr>
-                                                <tr>
-                                                    <th>Examination Taken</th>
-                                                    <th>HBsAg</th>
-                                                    <th>Specimen</th>
-                                                    <th>Serum</th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div class="col-sm-6 mt-3">
-                                            <input type="text" style="text-align: center;" value="Test" class="form-control" readonly>
-                                        </div>
-                                        <div class="col-sm-6 mt-3">
-                                            <input type="text" style="text-align: center;" value="Result" class="form-control" readonly>
-                                        </div>
-                                        <div class="col-sm-6 mt-3">
-                                            <input type="text" style="text-align: center;" value="Hepatitis B surface Antigen" class="form-control" readonly>
-                                        </div>
-                                        <div class="col-sm-5 mt-3">
-                                            <input type="text" style="text-align: center;" class="form-control" name="hepatitis_b_surface_antigen" data-type="result">
-                                        </div>
-                                        <div class="col-sm-1 mt-3">
-                                            <input type="text" style="text-align: center;" class="form-control" readonly>
-                                        </div>
+                                     
+                                     
                                     </div>
                             </div>
                         </div>

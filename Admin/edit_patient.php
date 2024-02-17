@@ -119,10 +119,10 @@ $patient  = $patientModel->getPatientById($patient_id);
       <div class="card">
         <div class="card-body">
           <hr>
-          <?php echo $patient->first_name ?>
+   
           <div class="container">
             <header>Edit Patient Details</header>
-            <form id="patient_form" enctype="multipart/form-data" style="min-height:500px; overflow-y:auto;">
+            <form id="patient_form" enctype="multipart/form-data" style="min-height:600px; overflow-y:auto;">
               <div class=" form first">
                 <input type="number" name="patient_id" id="" value="<?php echo $patient->id ?>" hidden>
                 <div class="details personal">
@@ -136,6 +136,10 @@ $patient  = $patientModel->getPatientById($patient_id);
                     <div class="input-field">
                       <label>Firstname</label>
                       <input type="text" id='first_name' name="request_firstname" placeholder="Enter your Firstname" required>
+                    </div>
+                    <div class="input-field">
+                      <label>Middlename</label>
+                      <input type="text" id='first_name' name="request_midname" placeholder="Enter your Middlename" required>
                     </div>
                     <div class="input-field">
                       <label>Sex</label>
@@ -157,7 +161,20 @@ $patient  = $patientModel->getPatientById($patient_id);
                       <label>Mobile Number</label>
                       <input type="tel" id='mobile_number' name="request_phone" pattern="[0-9]{11}" pmaxlength="11" oninput="validateNumber(event)" placeholder="Enter mobile number" required>
                     </div>
+                    <div class="input-field">
+                      <label>Building/ House Number</label>
+                      <input type="text" id="house_no" name="request_house_no" placeholder="Enter your Building/ House Number">
+                    </div>
+                    <div class="input-field">
+                      <label>Subdivision/Street Name</label>
+                      <input type="text" id="subdivision" name="request_subdivision" placeholder="Enter your Subdivision/Street Name">
+                    </div>
 
+                   
+                    <div class="input-field">
+                      <label>Purok</label>
+                      <input type="text" id="purok" name="request_purok" placeholder="Enter your Purok" required>
+                    </div>
                     <div class="input-field">
                       <label>Province</label>
                       <select required name="request_province" id="province">
@@ -166,6 +183,7 @@ $patient  = $patientModel->getPatientById($patient_id);
 
                       </select>
                     </div>
+                  
                     <div class="input-field">
                       <label>City</label>
                       <select required name="request_city" id="city">
@@ -182,19 +200,9 @@ $patient  = $patientModel->getPatientById($patient_id);
 
                       </select>
                     </div>
-                    <div class="input-field">
-                      <label>Purok</label>
-                      <input type="text" id="purok" name="request_purok" placeholder="Enter your Purok" required>
-                    </div>
-                    <div class="input-field">
-                      <label>Subdivision/Street Name</label>
-                      <input type="text" id="subdivision" name="request_subdivision" placeholder="Enter your Subdivision/Street Name">
-                    </div>
+                   
 
-                    <div class="input-field">
-                      <label>Building/ House Number</label>
-                      <input type="text" id="house_no" name="request_house_no" placeholder="Enter your Building/ House Number">
-                    </div>
+                   
                   </div>
                 </div>
                 <button type="submit" id="third" name="submit" class="btn btn-primary" style="float:right; margin-left:auto;">Submit</button>

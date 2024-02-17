@@ -21,7 +21,7 @@ function handlePackageSubmit(e) {
     }),
   }).then(() => {
     Swal.fire({
-      title: "Success",
+      title: "Package is added successfully!",
       icon: "success",
     }).then(() => {
       location.reload();

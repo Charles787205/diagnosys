@@ -112,7 +112,7 @@ $pendingRequests = $requestModel->getPendingRequests();
                   <div class="search">
                     <form class="search-form">
                       <input type="text" placeholder="Search Patient By Name" id="search-bar" onchange='filterRequests()' />
-                      <input type="submit" value="Submit" />
+                      <input type="submit" value="Search" />
                     </form>
                   </div>
                 </div>

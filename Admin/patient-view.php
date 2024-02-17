@@ -326,9 +326,9 @@ $appointments = $appointmentModel->getAppointmentFromPatientId($patient->id);
                         <thead>
                           <tr>
                             <th scope="col">Appointment ID</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Test</th>
+                            <th scope="col">Appointment Date</th>
+                            <th scope="col">Services</th>
+                            <th scope="col">Status</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -345,15 +345,14 @@ $appointments = $appointmentModel->getAppointmentFromPatientId($patient->id);
                                     <ul class="dropdown-menu">
                                       <?php foreach ($appointment->services as $services) { ?>
                                         <li><a class="dropdown-item" href="#"><?php echo $services->name ?></a></li>
-
                                       <?php } ?>
                                     </ul>
                                   </div>
-                                <?php } else {
+                                <?php } elseif (isset($appointment->services[0])) { // Check if the array is not empty
                                   echo $appointment->services[0]->name;
+                                } else {
+                                  echo "No services taken";
                                 } ?>
-
-
                               </td>
                               <td><?php echo $appointment->status ?></td>
                             </tr>

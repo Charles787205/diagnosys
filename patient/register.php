@@ -64,7 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <span class="fa fa-close"></span>
                             </div>
                         </a>
+                        <center>
+                        <h2 class="card-title">DIAGNOSYS</h2><br>
                         <h2>Register Now</h2>
+                        </center>
+                      
 
 
                         <form action="#" method="post">

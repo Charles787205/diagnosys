@@ -136,15 +136,19 @@ $page = 'add_request_form'; // for the components/sidebar.html
                       </script>
                       <div class="fields">
                         <div class="input-field">
-                          <label>Lastname</label>
+                        <label>Lastname*(Jr.Sr. and etc...)</label>
                           <input type="text" id='last_name' name="request_lastname" placeholder="Enter your Lastame" required>
                         </div>
                         <div class="input-field">
-                          <label>Firstname</label>
+                          <label>Firstname*</label>
                           <input type="text" id="first_name" name="request_firstname" placeholder="Enter your Firstname" required>
                         </div>
                         <div class="input-field">
-                          <label>Sex</label>
+                          <label>Middlename</label>
+                          <input type="text" id='first_name' name="request_firstname" placeholder="Enter your Middlename">
+                        </div>
+                        <div class="input-field">
+                          <label>Sex*</label>
                           <select required name="request_gender" id="gender">
                             <option disabled selected>Select sex</option>
                             <option value="Male">Male</option>
@@ -152,45 +156,20 @@ $page = 'add_request_form'; // for the components/sidebar.html
                           </select>
                         </div>
                         <div class="input-field">
-                          <label>Date of Birth</label>
+                          <label>Date of Birth*</label>
                           <input type="date" id="dob" name="request_birthdate" placeholder="Enter birth date" required>
                         </div>
                         <div class="input-field">
-                          <label>Age</label>
-                          <input type="number" onmousemove="FindAge()" id="age" name="request_age" placeholder="Your age " required>
+                          <label>Age*</label>
+                          <input type="number" onmousemove="FindAge()" id="age" name="request_age" placeholder="Your age " required readonly>
                         </div>
                         <div class="input-field">
-                          <label>Mobile Number</label>
+                          <label>Mobile Number*</label>
                           <input type="tel" id='mobile_number' name="request_phone" pattern="[0-9]{11}" pmaxlength="11" oninput="validateNumber(event)" placeholder="Enter mobile number" required>
                         </div>
-
                         <div class="input-field">
-                          <label>Province</label>
-                          <select required name="request_province" id="province">
-                            <option disabled selected>Select Province</option>
-
-
-                          </select>
-                        </div>
-                        <div class="input-field">
-                          <label>City</label>
-                          <select required name="request_city" id="city">
-                            <option disabled selected>Select City</option>
-
-
-                          </select>
-                        </div>
-                        <div class="input-field">
-                          <label>Barangay</label>
-                          <select required name="request_barangay" id="barangay">
-                            <option disabled selected>Select Barangay</option>
-
-
-                          </select>
-                        </div>
-                        <div class="input-field">
-                          <label>Purok</label>
-                          <input type="text" id="purok" name="request_purok" placeholder="Enter your Purok" required>
+                          <label>Building/ House Number</label>
+                          <input type="text" id="house_no" name="request_house_no" placeholder="Enter your Building/ House Number">
                         </div>
                         <div class="input-field">
                           <label>Subdivision/Street Name</label>
@@ -198,8 +177,33 @@ $page = 'add_request_form'; // for the components/sidebar.html
                         </div>
 
                         <div class="input-field">
-                          <label>Building/ House Number</label>
-                          <input type="text" id="house_no" name="request_house_no" placeholder="Enter your Building/ House Number">
+                          <label>Purok*</label>
+                          <input type="text" id="purok" name="request_purok" placeholder="Enter your Purok" required>
+                        </div>
+
+                        <div class="input-field">
+                          <label>Province*</label>
+                          <select required name="request_province" id="province">
+                            <option disabled selected>Select Province</option>
+
+
+                          </select>
+                        </div>
+                        <div class="input-field">
+                          <label>City*</label>
+                          <select required name="request_city" id="city">
+                            <option disabled selected>Select City</option>
+
+
+                          </select>
+                        </div>
+                        <div class="input-field">
+                          <label>Barangay*</label>
+                          <select required name="request_barangay" id="barangay">
+                            <option disabled selected>Select Barangay</option>
+
+
+                          </select>
                         </div>
 
                         <div class="input-field">
@@ -211,6 +215,7 @@ $page = 'add_request_form'; // for the components/sidebar.html
                             <option value="">Philippine Identification Card</option>
                             <option value="">Barangay ID</option>
                             <option value="">Passport</option>
+                            <option value="">Others</option>
                           </select>
                         </div>
 
@@ -247,8 +252,8 @@ $page = 'add_request_form'; // for the components/sidebar.html
                                       <thead>
                                         <tr>
 
-                                          <th scope="col">Test</th>
-                                          <th scope="col">Price</th>
+                                          <th scope="col">Service</th>
+                                          <th scope="col">Amount</th>
                                         </tr>
                                       </thead>
                                       <tbody>

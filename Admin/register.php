@@ -75,8 +75,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                     <div class="content-wthree">
-                        <h2>Register Now</h2>
+                        <center>
+                        <h2 class="card-title">DIAGNOSYS</h2><br>
+                        <h2 class="card-title">Register Now</h2>
 
+                        </center>
+                       
 
                         <form action="register.php" method="post" id='register-form'>
 

@@ -3,10 +3,13 @@ require_once 'utils/is_login.php';
 require_once '../Models/EmployeeModel.php';
 require_once '../Models/AppointmentModel.php';
 require_once '../Models/RequestModel.php';
+require_once '../Models/ServicesModel.php';
 $head_title = 'Payment List';
 $page_title = 'Dashboard';
 $employeeModel = new EmployeeModel();
 $employee = $employeeModel->getEmployeeById($_SESSION['id']);
+$servicesModel = new ServicesModel();
+$services = $servicesModel->getAllServices();
 $requestModel = new RequestModel();
 $requests = $requestModel->getRequestsByStatus(Request::PAID);
 $total = 0;
@@ -96,12 +99,7 @@ foreach ($requests as $request) {
               <div class="position-relative">
                 <h5>List of Payments</h5>
                 <div class="col-5 position-absolute top-0 end-0">
-                  <div class="search">
-                    <form class="search-form">
-                      <input type="text" placeholder="Search Patient By Name" id="search-bar" oninput='filterRequests()' />
-                      <input type="submit" value="Submit" />
-                    </form>
-                  </div>
+
 
                 </div>
               </div>
@@ -113,7 +111,34 @@ foreach ($requests as $request) {
                 <a href="utils/generate_payment_list_pdf.php" type="button" class="btn btn-secondary">
                   <i class="bi bi-printer-fill"></i> Print
                 </a>
+                <h5 class="card-title">Filter by:</h5>
+                <div class="form-group">
+                
+                    <select class="form-select" id="test1" name="request_test[]" aria-label="Default select example">
+                      <option disabled selected>Choose Test</option>
+                      <?php
+                      foreach ($services as $service) {
+                      ?>
+                        <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
+                      <?php } ?>
 
+                      </option>
+                    </select>
+                  </div>
+                <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
+                  <div class="col-sm-4">
+                    <input type="date" class="form-control">
+                  </div>
+                  <label for="inputDate" class="col-sm-2 col-form-label">End</label>
+                  <div class="col-sm-4">
+                    <input type="date" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <br>
+                 
+                </div>
                 <table class="table table-bordered mt-3">
                   <thead>
                     <tr>
