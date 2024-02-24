@@ -625,7 +625,7 @@ class RequestModel extends Database
 
   public function getRequestWithResult($user_id)
   {
-    $sql = 'SELECT r.*, p.* FROM request r JOIN patient p ON r.patient_id = p.id WHERE r.user_id = ? AND r.result_date IS NOT NULL';
+    $sql = 'SELECT r.* FROM request r  WHERE r.user_id = ? AND r.result_date IS NOT NULL';
     $this->checkConnection();
     $statement = $this->connection->prepare($sql);
     $statement->bind_param('i', $user_id);
@@ -636,15 +636,16 @@ class RequestModel extends Database
       while ($row = $result->fetch_object()) {
         $request = new Request();
         $request->fill($row);
-        $patient = new Patient();
-        $patient->fill($row);
-        $request->patient = $patient;
+
         $requests[] = $request;
       }
       $this->close();
 
+
       foreach ($requests as $request) {
         $servicesModel = new ServicesModel();
+        $patientModel = new PatientModel();
+        $request->patient = $patientModel->getPatientById($request->patient_id);
         $request->services = $servicesModel->getServicesByRequestId($request->id);
       }
       return $requests;

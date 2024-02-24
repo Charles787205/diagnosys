@@ -1,13 +1,3 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Loop through test1 to test8
-  for (var i = 1; i <= 8; i++) {
-    var select = document.getElementById("test" + i);
-    select.addEventListener("change", function () {
-      updateTotalPrice();
-    });
-  }
-});
-
 //FUNCTIONS
 
 function FindAge() {
@@ -37,15 +27,16 @@ function updateTotalPrice() {
 
 const form = document.getElementById("request_form");
 
-form.addEventListener("submit", function (event) {
+form.addEventListener("submit", async function (event) {
   event.preventDefault();
-
+  console.log("hello");
   const formData = new FormData(form);
 
-  fetch("utils/add_request.php", {
+  const res = await fetch("utils/add_request.php", {
     method: "POST",
     body: formData,
-  }).then(() => {
+  }).then((res) => {
+    console.log(res.json());
     Swal.fire({
       title: "New Request Added",
       icon: "success",
@@ -53,6 +44,7 @@ form.addEventListener("submit", function (event) {
       window.location.href = "pending_requests.php";
     });
   });
+  console.log(res);
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -65,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $("#request_date").val(appointment.appointment_date);
         $("#last_name").val(appointment.patient.last_name);
         $("#first_name").val(appointment.patient.first_name);
+        $("#middle_name").val(appointment.patient.middle_name);
         $("#gender").val(appointment.patient.gender);
         $("#dob").val(appointment.patient.birthdate);
         $("#age").val(appointment.patient.age);
@@ -72,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $("#province").html(
           `<option value="${appointment.patient.province}">${appointment.patient.province}</option>`
         );
+
         $("#city").html(
           `<option value="${appointment.patient.city}">${appointment.patient.city}</option>`
         );
@@ -119,13 +113,19 @@ function fillPackageServices() {
   const selectedPackage = packages.find((package) => package.id == packageId);
 
   const servicesSelect = $("[name='request_test[]']");
-  for (const select of servicesSelect) {
-    select.selectedIndex = 0;
-  }
-
-  selectedPackage.service_ids.map((service_id, index) => {
-    servicesSelect[index].selectedIndex = service_id;
+  servicesSelect.map((index, select) => {
+    select.checked = false;
   });
+
+  servicesSelect.map((index, select) => {
+    for (const serviceId of selectedPackage.service_ids) {
+      if (select.value == serviceId) {
+        select.checked = true;
+        console.log(select.checked);
+      }
+    }
+  });
+
   var totalInput = document.getElementById("total");
 
   totalInput.value = parseInt(selectedPackage.price).toFixed(2);

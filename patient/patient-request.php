@@ -136,7 +136,7 @@ $page = 'add_request_form'; // for the components/sidebar.html
                       </script>
                       <div class="fields">
                         <div class="input-field">
-                        <label>Lastname*(Jr.Sr. and etc...)</label>
+                          <label>Lastname*(Jr.Sr. and etc...)</label>
                           <input type="text" id='last_name' name="request_lastname" placeholder="Enter your Lastame" required>
                         </div>
                         <div class="input-field">
@@ -145,7 +145,7 @@ $page = 'add_request_form'; // for the components/sidebar.html
                         </div>
                         <div class="input-field">
                           <label>Middlename</label>
-                          <input type="text" id='first_name' name="request_firstname" placeholder="Enter your Middlename">
+                          <input type="text" id='middle_name' name="request_middlename" placeholder="Enter your Middlename">
                         </div>
                         <div class="input-field">
                           <label>Sex*</label>
@@ -208,14 +208,14 @@ $page = 'add_request_form'; // for the components/sidebar.html
 
                         <div class="input-field">
                           <label>Select type of ID</label>
-                          <select required>
+                          <select name="request_id_type" required>
                             <option disabled selected>Select ID</option>
-                            <option value="">Voter's ID</option>
-                            <option value="">Drivers License</option>
-                            <option value="">Philippine Identification Card</option>
-                            <option value="">Barangay ID</option>
-                            <option value="">Passport</option>
-                            <option value="">Others</option>
+                            <option value="Voter's ID">Voter's ID</option>
+                            <option value="Drivers License">Drivers License</option>
+                            <option value="Philippine Identification Card">Philippine Identification Card</option>
+                            <option value="Barangay ID">Barangay ID</option>
+                            <option value="Passport">Passport</option>
+                            <option value="Others">Others</option>
                           </select>
                         </div>
 

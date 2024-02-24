@@ -502,7 +502,7 @@ $packages = $servicesModel->getAllPackages();
             title: "Request Edited",
             icon: "success",
           }).then(() => {
-            window.location.href = 'pending_requests.php'
+            window.location.href = 'cashier-request-modal.php'
           })
         })
     });

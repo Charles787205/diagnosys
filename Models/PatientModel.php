@@ -55,9 +55,9 @@ class PatientModel extends Database
     if ($existingPatient) {
       return $existingPatient;
     } else {
-      $sql = 'INSERT INTO patient (first_name, last_name, birthdate, age, province, city, barangay, purok, subdivision, house_no, mobile_number, image_url, gender) VALUES (?,?, DATE(?) ,?,?,?,?,?,?,?,?,?,?);';
+      $sql = 'INSERT INTO patient (first_name, last_name, middle_name, birthdate, age, province, city, barangay, purok, subdivision, house_no, mobile_number, image_url, gender, id_type) VALUES (?,?,?, DATE(?) ,?,?,?,?,?,?,?,?,?,?,?);';
       $statement = $this->connection->prepare($sql);
-      $statement->bind_param('sssisssssssss', $patient->first_name, $patient->last_name, $patient->birthdate, $patient->age, $patient->province, $patient->city, $patient->barangay, $patient->purok, $patient->subdivision, $patient->house_no, $patient->mobile_number, $patient->image_url, $patient->gender);
+      $statement->bind_param('ssssissssssssss', $patient->first_name, $patient->last_name, $patient->middle_name, $patient->birthdate, $patient->age, $patient->province, $patient->city, $patient->barangay, $patient->purok, $patient->subdivision, $patient->house_no, $patient->mobile_number, $patient->image_url, $patient->gender, $patient->id_type);
       $statement->execute();
       $id = $this->connection->insert_id;
       $result = $this->connection->query("SELECT id FROM patient ORDER BY id DESC LIMIT 1");
@@ -105,9 +105,9 @@ class PatientModel extends Database
     $this->checkConnection();
 
     // Update the patient
-    $sql = "UPDATE patient SET first_name = ?, last_name = ?, birthdate = DATE(?), age = ?, province = ?, city = ?, barangay = ?, purok = ?, mobile_number = ?, image_url = ?, gender = ? WHERE id = ?;";
+    $sql = "UPDATE patient SET first_name = ?, middle_name = ?, last_name = ?, birthdate = DATE(?), age = ?, province = ?, city = ?, barangay = ?, purok = ?, mobile_number = ?, image_url = ?, gender = ?, id_type =? WHERE id = ?;";
     $statement = $this->connection->prepare($sql);
-    $statement->bind_param('sssissssssss', $patient->first_name, $patient->last_name, $patient->birthdate, $patient->age, $patient->province, $patient->city, $patient->barangay, $patient->purok, $patient->mobile_number, $patient->image_url, $patient->gender, $patient->id);
+    $statement->bind_param('ssssisssssssss', $patient->first_name, $patient->middle_name, $patient->last_name, $patient->birthdate, $patient->age, $patient->province, $patient->city, $patient->barangay, $patient->purok, $patient->mobile_number, $patient->image_url, $patient->gender, $patient->id_type, $patient->id);
     $statement->execute();
 
     $this->close();

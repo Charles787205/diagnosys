@@ -6,6 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function add_more(service) {
+  console.log(service.name);
+  if (service.name.toLowerCase().includes("sgpt")) {
+    $("#sgpt_service_id").val(service.id);
+    return;
+  }
   counter++;
   var newDiv = originalDiv.cloneNode(true); // true indicates deep cloning with children
   var normalValueInput = newDiv.querySelector(
@@ -19,6 +24,7 @@ function add_more(service) {
   });
 
   var serviceName = newDiv.querySelector('input[data-type="service_name"]');
+
   serviceName.value = service.name;
 
   var idInput = document.createElement("input");
@@ -43,18 +49,40 @@ function delete_row_dynamic(rowId) {
 function submit_form() {
   const inputRows = document.getElementsByClassName("input-row");
   const results = [];
-  console.log("Hell");
+
   for (const row of inputRows) {
     const idInput = row.querySelector("[name=service_id]");
     console.log(idInput.value);
     const resultInput = row.querySelector('[name="result"]');
 
-    const normalValueInput = row.querySelector('[data-type="normal_value"]');
     const requestSelect = document.getElementById("patient-select");
     // Access the values of the selected elements
     const service_id = idInput.value;
     const resultInputValue = resultInput.value;
-    const normalValueInputValue = normalValueInput.value;
+
+    const requestId = requestSelect.value;
+
+    const data = {
+      service_id: service_id,
+      result: resultInputValue,
+      test: "result",
+      request_id: requestId,
+    };
+
+    results.push(data);
+  }
+  const sgptRow = document.getElementById("sgpt-row");
+
+  if (sgptRow) {
+    const idInput = sgptRow.querySelector("[name='sgpt_service_id']");
+
+    const resultInput = sgptRow.querySelector('[name="result"]');
+
+    const requestSelect = document.getElementById("patient-select");
+    // Access the values of the selected elements
+    const service_id = idInput.value;
+    const resultInputValue = resultInput.value;
+
     const requestId = requestSelect.value;
 
     const data = {

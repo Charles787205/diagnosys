@@ -17,7 +17,7 @@ foreach ($requests as $request) {
   $services = [];
   foreach ($request->services as $service) {
     $name = $service->name;
-    if (($name == "FBS" || str_contains($name, "Cholesterol") || str_contains($name, "Serum Uric Acid") || str_contains($name, "Creatinine")) && count($service->results) == 0) {
+    if (($name == "FBS" || str_contains($name, "Cholesterol") || str_contains(strtolower($name), "glucose") || str_contains($name, "Serum Uric Acid") || str_contains($name, "Creatinine")) && count($service->results) == 0) {
       $services[] = $service;
     }
   }

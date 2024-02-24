@@ -118,7 +118,7 @@ $appointmentModel->getAppointments(); ?>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach ($requests as $request) { ?>
+                    <?php foreach ($requests as $request) : ?>
                       <tr id="request-row-<?php echo $request->id ?>">
                         <th><?php echo $request->id ?></th>
                         <td><?php echo $request->patient->last_name ?></td>
@@ -132,10 +132,10 @@ $appointmentModel->getAppointments(); ?>
                           <a href="cashier-viewreq.php?request_id=<?php echo $request->id ?>" style="color: #ffff; text-decoration: none" class="btn btn-primary">
                             <i class="bi bi-eye-fill"></i>
                           </a>
-                          <a href="edit-test.php" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
+                          <a href="edit_request.php?request_id=<?php echo $request->id ?>" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
                         </td>
                       </tr>
-                    <?php } ?>
+                    <?php endforeach ?>
 
                   </tbody>
                 </table>

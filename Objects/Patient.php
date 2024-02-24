@@ -8,16 +8,18 @@ class Patient extends User
   public $province;
   public $city;
   public $barangay;
+  public $middle_name;
   public $purok;
   public $mobile_number;
   public $user_id, $gender;
   public $image_url;
   public $subdivision, $house_no;
   public $status;
+  public $id_type;
 
   public function getFullName()
   {
-    return strtoupper($this->first_name . ' ' . $this->last_name);
+    return strtoupper($this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name);
   }
   public function getFullAddress()
   {

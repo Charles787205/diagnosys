@@ -125,7 +125,7 @@ $services = $servicesModel->getAllServices();
 
                       <div class="fields">
                         <div class="input-field">
-                        <label>Lastname*(Jr.Sr. and etc...)</label>
+                          <label>Lastname*(Jr.Sr. and etc...)</label>
                           <input type="text" name="appointment_lastname" placeholder="Enter your Lastame" required>
                         </div>
                         <div class="input-field">
@@ -134,7 +134,7 @@ $services = $servicesModel->getAllServices();
                         </div>
                         <div class="input-field">
                           <label>Middlename</label>
-                          <input type="text" name="appointment_firstname" placeholder="Enter your Firstname" required>
+                          <input type="text" name="appointment_middlename" placeholder="Enter your Middlename" required>
                         </div>
                         <div class="input-field">
                           <label>Sex*</label>
@@ -176,7 +176,7 @@ $services = $servicesModel->getAllServices();
                           <label>Subdivision/Street Name</label>
                           <input type="text" id="subdivision" name="appointment_subdivision" placeholder="Enter your Subdivision/Street Name">
                         </div>
-                        
+
                         <div class="input-field">
                           <label>Purok*</label>
                           <input type="text" name="appointment_purok" placeholder="Enter your Purok" required>
@@ -206,13 +206,13 @@ $services = $servicesModel->getAllServices();
                           </select>
                         </div>
 
-                        
+
 
 
 
                         <div class="input-field">
                           <label>Select type of ID</label>
-                          <select required>
+                          <select name="id_type" required>
                             <option disabled selected>Select ID</option>
                             <option value="">Voter's ID</option>
                             <option value="">Drivers License</option>
@@ -252,7 +252,7 @@ $services = $servicesModel->getAllServices();
                           </div>
 
                         </div>
-                      
+
 
                         <div class="input-field">
                           <label></label>
@@ -312,7 +312,7 @@ $services = $servicesModel->getAllServices();
 
                     </div>
                   </div>
-
+                </form>
 
               </div>
 

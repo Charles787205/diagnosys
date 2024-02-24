@@ -14,6 +14,7 @@ if (true) {
     $patient = new Patient();
     $appointmentModel = new AppointmentModel();
     $patient->first_name = $_POST['appointment_firstname'];
+    $patient->middle_name = $_POST['appointment_middlename'];
     $patient->last_name = $_POST['appointment_lastname'];
     $patient->gender = $_POST['appointment_gender'];
     $patient->birthdate = $_POST['appointment_birthdate'];
@@ -25,6 +26,7 @@ if (true) {
     $patient->subdivision = $_POST['appointment_subdivision'];
     $patient->house_no = $_POST['appointment_house_no'];
     $patient->mobile_number = $_POST['appointment_phone'];
+    $patient->id_type = $_POST['id_type'];
     $appointment->total = 0;
     $appointment->user_id = $_POST['user_id'];
     $appointment->appointment_date = $_POST['appointment_date'];

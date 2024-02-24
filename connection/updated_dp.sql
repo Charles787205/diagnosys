@@ -39,6 +39,7 @@ CREATE TABLE patient (
   id VARCHAR(255) PRIMARY KEY,
   first_name varchar(50) NOT NULL,
   last_name varchar(50) NOT NULL,
+  middle_name varchar(50) NOT NULL,
   birthdate date NOT NULL,
   age int(2) NOT NULL,
   province varchar(255) NOT NULL,
@@ -49,7 +50,8 @@ CREATE TABLE patient (
   house_no varchar(50) NOT NULL,
   mobile_number varchar(11) NOT NULL,
   image_url varchar(255) NOT NULL,
-  gender varchar(11) NOT NULL
+  gender varchar(11) NOT NULL,
+  id_type varchar(255) DEFAULT NULL
   
 );
 CREATE TABLE payment (
@@ -185,69 +187,33 @@ INSERT INTO `services` (`name`, `price`, `normal_value`) VALUES
 ('Hemoglobin Determination', 50.00, '120-160 g/dL'),
 ('Urine Analysis', 50.00, '120-160 g/dL'),
 ('Complete Blood Count', 50.00, '120-160 g/dL'),
-('Blood Chemistry and SGPT', 50.00, '120-160 g/dL');
+('Glucose', 50.00, '120-160 g/dL'),
+('SGPT', 50.00, '23 g/dL');
 
-INSERT INTO patient (
-  first_name,
-  last_name,
-  birthdate,
-  age,
-  province,
-  city,
-  barangay,
-  subdivision,
-  house_no,
-  purok,
-  mobile_number,
-  image_url,
-  gender
-) VALUES
-('John', 'Doe', '1990-05-15', 32, 'Province1', 'City1', 'Barangay1', 'NewSubdivision1', 'NewHouseNo1', 'Purok1', '12345678901', 'image_url1.jpg', 'Male'),
-('Jane', 'Smith', '1985-08-21', 37, 'Province2', 'City2', 'Barangay2', 'NewSubdivision2', 'NewHouseNo2', 'Purok2', '23456789012', 'image_url2.jpg', 'Female'),
-('Mike', 'Johnson', '1995-02-10', 27, 'Province3', 'City3', 'Barangay3', 'NewSubdivision3', 'NewHouseNo3', 'Purok3', '34567890123', 'image_url3.jpg', 'Male'),
-('Sarah', 'Williams', '1980-11-03', 42, 'Province4', 'City4', 'Barangay4', 'NewSubdivision4', 'NewHouseNo4', 'Purok4', '45678901234', 'image_url4.jpg', 'Female');
+INSERT INTO  `package` (`package_name`, `package_price`) VALUES
+('Blood Chemistry and SGPT (MALE)', 500.00),
+('Blood Chemistry (MALE)', 1000.00),
+('Blood Chemistry and SGPT (FEMALE)', 500.00),
+('Blood Chemistry (FEMALE)', 1000.00);
 
-INSERT INTO `user` (first_name, last_name, username, password, age, address, mobile_number)
-VALUES ('John', 'Doe', 'johndoe', 'password123', 30, '123 Main St', '1234567890');
-INSERT INTO `user_questions` (question_id, user_id, answer) VALUES 
-(1,1,'SOMEONE');
-
-INSERT INTO `request` (user_id, patient_id, status, total)
-VALUES
-(1, 1, 'Pending', 150.00),
-(1, 2, 'Pending', 200.00),
-(1, 3, 'Pending', 100.00),
-(1, 4, 'Pending', 250.00);
-
--- Inserting sample data into the `request_services` table
-INSERT INTO `request_services` (request_id, service_id )
-VALUES
-(1, 1),
-(1, 2),
-(2, 3),
-(3, 4),
-(3, 5),
-(4, 6),
-(4, 7);
+INSERT INTO `package_services` (package_id, service_id) VALUES 
+(1,3),
+(1,4),
+(1,5),
+(1,9),
+(1,10),
+(2,3),
+(2,4),
+(2,5),
+(2,9),
+(3,1),
+(3,2),
+(3,5),
+(3,9),
+(3,10),
+(4,1),
+(4,2),
+(4,5),
+(4,9);
 
 
-
--- Inserting sample data into the `appointment` table
-INSERT INTO `appointment` (user_id, patient_id, status, appointment_date, total)
-VALUES
-(1, 2, 'Pending', '2023-11-30', 150.00),
-(1, 2, 'Pending', '2023-12-01', 200.00),
-(1, 3, 'Pending', '2023-12-02', 100.00),
-(1, 4, 'Pending', '2023-12-03', 250.00);
-
--- Inserting sample data into the `appointment_services` table
-INSERT INTO `appointment_services` (appointment_id, service_id)
-VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(2, 4),
-(2, 5),
-(3, 6),
-(3, 7),
-(3, 5);

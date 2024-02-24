@@ -165,16 +165,16 @@ $packages = $servicesModel->getAllPackages();
                           <label>Lastname*(Jr.Sr. and etc...)</label>
                           <input type="text" id='last_name' name="request_lastname" placeholder="Enter your Lastame" required>
                         </div>
-                        
+
                         <div class="input-field">
                           <label>Firstname*</label>
                           <input type="text" id='first_name' name="request_firstname" placeholder="Enter your Firstname" required>
                         </div>
                         <div class="input-field">
                           <label>Middlename</label>
-                          <input type="text" id='first_name' name="request_midname" placeholder="Enter your Middlename">
+                          <input type="text" id='middle_name' name="request_middlename" placeholder="Enter your Middlename">
                         </div>
-                         
+
                         <div class="input-field">
                           <label>Sex*</label>
                           <select id='gender' required name="request_gender">
@@ -271,125 +271,7 @@ $packages = $servicesModel->getAllPackages();
                                       </select>
                                     </div>
                                   </div>
-                                  <!----   <div class="row">
-                                    <div class="col-sm-6">
-                                      <br>
-                                      <div class="form-group">
-                                        <select class="form-select" id="test1" name="request_test[]" aria-label="Default select example">
-                                          <option disabled selected>Choose Test</option>
-                                          <?php
-                                          foreach ($services as $service) {
-                                          ?>
-                                            <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
-                                          <?php } ?>
 
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-
-
-
-                                    <div class="col-sm-6">
-                                      <br>
-                                      <div class="form-group">
-                                        <select class="form-select" id="test2" name="request_test[]" aria-label="Default select example">
-                                          <option disabled selected>Choose Test</option>
-                                          <?php
-                                          foreach ($services as $service) {
-                                          ?>
-                                            <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
-                                          <?php } ?>
-
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <div class="form-group">
-                                        <select class="form-select" id="test3" name="request_test[]" aria-label="Default select example">
-                                          <option disabled selected>Choose Test</option>
-                                          <?php
-                                          foreach ($services as $service) {
-                                          ?>
-                                            <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
-                                          <?php } ?>
-
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <div class="form-group">
-                                        <select class="form-select" id="test4" name="request_test[]" aria-label="Default select example">
-                                          <option disabled selected>Choose Test</option>
-                                          <?php
-                                          foreach ($services as $service) {
-                                          ?>
-                                            <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
-                                          <?php } ?>
-
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <div class="form-group">
-                                        <select class="form-select" id="test5" name="request_test[]" aria-label="Default select example">
-                                          <option disabled selected>Choose Test</option>
-                                          <?php
-                                          foreach ($services as $service) {
-                                          ?>
-                                            <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
-                                          <?php } ?>
-
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <div class="form-group">
-                                        <select class="form-select" id="test6" name="request_test[]" aria-label="Default select example">
-                                          <option disabled selected>Choose Test</option>
-                                          <?php
-                                          foreach ($services as $service) {
-                                          ?>
-                                            <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
-                                          <?php } ?>
-
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <div class="form-group">
-                                        <select class="form-select" id="test7" name="request_test[]" aria-label="Default select example">
-                                          <option selected>Choose Test</option>
-                                          <?php
-                                          foreach ($services as $service) {
-                                          ?>
-                                            <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
-                                          <?php } ?>
-
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <div class="form-group">
-                                        <select class="form-select" id="test8" name="request_test[]" aria-label="Default select example">
-                                          <option disabled selected>Choose Test</option>
-                                          <?php
-                                          foreach ($services as $service) {
-                                          ?>
-                                            <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
-                                          <?php } ?>
-
-                                        </select>
-                                        </option>
-                                      </div>
-                                    </div>
-                                    <!-->
 
                                   <fieldset class="checkbox-inline">
                                     <legend class="control-label" for="course_details"> </legend>
@@ -432,7 +314,7 @@ $packages = $servicesModel->getAllPackages();
 
 
                   </div>
-
+                </form>
               </div>
 
             </div>
@@ -462,28 +344,26 @@ $packages = $servicesModel->getAllPackages();
   <script src="../assets/js/main.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var checkboxes = document.querySelectorAll('.form-check-input');
-        var totalSumInput = document.getElementById('total');
-        var totalSum = 0;
-
-        checkboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    totalSum += parseInt(this.getAttribute('data-price'));
-                } else {
-                    totalSum -= parseInt(this.getAttribute('data-price'));
-                }
-                totalSumInput.value = totalSum;
-            });
-        });
-    });
-</script>
-  <script>
     const appointments = <?php echo json_encode($appointments); ?>;
     const user_id = <?php echo $_SESSION['id'] ?>;
     const packages = <?php echo json_encode($packages) ?>;
     const services = <?php echo json_encode($services) ?>;
+    document.addEventListener('DOMContentLoaded', function() {
+      var checkboxes = document.querySelectorAll('.form-check-input');
+      var totalSumInput = document.getElementById('total');
+      var totalSum = 0;
+
+      checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+          if (this.checked) {
+            totalSum += parseInt(this.getAttribute('data-price'));
+          } else {
+            totalSum -= parseInt(this.getAttribute('data-price'));
+          }
+          totalSumInput.value = totalSum;
+        });
+      });
+    });
   </script>
   <script src="../assets/js/admin/add_request.js"></script>
 

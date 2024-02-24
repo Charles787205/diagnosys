@@ -213,9 +213,50 @@ $requests = $requestModel->getRequestWithResult($_SESSION['id'])
   <script src="assets/js/main2.js"></script>
   <script src="assets/js/script3.js"></script>
   <script>
-    const requests = <?php echo json_encode($requests); ?>
+    const requests = <?php echo json_encode($requests); ?>;
+    console.log(requests);
+    const resultTable = $("#result_table");
+    $("#result_table_container").hide();
+
+    function seeResult(requestId) {
+      const tbody = $(resultTable).find("tbody").get(0);
+
+      $(tbody)
+        .find("tr")
+        .each(function() {
+          $(this).remove();
+        }); //remove all the row first
+
+      for (const request of requests) {
+        if (request.id === requestId) {
+          let colorClass = checkIfNormal(request.services[0].results[0]["result"], request.services[0].normal_value) ? "text-success" : "text-danger";
+          request.services.map((service, index) => {
+            const tableRow = document.createElement("tr");
+            tableRow.innerHTML = `<td>${service.name}</td>
+                             <td class="${colorClass}">${service.results[0]["result"]}</td>
+                             <td>${service.normal_value}</td>`;
+
+            tbody.appendChild(tableRow);
+          });
+        }
+      }
+      $("#result_table_container").show();
+    }
+
+    function checkIfNormal(value, normalValueStr) {
+      //normal value is a string and it differs some has range and some has single value
+      //we need to check if the value is within the range or equal to the normal value
+      //if the value is within the range, return true, else return false
+      const normalValStr = normalValueStr.split(" ")[0]; //ex. 20-30 ml -> [20-30, ml] or 20 mg -> [20, mg]
+      if (normalValStr.includes("-")) {
+        const range = normalValStr.split("-").map(val => parseInt(val));
+        return value >= range[0] && value <= range[1];
+      } else {
+        return value === parseInt(normalValStr);
+      }
+    }
   </script>
-  <script src="../assets/js/patient/lab_result.js"></script>
+
 </body>
 
 </html>

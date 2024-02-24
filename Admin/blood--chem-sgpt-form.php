@@ -15,16 +15,19 @@ $paidRequests = [];
 $service_id;
 foreach ($requests as $request) {
     $services = [];
+    $contains_sgpt = false;
     foreach ($request->services as $service) {
         $name = $service->name;
-        if ($name == "Blood Chemistry and SGPT") {
-            $service->name = "Blood Chemistry";
+        if (($name == "FBS" || str_contains($name, "Cholesterol") || str_contains(strtolower($name), "glucose") || str_contains($name, "Serum Uric Acid") || str_contains($name, "Creatinine")) || str_contains(strtolower($name), "sgpt") && count($service->results) == 0) {
+            if (str_contains(strtolower($name), "sgpt")) {
+                $contains_sgpt = true;
+            }
             $services[] = $service;
             $service_id = $service->id;
         }
     }
     $request->services = $services;
-    if (count($services) != 0) {
+    if (count($services) != 0 && $contains_sgpt) {
         $paidRequests[] = $request;
     }
 }
@@ -298,7 +301,7 @@ foreach ($requests as $request) {
                                             <input class="service-select form-control" aria-label="Default select example" data-type="service_name" readonly />
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" data-type="result" name="blood_chemistry">
+                                            <input type="text" class="form-control" data-type="result" name="result">
                                         </div>
                                         <div class="col-md-4">
 
@@ -326,7 +329,7 @@ foreach ($requests as $request) {
                             </div>
                             <div class="card-body mt-3">
                                 <form id="input-form">
-                                    <div class="row">
+                                    <div class="row" id="sgpt-row">
                                         <table class="table table-bordered">
                                             <tbody>
                                                 <tr>
@@ -337,7 +340,7 @@ foreach ($requests as $request) {
                                                 </tr>
                                             </tbody>
                                         </table>
-
+                                        <input type="number" name="sgpt_service_id" id="sgpt_service_id" hidden>
                                         <div class="col-sm-5 mt-3">
                                             <input type="text" style="text-align: center;" value="Services" class="form-control" readonly>
                                         </div>
@@ -352,10 +355,10 @@ foreach ($requests as $request) {
                                             <input type="text" style="text-align: center;" value="SGPT(Serum Glutamate Pyruvate Transaminase)" class="form-control" readonly>
                                         </div>
                                         <div class="col-sm-2 mt-3">
-                                            <input type="text" style="text-align: center;" value="" class="form-control" data-type="result" name="sgpt">
+                                            <input type="text" style="text-align: center;" value="" class="form-control" data-type="result" name="result">
                                         </div>
                                         <div class="col-sm-5 mt-3">
-                                            <input type="text" style="text-align: center;" value="<34 U/L" class="form-control" readonly>
+                                            <input type="text" style="text-align: center;" value="<34 U/L" class="form-control" name="normal_value" readonly>
                                         </div>
 
                                     </div>
@@ -366,7 +369,7 @@ foreach ($requests as $request) {
                             </div>
                             <div class="card-footer text-end">
 
-                                <button onclick="saveResult()" id="#third" class="btn btn-info">Save</button>
+                                <button onclick="submit_form()" id="#third" class="btn btn-info">Save</button>
                             </div>
                         </div>
                     </div>

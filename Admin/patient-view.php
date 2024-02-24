@@ -441,7 +441,8 @@ $appointments = $appointmentModel->getAppointmentFromPatientId($patient->id);
       //types of result that will be displayed;
       let normal = false;
       let cbc = false;
-      let hemoglobin = false;
+      let hemoglobinDetermination = false;
+      let hemoglobinCount = false;
       let urinalysis = false;
       let bcs = false;
       for (const service of chosenRequest.services) {
@@ -454,14 +455,18 @@ $appointments = $appointmentModel->getAppointmentFromPatientId($patient->id);
         if (name == "Urine Analysis") {
           urinalysis = true;
         }
-        if (name.toLowerCase().includes("hemoglobin")) {
-          hemoglobin = true;
+        if (name.toLowerCase().includes("hemoglobin determination")) {
+          hemoglobinDetermination = true;
         }
         if (name.toLowerCase().includes("cbc") || name.toLowerCase() == "complete blood count") {
           cbc = true;
         }
-        if (name == "Blood Chemistry and SGPT") {
+        if (name.toLowerCase() == "sgpt") {
+          normal = false;
           bcs = true;
+        }
+        if (name.toLowerCase() == "hemoglobin count") {
+          hemoglobinCount = true;
         }
       }
 
@@ -482,8 +487,11 @@ $appointments = $appointmentModel->getAppointmentFromPatientId($patient->id);
       if (urinalysis) {
         window.open(`results/urine-analysis.php?request_id=${id}`, '_blank');
       }
-      if (hemoglobin) {
+      if (hemoglobinDetermination) {
         window.open(`results/hemoglobin-determination-pdf.php?request_id=${id}`, '_blank')
+      }
+      if (hemoglobinCount) {
+        window.open(`results/hemoglobin-count.php?request_id=${id}`, '_blank')
       }
 
 

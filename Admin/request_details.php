@@ -88,7 +88,7 @@ for ($i = 0; $i < count($request->services); $i++) {
                 </div>
                 <div class="col-md-4">
                   <label for="inputName5" class="form-label">Middlename</label>
-                  <input type="text" class="form-control" id="inputName5" value="" readonly>
+                  <input type="text" class="form-control" id="inputName5" value="<?php echo $request->patient->middle_name ?>" readonly>
                 </div>
                 <div class="col-md-3">
                   <label for="inputName5" class="form-label">Sex</label>
@@ -130,16 +130,16 @@ for ($i = 0; $i < count($request->services); $i++) {
                   <label for="inputName5" class="form-label">Province</label>
                   <input type="text" class="form-control" id="inputName5" value="<?php echo $request->patient->province ?>" readonly>
                 </div>
-               
-               
-                
+
+
+
                 <div class="col-12">
                   <label for="inputName5" class="form-label">Service Avail</label>
                   <input type="text" class="form-control" style="height:100px;" id="inputPassword5" value="<?php echo $servicesList ?>" readonly>
                 </div>
                 <div class="col-md-6">
                   <label for="inputName5" class="form-label">Type of ID</label>
-                  <input type="text" class="form-control" id="inputName5" value="" readonly>
+                  <input type="text" class="form-control" id="inputName5" value="<?php echo $request->patient->id_type ?>" readonly>
                 </div>
                 <div class="col-12">
                   <label for="inputName5" class="form-label">ID</label>

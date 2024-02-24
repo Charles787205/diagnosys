@@ -7,17 +7,25 @@ $request = $requestModel->getRequestById($_GET['request_id']);
 
 $services = [];
 $results = [];
+$hasSgpt = false;
+$sgpt_service;
 foreach ($request->services as $service) {
   $name = $service->name;
-  if ($name == "Blood Chemistry and SGPT") {
-    $services[] = $service;
+  if (($name == "FBS" || str_contains($name, "Cholesterol") || str_contains(strtolower($name), "glucose") || str_contains($name, "Serum Uric Acid") || str_contains(strtolower($name), "sgpt") ||  str_contains($name, "Creatinine"))) {
+
+
+    if (str_contains(strtolower($name), "sgpt")) {
+      $sgpt_service = $service;
+      $hasSgpt = true;
+    } else {
+      $services[] = $service;
+    }
   }
 }
+
 $request->services = $services;
 
-foreach ($request->services[0]->results as $result) {
-  $results[$result["name"]] =  $result["result"];
-}
+
 $pdf = new FPDF('P', 'mm', 'Legal');
 
 $pdf->AddPage();
@@ -30,7 +38,7 @@ $pdf->SetFont('Arial', 'B', 16);
 $pdf->SetTextColor(255, 0, 0);
 
 // Title
-$pdf->Image('../../assets/img/logo01.png',3, 3, 33, 33, 'PNG');
+$pdf->Image('../../assets/img/logo01.png', 3, 3, 33, 33, 'PNG');
 $pdf->Image('../../assets/img/logo02.png', 173, 3, 38, 38, 'PNG');
 $pdf->SetFont('Arial', 'B', 22);
 $pdf->SetTextColor(255, 0, 0);
@@ -141,48 +149,20 @@ $pdf->SetFont('Arial', '', 12);
 $pdf->Ln(6);
 $pdf->SetTextColor(0, 0, 0);
 
-$pdf->SetTextColor(50, 200, 50);
-$pdf->Cell(100, 6, 'Blood Chemistry', 1, 0, 'C');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(35, 6, $results["blood_chemistry"], 1, 0, 'C');
-$pdf->SetFont('Arial', '', 12);
-$pdf->SetTextColor(50, 200, 50);
-$pdf->Cell(60, 6, '3.85-5.78 mmol/L', 1, 0, 'C');
+foreach ($services as $service) {
 
-$pdf->Ln(6);
-$pdf->SetTextColor(0, 0, 0);
 
-$pdf->SetTextColor(50, 200, 50);
-$pdf->Cell(100, 6, 'Blood Chemistry', 1, 0, 'C');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(35, 6, $results["blood_chemistry"], 1, 0, 'C');
-$pdf->SetFont('Arial', '', 12);
-$pdf->SetTextColor(50, 200, 50);
-$pdf->Cell(60, 6, '3.85-5.78 mmol/L', 1, 0, 'C');
-$pdf->Ln(6);
-$pdf->SetTextColor(0, 0, 0);
+  $pdf->SetTextColor(50, 200, 50);
+  $pdf->Cell(100, 6, $service->name, 1, 0, 'C');
+  $pdf->SetTextColor(0, 0, 0);
+  $pdf->SetFont('Arial', 'B', 12);
+  $pdf->Cell(35, 6, $service->results[0]["result"], 1, 0, 'C');
+  $pdf->SetFont('Arial', '', 12);
+  $pdf->SetTextColor(50, 200, 50);
+  $pdf->Cell(60, 6, $service->normal_value, 1, 0, 'C');
 
-$pdf->SetTextColor(50, 200, 50);
-$pdf->Cell(100, 6, 'Blood Chemistry', 1, 0, 'C');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(35, 6, $results["blood_chemistry"], 1, 0, 'C');
-$pdf->SetFont('Arial', '', 12);
-$pdf->SetTextColor(50, 200, 50);
-$pdf->Cell(60, 6, '3.85-5.78 mmol/L', 1, 0, 'C');
-$pdf->Ln(6);
-$pdf->SetTextColor(0, 0, 0);
-
-$pdf->SetTextColor(50, 200, 50);
-$pdf->Cell(100, 6, 'Blood Chemistry', 1, 0, 'C');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(35, 6, $results["blood_chemistry"], 1, 0, 'C');
-$pdf->SetFont('Arial', '', 12);
-$pdf->SetTextColor(50, 200, 50);
-$pdf->Cell(60, 6, '3.85-5.78 mmol/L', 1, 0, 'C');
+  $pdf->Ln(6);
+}
 
 $pdf->Ln(15);
 $pdf->SetTextColor(135, 206, 235);
@@ -214,7 +194,7 @@ $pdf->Cell(100, 6, 'SGPT(Serum Glutamate Pyruvate Transaminase)', 1, 0, 'C');
 
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(35, 6, $results["sgpt"], 1, 0, 'C');
+$pdf->Cell(35, 6, $sgpt_service->results[0]["result"], 1, 0, 'C');
 
 $pdf->SetFont('Arial', '', 12);
 $pdf->SetTextColor(50, 200, 50);

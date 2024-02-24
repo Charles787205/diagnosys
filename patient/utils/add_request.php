@@ -13,6 +13,7 @@ $request = new Request();
 $patient = new Patient();
 $requestModel = new RequestModel();
 $patient->first_name = $_POST['request_firstname'];
+$patient->middle_name = $_POST['request_middlename'];
 $patient->last_name = $_POST['request_lastname'];
 $patient->gender = $_POST['request_gender'];
 $patient->birthdate = $_POST['request_birthdate'];
@@ -24,6 +25,7 @@ $patient->purok = $_POST['request_purok'];
 $patient->subdivision = $_POST['request_subdivision'];
 $patient->house_no = $_POST['request_house_no'];
 $patient->mobile_number = $_POST['request_phone'];
+$patient->id_type = $_POST['request_id_type'];
 $request->total = 0;
 $request->user_id = $_POST['user_id'];
 

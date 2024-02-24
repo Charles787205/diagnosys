@@ -1,9 +1,12 @@
 <?php
 require('../fpdf186/fpdf.php');
 require '../Models/RequestModel.php';
+require '../Models/EmployeeModel.php';
 
 $requestModel = new RequestModel();
 $request = $requestModel->getRequestById($_GET['request_id']);
+$employeeModel = new EmployeeModel();
+$employee = $employeeModel->getEmployeeById($_GET['user_id']);
 
 // Create a PDF object
 $pdf = new FPDF('P', 'mm', 'A4');
@@ -37,11 +40,11 @@ $pdf->Cell(190, 3, 'Statement of Account', 0, 1, 'C', $pdf->SetTextColor(0, 0, 0
 
 $pdf->Ln(6);
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(20, 4, 'Invoice # :', 0,0);
-$pdf->Cell(5, 4,'2024-'.$request->id, 0);
+$pdf->Cell(20, 4, 'Invoice # :', 0, 0);
+$pdf->Cell(5, 4, '2024-' . $request->id, 0);
 // Table header
 $pdf->Ln(4);
-$pdf->SetFont('Arial', '', 10); 
+$pdf->SetFont('Arial', '', 10);
 $pdf->Cell(20, 6, 'Name:', 1);
 $pdf->SetFont('Arial', 'B', 11);
 $pdf->Cell(58, 6, $request->patient->getFullName(), 1, 0, "C");
@@ -97,7 +100,7 @@ foreach ($request->services as $service) {
   $pdf->SetFont('Arial', '', 11);
   $pdf->Cell(20, 6, '', 1);
   $pdf->Cell(121, 6, $service->name, 1);
-  $pdf->Cell(55, 6, $service->price.'.00', 1);
+  $pdf->Cell(55, 6, $service->price . '.00', 1);
   $pdf->Ln(6);
 }
 
@@ -121,9 +124,9 @@ $pdf->Cell(310, 5, 'I hereby acknowledge that the services that has', 0, 1, 'C')
 $pdf->Cell(310, 5, 'mentioned were actually received and rendered', 0, 1, 'C');
 
 $pdf->Ln(5);
-$pdf->Cell(20, 2, 'Prepared by: ', 0, 0);
+$pdf->Cell(20, 2, "Prepared by ", 0, 0);
 $pdf->SetFont('Arial', 'U', 9);
-$pdf->Cell(120, 2, 'Cashier Name ', 0, 0);
+$pdf->Cell(120, 2, $employee->getFullName(), 0, 0);
 $pdf->SetFont('Arial', 'U', 9);
 $pdf->Cell(170, 2, $request->patient->getFullName(), 0, 1);
 $pdf->SetFont('Arial', '', 9);

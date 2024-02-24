@@ -13,6 +13,7 @@ $request = new Request();
 $patient = new Patient();
 $requestModel = new RequestModel();
 $patient->first_name = $_POST['request_firstname'];
+$patient->middle_name = $_POST['request_middlename'];
 $patient->last_name = $_POST['request_lastname'];
 $patient->gender = $_POST['request_gender'];
 $patient->birthdate = $_POST['request_birthdate'];
@@ -27,6 +28,7 @@ $patient->mobile_number = $_POST['request_phone'];
 $request->total = $_POST['request_amount'];
 $request->user_id = $_POST['user_id'];
 $services_selected_arr = $_POST['request_test'];
+
 $services = array();
 foreach ($services_selected_arr as $serviceId) {
     $service = new Services();

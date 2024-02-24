@@ -1,4 +1,4 @@
-const resultTable = $("#result_table").get(0);
+const resultTable = $("#result_table");
 $("#result_table_container").hide();
 
 function seeResult(requestId) {

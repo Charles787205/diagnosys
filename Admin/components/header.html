@@ -1,8 +1,10 @@
 <?php 
   require_once '../Models/RequestModel.php';
+  require_once '../Models/AppointmentModel.php';
   $requestModel = new RequestModel();
   $newlyApprovedRequest = $requestModel->getRequestTodayByStatus(Request::PENDING);
-?>
+$appointmentModel = new AppointmentModel(); $newlyCreatedAppointment =
+$appointmentModel->getAppointmentsCreatedToday(); ?>
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
     <a href="dashboard.php" class="logo d-flex align-items-center">
@@ -30,10 +32,10 @@
       <li class="nav-item dropdown">
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
-          <?php if(count($newlyApprovedRequest)): ?>
-          <span class="badge bg-primary badge-number"
-            ><?php echo count($newlyApprovedRequest) ?></span
-          >
+          <?php if(count($newlyApprovedRequest) || count($newlyCreatedAppointment)): ?>
+          <span class="badge bg-primary badge-number">
+            <?php echo count($newlyApprovedRequest) + count($newlyCreatedAppointment) ?>
+          </span>
         </a>
         <?php endif ?>
 
@@ -42,7 +44,7 @@
         >
           <li class="dropdown-header">
             You have
-            <?php echo count($newlyApprovedRequest) ?>
+            <?php echo count($newlyApprovedRequest) + count($newlyCreatedAppointment) ?>
             new notifications
             <a href="#"
               ><span class="badge rounded-pill bg-primary p-2 ms-2"
@@ -62,6 +64,28 @@
                 <h4 style="color: black">
                   New request from
                   <?php echo $r->patient->first_name ?>
+                </h4>
+              </div>
+            </li>
+          </a>
+
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <?php endforeach ?>
+
+          <?php foreach($newlyCreatedAppointment as $a): ?>
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+
+          <a href="appointment_forms.php">
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                <h4 style="color: black">
+                  New request from
+                  <?php echo $a->patient->first_name ?>
                 </h4>
               </div>
             </li>

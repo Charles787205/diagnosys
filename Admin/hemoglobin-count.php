@@ -15,7 +15,7 @@ $paidRequests = [];
 $service_id = null;
 foreach ($requests as $request) {
     foreach ($request->services as $service) {
-        if ( $service->name == "Hemoglobin count" && count($service->results) == 0) {
+        if (strtolower($service->name) == "hemoglobin count" && count($service->results) == 0) {
             $paidRequests[] = $request;
             $service_id = $service->id;
         }
@@ -318,8 +318,8 @@ foreach ($requests as $request) {
                                         </table>
                                         <?php require "components/urinalysis_template.html" ?>
 
-                                     
-                                     
+
+
                                     </div>
                             </div>
                         </div>

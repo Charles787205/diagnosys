@@ -74,16 +74,16 @@ $date_now_format = date_create_from_format("F d, Y", $date_now);
                     <button type="button" class="btn btn-secondary" style="right: 0;" onclick="onPrint()"><i class="bi bi-printer"></i> Print</button>
                   </div>
                   <div class="row mb-3">
-                  <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
-                  <div class="col-sm-4">
-                    <input type="date" class="form-control">
+                    <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
+                    <div class="col-sm-4">
+                      <input type="date" class="form-control" id="start-date" onchange="filterTable()">
+                    </div>
+                    <label for="inputDate" class="col-sm-2 col-form-label">End</label>
+                    <div class="col-sm-4">
+                      <input type="date" class="form-control" id="end-date" onchange="filterTable()">
+                    </div>
                   </div>
-                  <label for="inputDate" class="col-sm-2 col-form-label">End</label>
-                  <div class="col-sm-4">
-                    <input type="date" class="form-control">
-                  </div>
-                </div>
-                  <div class="filter" >
+                  <div class="filter">
                     <a class=" icon" style="float:right" href=" #" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                       <li class="dropdown-header text-start">
@@ -148,14 +148,8 @@ $date_now_format = date_create_from_format("F d, Y", $date_now);
                     </tbody>
 
                   </table>
-
-
-
-
-
-              
-            </div>
-          </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -189,6 +183,38 @@ $date_now_format = date_create_from_format("F d, Y", $date_now);
   <script>
     function onPrint() {
       location.href = "utils/printing/transaction_logs.php"
+    }
+
+    function filterTable() {
+
+      // Get start and end date values
+      const startDateStr = $('#start-date').val();
+
+      const endDateStr = $('#end-date').val(); // Adjust selector as needed
+      if (startDateStr == "" || endDateStr == "") {
+        $('.table_row').each(function() {
+          $(this).show();
+        });
+        return;
+      }
+      // Remove time portion
+      const startDate = new Date(startDateStr.substring(0, 10));
+      startDate.setHours(0, 0, 0, 0)
+      const endDate = new Date(endDateStr.substring(0, 10));
+      endDate.setHours(0, 0, 0, 0);
+
+      // Iterate through table rows
+      $('.table_row').each(function() {
+        const billDate = new Date($(this).find('.started_date').text()); // Adjust selector as needed
+
+        if (billDate >= startDate && billDate <= endDate) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+
+      });
+
     }
   </script>
 </body>

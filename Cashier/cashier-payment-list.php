@@ -113,31 +113,31 @@ foreach ($requests as $request) {
                 </a>
                 <h5 class="card-title">Filter by:</h5>
                 <div class="form-group">
-                
-                    <select class="form-select" id="test1" name="request_test[]" aria-label="Default select example">
-                      <option disabled selected>Choose Test</option>
-                      <?php
-                      foreach ($services as $service) {
-                      ?>
-                        <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
-                      <?php } ?>
 
-                      </option>
-                    </select>
-                  </div>
+                  <select class="form-select" id="test1" name="" aria-label="Default select example" onchange="filterRequests()">
+                    <option disabled selected>Choose Test</option>
+                    <?php
+                    foreach ($services as $service) {
+                    ?>
+                      <option value="<?php echo $service->id ?>" data-price="<?php echo $service->price ?>"><?php echo $service->name ?></option>
+                    <?php } ?>
+
+                    </option>
+                  </select>
+                </div>
                 <div class="row mb-3">
                   <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
                   <div class="col-sm-4">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" onchange="filterRequests()" id="startDate">
                   </div>
-                  <label for="inputDate" class="col-sm-2 col-form-label">End</label>
+                  <label for=" inputDate" class="col-sm-2 col-form-label">End</label>
                   <div class="col-sm-4">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" onchange="filterRequests()" id="endDate">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <br>
-                 
+
                 </div>
                 <table class="table table-bordered mt-3">
                   <thead>
@@ -206,20 +206,39 @@ foreach ($requests as $request) {
     }
 
     function filterRequests() {
+      const testId = $('#test1').val()
+      const startDate = $('#startDate').val()
+      const endDate = $('#endDate').val()
+      const test1 = $('#test1').val()
 
-      var searchValue = $('#search-bar').val().toLowerCase();
+      const filteredRequests = requests.filter(request => {
+        const requestDate = new Date(request.request_date)
+        const start = new Date(startDate)
+        const end = new Date(endDate)
+        const isTestExist = false;
+        console.log(test1)
+        return (startDate === '' || requestDate >= start) &&
+          (endDate === '' || requestDate <= end) && (test1 === "" || !test1 || request.services.some(service => service.id == testId))
+      })
+      let total = 0
+      for (const request of filteredRequests) {
+        total += request.total
+      }
+      $('#total').val(total.toFixed(2))
+      $('tbody tr').remove()
+      for (const request of filteredRequests) {
+        console.log(request.request_date)
+        $('tbody').append(`
+          <tr id="request-row-${request.id}">
+            <th>${request.id}</th>
+            <td>${request.patient.last_name}</td>
+            <td>${request.patient.first_name}</td>
+            <td>${request.total}</td>
+            <td>${request.status}</td>
+          </tr>
+        `)
+      }
 
-      // Loop through requests and hide/show based on search input
-      requests.forEach(function(request) {
-        var requestName = request.patient.fullName.toLowerCase();
-        var row = $('#request-row-' + request.patient.id);
-
-        if (requestName.includes(searchValue)) {
-          row.show();
-        } else {
-          row.hide();
-        }
-      });
     }
   </script>
 </body>
