@@ -100,7 +100,7 @@
                <div class="position-relative">
                  <h5 class="card-title">List of Invoices</h5>
                  <div class="col-5 position-absolute top-0 end-0">
-                  
+
 
                  </div>
                </div>
@@ -158,8 +158,10 @@
    <?php require 'components/required_js.html' ?>
    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
    <script>
+     user_id = <?php echo $_SESSION['id'] ?>;
+
      function print(id) {
-       var pdfWindow = window.open(`generatePdf.php?request_id=${id}`, "_blank");
+       var pdfWindow = window.open(`generatePdf.php?request_id=${id}&user_id=${user_id}`, "_blank");
        pdfWindow.print();
 
        window.location.href = "cashier-payment-list.php";
