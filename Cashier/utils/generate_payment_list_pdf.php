@@ -6,6 +6,7 @@ require_once '../../Models/EmployeeModel.php';
 
 $employeeModel = new EmployeeModel();
 $employee = $employeeModel->getEmployeeById($_GET['user_id']);
+$request_ids = $_GET['request_ids'];
 // Create a PDF object
 $pdf = new FPDF('P', 'mm', 'Letter');
 
@@ -57,7 +58,9 @@ $pdf->Cell(30, 10, "Status", 1, 0, "C");
 $pdf->Ln(10);
 $pdf->SetFont("Arial", '', 10);
 
-foreach ($requests as $request) {
+foreach ($request_ids as $request_id) {
+  $requestModel = new RequestModel();
+  $request = $requestModel->getRequestById($request_id);
 
   $no_of_lines = count($request->services);
   $pdf->Cell(20, 8 * $no_of_lines, $request->id, 1, 0, 'C');

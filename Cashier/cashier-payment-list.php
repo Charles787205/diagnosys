@@ -108,14 +108,14 @@ foreach ($requests as $request) {
                 <br>
 
 
-                <a href="utils/generate_payment_list_pdf.php?user_id=<?php echo $_SESSION['id'] ?>" type="button" class="btn btn-secondary">
+                <a onclick="printRequest()" type="button" class="btn btn-secondary">
                   <i class="bi bi-printer-fill"></i> Print
                 </a>
                 <h5 class="card-title">Filter by:</h5>
                 <div class="form-group">
 
                   <select class="form-select" id="test1" name="" aria-label="Default select example" onchange="filterRequests()">
-                    <option disabled selected>Choose Test</option>
+                    <option selected value="">Choose Test</option>
                     <?php
                     foreach ($services as $service) {
                     ?>
@@ -145,6 +145,7 @@ foreach ($requests as $request) {
                       <th scope="col">Payment ID</th>
                       <th scope="col">Lastname</th>
                       <th scope="col">Firstname</th>
+                      <th scope="col">Service Availed</th>
                       <th scope="col">Total Amount</th>
                       <th scope="col">Status</th>
 
@@ -155,9 +156,15 @@ foreach ($requests as $request) {
 
                     <?php foreach ($requests as $request) { ?>
                       <tr id="request-row-<?php echo $request->id ?>">
-                        <th><?php echo $request->id ?></th>
+                        <th class="request_id"><?php echo $request->id ?></th>
                         <td><?php echo $request->patient->last_name ?></td>
                         <td><?php echo $request->patient->first_name ?></td>
+                        <td>
+                          <ul>
+                            <?php foreach ($request->services as $service) { ?>
+                              <li><?php echo $service->name ?></li>
+                            <?php } ?>
+                          </ul>
                         <td><?php echo $request->total ?></td>
                         <td><?php echo $request->status ?></td>
 
@@ -230,14 +237,33 @@ foreach ($requests as $request) {
         console.log(request.request_date)
         $('tbody').append(`
           <tr id="request-row-${request.id}">
-            <th>${request.id}</th>
+            <th class="request_id">${request.id}</th>
             <td>${request.patient.last_name}</td>
             <td>${request.patient.first_name}</td>
+            <td>
+              <ul>
+                ${request.services.map(service => `<li>${service.name}</li>`).join('')}
+              </ul>
+            </td>
             <td>${request.total}</td>
             <td>${request.status}</td>
           </tr>
         `)
       }
+
+    }
+
+    function printRequest() {
+      let urlStr = "";
+
+      $(".request_id").map(function() {
+        console.log($(this).text())
+        urlStr += `request_ids[]=${$(this).text()}&`
+      })
+
+      console.log("utils/generate_payment_list_pdf.php/user_id=<?php echo $_SESSION['id'] ?>&" + urlStr);
+      window.location = "utils/generate_payment_list_pdf.php?user_id=<?php echo $_SESSION['id'] ?>&" + urlStr;
+
 
     }
   </script>
