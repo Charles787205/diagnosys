@@ -108,7 +108,7 @@ foreach ($requests as $request) {
                 <br>
 
 
-                <a href="utils/generate_payment_list_pdf.php" type="button" class="btn btn-secondary">
+                <a href="utils/generate_payment_list_pdf.php?user_id=<?php echo $_SESSION['id'] ?>" type="button" class="btn btn-secondary">
                   <i class="bi bi-printer-fill"></i> Print
                 </a>
                 <h5 class="card-title">Filter by:</h5>

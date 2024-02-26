@@ -1,8 +1,11 @@
 <?php
 require('../../fpdf186/fpdf.php');
 require '../../Models/RequestModel.php';
+require_once '../../Models/EmployeeModel.php';
 
 
+$employeeModel = new EmployeeModel();
+$employee = $employeeModel->getEmployeeById($_GET['user_id']);
 // Create a PDF object
 $pdf = new FPDF('P', 'mm', 'Letter');
 
@@ -76,12 +79,13 @@ foreach ($requests as $request) {
 
 
 // Total
+$noOfChar = strlen($employee->getFullName());
 
 $pdf->Ln(20);
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(25, 3, '', 0, 0);
-$pdf->Cell(140, 3, 'Evelyn Nuyad', 0, 0);
-$pdf->Cell(190, 3, '', 0, 1);
+$pdf->Cell(135 - $noOfChar, 3, 'Evelyn Nuyad', 0, 0);
+$pdf->Cell(190, 3, $employee->getFullName(), 0, 1);
 $pdf->Cell(135, -2, '____________________________________', 0, 0);
 $pdf->Cell(55, -2, '__________________________', 0, 1);
 $pdf->SetFont('Arial', '', 8);
