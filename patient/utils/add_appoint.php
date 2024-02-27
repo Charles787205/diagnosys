@@ -16,6 +16,7 @@ if (true) {
     $patient->first_name = $_POST['appointment_firstname'];
     $patient->middle_name = $_POST['appointment_middlename'];
     $patient->last_name = $_POST['appointment_lastname'];
+    $patient->suffix = $_POST['appointment_suffix'];
     $patient->gender = $_POST['appointment_gender'];
     $patient->birthdate = $_POST['appointment_birthdate'];
     $patient->age = $_POST['appointment_age'];

@@ -174,6 +174,10 @@ $packages = $servicesModel->getAllPackages();
                           <label>Middlename</label>
                           <input type="text" id='middle_name' name="request_middlename" placeholder="Enter your Middlename">
                         </div>
+                        <div class="input-field">
+                          <label>Suffix</label>
+                          <input type="text" name="request_suffix" id="suffix" placeholder="Enter your Suffix" required>
+                        </div>
 
                         <div class="input-field">
                           <label>Sex*</label>

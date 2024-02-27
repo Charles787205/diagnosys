@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $("#last_name").val(appointment.patient.last_name);
         $("#first_name").val(appointment.patient.first_name);
         $("#middle_name").val(appointment.patient.middle_name);
+        $("#suffix").val(appointment.patient.suffix);
         $("#gender").val(appointment.patient.gender);
         $("#dob").val(appointment.patient.birthdate);
         $("#age").val(appointment.patient.age);
@@ -65,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $("#province").html(
           `<option value="${appointment.patient.province}">${appointment.patient.province}</option>`
         );
-
+        $("#suffix").val(appointment.patient.suffix);
         $("#city").html(
           `<option value="${appointment.patient.city}">${appointment.patient.city}</option>`
         );

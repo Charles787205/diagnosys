@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   filterRequestForm("today");
   filterProfits("today");
-  renderApexChart();
+  renderApexChart(getSalesData());
 });
-
+let chart;
 async function filterRequestForm(time) {
   const response = await fetch(
     `utils/dashboard/get_request_count.php?time=${time}`
@@ -25,7 +25,27 @@ async function filterRequestForm(time) {
       break;
   }
 }
+async function filterAppointmentForm(time) {
+  const response = await fetch(
+    `utils/dashboard/get_appointment_count.php?time=${time}`
+  );
+  const { count } = await response.json();
+  const appointmentFormIndicator = $("#appointment_form_indicator").get(0);
+  const appointmentFormCount = $("#appointment_form_count").get(0);
+  $(appointmentFormCount).text(count || 0);
 
+  switch (time) {
+    case "today":
+      $(appointmentFormIndicator).text("Today");
+      break;
+    case "month":
+      $(appointmentFormIndicator).text("This Month");
+      break;
+    case "year":
+      $(appointmentFormIndicator).text("This Year");
+      break;
+  }
+}
 async function filterProfits(time) {
   const response = await fetch(
     `utils/dashboard/get_sales_total.php?time=${time}`
@@ -95,14 +115,7 @@ console.log(
 function getSalesData() {
   const salesData = {};
   const s = "2024-01-13 14:50:46";
-  console.log(
-    "hhhh",
-    new Date(s).toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "numeric",
-      year: "numeric",
-    })
-  );
+  console.log({ salesRequests });
   salesRequests.map((salesRequest) => {
     const dateString = new Date(salesRequest.request_date).toLocaleDateString(
       "en-US",
@@ -123,17 +136,17 @@ function getSalesData() {
   console.log(salesDataArray);
   return salesDataArray;
 }
-function renderApexChart() {
-  new ApexCharts(document.querySelector("#reportsChart"), {
+function renderApexChart(data) {
+  chart = new ApexCharts(document.querySelector("#reportsChart"), {
     series: [
       {
         name: "Sales",
-        data: getSalesData(),
+        data: data,
       },
     ],
     chart: {
       height: 350,
-      type: "area",
+      type: "bar",
       toolbar: {
         show: false,
       },
@@ -167,5 +180,47 @@ function renderApexChart() {
         format: "yy-dd-mm",
       },
     },
-  }).render();
+  });
+  chart.render();
+}
+
+function filterBarchart(id) {
+  console.log(salesRequests);
+  const salesData = {};
+  const s = "2024-01-13 14:50:46";
+  console.log({ salesRequests });
+  for (const salesRequest of salesRequests) {
+    for (const service of salesRequest.services) {
+      console.log({ service: service.id, id });
+      if (service.id == id) {
+        const dateString = new Date(
+          salesRequest.request_date
+        ).toLocaleDateString("en-US", {
+          month: "numeric",
+          day: "numeric",
+          year: "numeric",
+        });
+
+        if (salesData[dateString]) {
+          salesData[dateString] += salesRequest.total;
+        } else {
+          salesData[dateString] = salesRequest.total;
+        }
+        continue;
+      }
+    }
+  }
+
+  const salesDataArray = Object.keys(salesData).map((key) => {
+    console.log({ x: key, y: salesData[key] });
+    return { x: key, y: salesData[key] };
+  });
+  const series = [
+    {
+      name: "Sales Report",
+      data: salesDataArray,
+    },
+  ];
+  console.log(salesDataArray);
+  chart.updateSeries(series);
 }

@@ -169,6 +169,10 @@ $packages = $servicesModel->getAllPackages();
                           <input type="text" id='middle_name' name="request_middlename" placeholder="Enter your Middlename" value="<?php echo $detailRequest->patient->middle_name ?>">
                         </div>
                         <div class="input-field">
+                          <label>Suffix</label>
+                          <input type="text" name="request_suffix" id="suffix" placeholder="Enter your Suffix" required>
+                        </div>
+                        <div class="input-field">
                           <label>Sex*</label>
                           <select id='gender' required name="request_gender">
                             <option disabled selected>Select Sex</option>
@@ -549,6 +553,7 @@ $packages = $servicesModel->getAllPackages();
         $('#last_name').val(request.patient.last_name);
         $('#middle_name').val(request.patient.middle_name);
         $('#first_name').val(request.patient.first_name);
+        $('#suffix').val(request.patient.suffix);
         $('#gender').val(request.patient.gender);
         $('#dob').val(request.patient.birthdate);
         $('#age').val(request.patient.age)

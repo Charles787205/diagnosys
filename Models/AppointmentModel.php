@@ -295,4 +295,35 @@ class AppointmentModel extends Database
       return false;
     }
   }
+  public function getAppointmentCount($time)
+  {
+
+    $this->checkConnection();
+
+    switch ($time) {
+      case 'today':
+        $sql = "SELECT COUNT(*) as count FROM appointment WHERE DATE(appointment_date) = CURDATE()";
+        break;
+      case 'month':
+        $sql = "SELECT COUNT(*) as count FROM appointment WHERE MONTH(appointment_date) = MONTH(CURRENT_DATE()) AND YEAR(appointment_date) = YEAR(CURRENT_DATE())";
+        break;
+      case 'year':
+        $sql = "SELECT COUNT(*) as count FROM appointment WHERE YEAR(appointment_date) = YEAR(CURRENT_DATE())";
+        break;
+      default:
+        throw new Exception("Invalid time parameter. Accepted values are 'today', 'month', or 'year'.");
+    }
+
+    $statement = $this->connection->prepare($sql);
+
+    if ($statement->execute()) {
+      $result = $statement->get_result();
+      $data = $result->fetch_assoc();
+      $this->close();
+      return $data['count'];
+    } else {
+      // Handle the case where the query execution fails
+      return false;
+    }
+  }
 }

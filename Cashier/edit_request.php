@@ -156,16 +156,20 @@ $packages = $servicesModel->getAllPackages();
                       </script>
                       <div class="fields">
                         <div class="input-field">
-                          <label>Lastname*(Jr.Sr. and etc...)</label>
+                          <label>Lastname *</label>
                           <input type="text" id='last_name' name="request_lastname" placeholder="Enter your Lastame" required>
                         </div>
                         <input type="number" name="request_id" id="" value="<?php echo $detailRequest->id ?>" hidden>
                         <div class="input-field">
-                          <label>Firstname*</label>
+                          <label>Firstname *</label>
                           <input type="text" id='first_name' name="request_firstname" placeholder="Enter your Firstname" required>
                         </div>
                         <div class="input-field">
                           <label>Middlename</label>
+                          <input type="text" id='middle_name' name="request_middlename" placeholder="Enter your Middlename" value="<?php echo $detailRequest->patient->middle_name ?>">
+                        </div>
+                        <div class="input-field">
+                          <label>Suffix</label>
                           <input type="text" id='middle_name' name="request_middlename" placeholder="Enter your Middlename" value="<?php echo $detailRequest->patient->middle_name ?>">
                         </div>
                         <div class="input-field">

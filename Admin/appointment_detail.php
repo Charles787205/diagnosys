@@ -86,21 +86,37 @@ foreach ($appointment->services as $services) {
                   <label for="inputName5" class="form-label">Firstname</label>
                   <input type="text" class="form-control" id="inputName5" value="<?php echo $patient->first_name ?>" readonly>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                  <label for="inputName5" class="form-label">Middlename</label>
+                  <input type="text" class="form-control" id="inputName5" value="<?php echo $patient->middle_name ?>" readonly>
+                </div>
+                <div class="col-md-1">
+                  <label for="inputName5" class="form-label">Suffix</label>
+                  <input type="text" class="form-control" id="inputName5" value="<?php echo isset($patient->suffix) ? $patient->suffix : ""  ?>" readonly>
+                </div>
+                <div class="col-md-3">
                   <label for="inputName5" class="form-label">Sex</label>
                   <input type="text" class="form-control" id="inputName5" value="<?php echo $patient->gender ?>" readonly>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label for="inputName5" class="form-label">Date Of Birth</label>
                   <input type="text" class="form-control" id="inputName5" value="<?php echo $patient->birthdate ?>" readonly>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label for="inputName5" class="form-label">Age</label>
                   <input type="number" class="form-control" id="inputName5" value="<?php echo $patient->age ?>" readonly>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label for="inputName5" class="form-label">Mobile Number</label>
                   <input type="text" class="form-control" id="inputName5" value="<?php echo $patient->mobile_number ?>" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputEmail5" class="form-label">Building/ House Number</label>
+                  <input type="email" class="form-control" id="inputEmail5" value="<?php echo $patient->house_no ?>" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputPassword5" class="form-label">Subdivision/Street Name</label>
+                  <input type="text" class="form-control" id="inputPassword5" value="<?php echo $patient->subdivision ?>" readonly>
                 </div>
                 <div class="col-md-6">
                   <label for="inputName5" class="form-label">Province</label>

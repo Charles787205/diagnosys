@@ -90,7 +90,11 @@ for ($i = 0; $i < count($request->services); $i++) {
                   <label for="inputName5" class="form-label">Middlename</label>
                   <input type="text" class="form-control" id="inputName5" value="<?php echo $request->patient->middle_name ?>" readonly>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
+                  <label class="form-label">Suffix</label>
+                  <input type="text" class="form-control" value="<?php echo $request->patient->getSuffix() ?>" readonly>
+                </div>
+                <div class=" col-md-3">
                   <label for="inputName5" class="form-label">Sex</label>
                   <input type="text" class="form-control" id="inputName5" value="<?php echo $request->patient->gender ?>" readonly>
                 </div>

@@ -22,6 +22,7 @@ $patient->province = $_POST['request_province'];
 $patient->city = $_POST['request_city'];
 $patient->barangay = $_POST['request_barangay'];
 $patient->purok = $_POST['request_purok'];
+$patient->suffix = $_POST['request_suffix'];
 $patient->subdivision = $_POST['request_subdivision'];
 $patient->house_no = $_POST['request_house_no'];
 $patient->mobile_number = $_POST['request_phone'];

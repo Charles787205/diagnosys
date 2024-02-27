@@ -39,6 +39,7 @@ CREATE TABLE patient (
   id VARCHAR(255) PRIMARY KEY,
   first_name varchar(50) NOT NULL,
   last_name varchar(50) NOT NULL,
+  suffix varchar(50),
   middle_name varchar(50) NOT NULL,
   birthdate date NOT NULL,
   age int(2) NOT NULL,

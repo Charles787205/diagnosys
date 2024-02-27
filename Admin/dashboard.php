@@ -4,6 +4,7 @@ require_once '../Models/EmployeeModel.php';
 require_once '../Models/RequestModel.php';
 require_once '../Models/PatientModel.php';
 require_once '../Models/ServicesModel.php';
+require_once '../Models/AppointmentModel.php';
 $head_title = 'Dashboard';
 $page_title = 'Dashboard';
 $employeeModel = new EmployeeModel();
@@ -19,6 +20,8 @@ $services = $servicesModel->getServiceSales();
 $servicesModel = new ServicesModel();
 $servicesSales = $servicesModel->getServicesByDateAndName();
 $servicesModel->close();
+$appointmentModel = new AppointmentModel();
+$appointments = $appointmentModel->getAppointments();
 
 $revenue = 0;
 foreach ($salesRequest as $sales) {
@@ -59,6 +62,43 @@ foreach ($salesRequest as $sales) {
         <!-- Left side columns -->
         <div class="col-lg-12">
           <div class="row">
+            <div class="col-xxl-4 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#" onclick="filterPatientCount('today')">Today</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterPatientCount('month')">This Month</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterPatientCount('year')">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Patients <span>| <span id="patient_count_indicator">
+                        Today
+                      </span></span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6 id="patient_count"><?php echo count($patients) ?></h6>
+
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
 
             <!-- Sales Card -->
             <div class="col-xxl- col-md-4">
@@ -101,8 +141,49 @@ foreach ($salesRequest as $sales) {
 
               </div>
             </div><!-- End Sales Card -->
+            <!--start appointment card-->
+            <div class="col-xxl- col-md-4">
+              <div class="card info-card sales-card">
 
-            <!-- Revenue Card -->
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#" onclick="filterAppointmentForm('today')">Today</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterAppointmentForm('month')">This Month</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterAppointmentForm('year')">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Total Appointments <span>| <span id="appointment_form_indicator">
+                        Today
+                      </span> </span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <svg width="40" height="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1Z"></path>
+                        <path d="M12 11h4"></path>
+                        <path d="M12 8h4"></path>
+                        <path d="M8 20V4"></path>
+                      </svg>
+                    </div>
+                    <div class="ps-3">
+                      <h6 id="appointment_form_count"><?php echo count($appointments) ?></h6>
+
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!--end appointment card-->
+            <!-- Revenue Card 
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
@@ -140,46 +221,10 @@ foreach ($salesRequest as $sales) {
                 </div>
 
               </div>
-            </div><!-- End Revenue Card -->
+            </div>End Revenue Card -->
 
             <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#" onclick="filterPatientCount('today')">Today</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterPatientCount('month')">This Month</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterPatientCount('year')">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Patients <span>| <span id="patient_count_indicator">
-                        Today
-                      </span></span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6 id="patient_count"><?php echo count($patients) ?></h6>
-
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div><!-- End Customers Card -->
+            <!-- End Customers Card -->
 
             <!-- Reports -->
             <div class="col-12">
@@ -193,6 +238,10 @@ foreach ($salesRequest as $sales) {
                     </li>
 
                     <li><a class="dropdown-item" href="#">Today</a></li>
+                    <?php foreach ($services as $service) : ?>
+
+                      <li><a class="dropdown-item" href="#" onclick="filterBarchart(<?php echo $service->id ?>)"><?php echo $service->name ?></a></li>
+                    <?php endforeach; ?>
 
                   </ul>
                 </div>
@@ -211,47 +260,47 @@ foreach ($salesRequest as $sales) {
               </div>
             </div><!-- End Reports -->
             <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Services Availed</h5>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Services Availed</h5>
 
-              <!-- Bar Chart -->
-              <div id="barChart"></div>
+                  <!-- Bar Chart -->
+                  <div id="barChart"></div>
 
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#barChart"), {
-                    series: [{
-                      data: [<?php foreach ($services as $service) {
-                                echo $service->price . ',';
-                              } ?>]
-                    }],
-                    chart: {
-                      type: 'bar',
-                      height: 350
-                    },
-                    plotOptions: {
-                      bar: {
-                        borderRadius: 4,
-                        horizontal: true,
-                      }
-                    },
-                    dataLabels: {
-                      enabled: false
-                    },
-                    xaxis: {
-                      categories: [<?php foreach ($services as $service) {
-                                      echo "'$service->name',";
-                                    } ?>],
-                    }
-                  }).render();
-                });
-              </script>
-              <!-- End Bar Chart -->
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      new ApexCharts(document.querySelector("#barChart"), {
+                        series: [{
+                          data: [<?php foreach ($services as $service) {
+                                    echo $service->price . ',';
+                                  } ?>]
+                        }],
+                        chart: {
+                          type: 'bar',
+                          height: 350
+                        },
+                        plotOptions: {
+                          bar: {
+                            borderRadius: 4,
+                            horizontal: true,
+                          }
+                        },
+                        dataLabels: {
+                          enabled: false
+                        },
+                        xaxis: {
+                          categories: [<?php foreach ($services as $service) {
+                                          echo "'$service->name',";
+                                        } ?>],
+                        }
+                      }).render();
+                    });
+                  </script>
+                  <!-- End Bar Chart -->
 
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
             <!-- Recent Sales -->
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
@@ -331,6 +380,7 @@ foreach ($salesRequest as $sales) {
     const salesRequestsData = [<?php foreach ($salesRequest as $request) {
                                   echo "$request->total,";
                                 } ?>];
+    const appointments = <?php echo json_encode($appointments); ?>;
   </script>
   <script src="../assets/js/admin/dashboard.js"></script>
 </body>

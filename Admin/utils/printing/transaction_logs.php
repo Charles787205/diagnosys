@@ -50,11 +50,12 @@ $pdf->Ln(8);
 $pdf->SetFillColor(255, 255, 255);
 $pdf->SetTextColor(0, 0, 0);
 foreach ($requests as $request) {
-  $started_time = date('H:i', strtotime($request->request_date));
+  $started_time = date('F d, Y', strtotime($request->request_date)) . "\n";
+  $started_time .= date('H:i', strtotime($request->request_date));
   $started_date = date("F d, Y", strtotime($request->request_date));
   if ($request->result_date != null) {
-
-    $result_time = date('H:i', strtotime($request->result_date));
+    $result_time = date("F d, Y", strtotime($request->result_date)) . "\n";
+    $result_time .= date('H:i', strtotime($request->result_date));
   } else {
     echo $request->result_date;
     $result_time = "N/A";
@@ -83,9 +84,9 @@ foreach ($requests as $request) {
   $pdf->SetXY($x + 90, $y - $row_height);
   $pdf->MultiCell(35, $row_height, $started_date, 1, 0, 'C');
   $pdf->SetXY($x + 125, $y - $row_height);
-  $pdf->MultiCell(35, $row_height, $started_time, 1, 0, 'C');
+  $pdf->MultiCell(35, $row_height / 2, $started_time, 1, 0, 'C');
   $pdf->SetXY($x + 160, $y - $row_height);
-  $pdf->MultiCell(35, $row_height, $result_time, 1, 0, 'C');
+  $pdf->MultiCell(35, $result_time != "N/A" ? $row_height / 2 : $row_height, $result_time, 1, 0, 'C');
   $pdf->Ln(0);
 }
 $pdf->Ln(20);

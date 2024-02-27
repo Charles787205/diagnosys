@@ -113,7 +113,11 @@ $request = $requestModel->getRequestById($_GET['request_id']);
               </div>
               <div class="col-md-4">
                 <label for="inputName5" class="form-label">Middlename</label>
-                <input type="text" class="form-control" id="inputName5" value="" readonly />
+                <input type="text" class="form-control" id="inputName5" value="<?php echo $request->patient->middle_name ?>" readonly />
+              </div>
+              <div class="col-md-4">
+                <label>Suffix</label>
+                <input type="text" class="form-control" placeholder="Enter your Suffix" value="<?php echo $request->patient->getSuffix() ?>" readonly>
               </div>
               <div class="col-md-3">
                 <label for="inputName5" class="form-label">Sex</label>

@@ -126,7 +126,7 @@ class ServicesModel extends Database
     function getServiceSales()
     {
         $this->checkConnection();
-        $sql = "SELECT s.name AS name, SUM(s.price) AS price FROM `request_services` rs JOIN `services` s ON rs.service_id = s.id GROUP BY s.name;";
+        $sql = "SELECT s.id, s.name AS name, SUM(s.price) AS price FROM `request_services` rs JOIN `services` s ON rs.service_id = s.id GROUP BY s.name;";
         $statement = $this->connection->prepare($sql);
 
         if ($statement->execute()) {

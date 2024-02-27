@@ -15,6 +15,7 @@ $requestModel = new RequestModel();
 $patient->first_name = $_POST['request_firstname'];
 $patient->middle_name = $_POST['request_middlename'];
 $patient->last_name = $_POST['request_lastname'];
+$patient->suffix = $_POST['request_suffix'];
 $patient->gender = $_POST['request_gender'];
 $patient->birthdate = $_POST['request_birthdate'];
 $patient->age = $_POST['request_age'];
