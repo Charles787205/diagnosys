@@ -228,9 +228,11 @@ $requests = $requestModel->getRequestWithResult($_SESSION['id'])
         }); //remove all the row first
 
       for (const request of requests) {
+
         if (request.id === requestId) {
+          console.log(request);
           request.services.map((service, index) => {
-            console.log(request.services[index].results[0]["result"], request.services[index].normal_value, request.services[index].name)
+
             let colorClass = checkIfNormal(request.services[index].results[0]["result"], request.services[index].normal_value) ? "text-success" : "text-danger";
             const tableRow = document.createElement("tr");
             tableRow.innerHTML = `<td>${service.name}</td>
@@ -249,7 +251,7 @@ $requests = $requestModel->getRequestWithResult($_SESSION['id'])
       //we need to check if the value is within the range or equal to the normal value
       //if the value is within the range, return true, else return false
       const normalValStr = normalValueStr.split(" ")[0]; //ex. 20-30 ml -> [20-30, ml] or 20 mg -> [20, mg]
-      console.log(normalValStr);
+
       if (normalValStr.includes("-")) {
         const range = normalValStr.split("-").map(val => parseFloat(val));
         return value >= range[0] && value <= range[1];

@@ -1,7 +1,8 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   filterRequestForm("today");
   filterProfits("today");
-  renderApexChart(getSalesData());
+  const salesRequest = await fetchSalesRequest();
+  initEchart(getSalesData(salesRequest));
 });
 let chart;
 async function filterRequestForm(time) {
@@ -83,7 +84,19 @@ async function filterProfits(time) {
   }
 }
 
-function getPercentageDifferenct(total, prevTotal) {}
+async function fetchSalesRequest() {
+  const response = await fetch("utils/dashboard/get_sales_request.php");
+  const { salesRequests } = await response.json();
+  console.log({ salesRequests }, "fetchSalesRequest");
+  console.log("Hoooott");
+  //[
+  //    {
+  //      "month": 2,
+  //      "total": "2000.00"
+  //  }
+  //]
+  return salesRequests;
+}
 
 async function filterPatientCount(time) {
   const response = await fetch(
@@ -112,22 +125,30 @@ console.log(
   )
 );
 
-function getSalesData() {
-  const salesData = {};
+function getSalesData(salesRequests) {
+  const salesData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const s = "2024-01-13 14:50:46";
   console.log({ salesRequests });
   salesRequests.map((salesRequest) => {
-    const dateString = new Date(salesRequest.request_date).toLocaleDateString(
-      "en-US",
-      { month: "numeric", day: "numeric", year: "numeric" }
-    );
-
-    if (salesData[dateString]) {
-      salesData[dateString] += salesRequest.total;
-    } else {
-      salesData[dateString] = salesRequest.total;
-    }
+    console.log(salesData);
+    salesData[salesRequest.month - 1] += salesRequest.total;
   });
+  console.log({ salesData });
+  return salesData;
   console.log({ salesData });
   const salesDataArray = Object.keys(salesData).map((key) => {
     console.log({ x: key, y: salesData[key] });
@@ -223,4 +244,35 @@ function filterBarchart(id) {
   ];
   console.log(salesDataArray);
   chart.updateSeries(series);
+}
+
+function initEchart(data) {
+  chart = echarts.init(document.querySelector("#BarChart")).setOption({
+    xAxis: {
+      type: "category",
+      data: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        data: data,
+        type: "bar",
+      },
+    ],
+  });
 }

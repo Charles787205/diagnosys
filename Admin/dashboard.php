@@ -227,52 +227,11 @@ foreach ($salesRequest as $sales) {
             <!-- End Customers Card -->
 
             <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <?php foreach ($services as $service) : ?>
-
-                      <li><a class="dropdown-item" href="#" onclick="filterBarchart(<?php echo $service->id ?>)"><?php echo $service->name ?></a></li>
-                    <?php endforeach; ?>
-
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Sales Reports</h5>
-                  <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control" id="start-date" onchange="filterTable()">
-                    </div>
-                    <label for="inputDate" class="col-sm-2 col-form-label">End</label>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control" id="end-date" onchange="filterTable()">
-                    </div>
-                  </div>
-
-                  <!-- Line Chart -->
-                  <div id="reportsChart"></div>
-
-
-                  <!-- End Line Chart -->
-
-                </div>
-
-              </div>
-            </div><!-- End Reports -->
+            <!-- End Reports -->
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title"> Ania bai ang Bar Chart</h5>
+                  <h5 class="card-title">Sales Reports</h5>
 
                   <div class="row mb-3">
                     <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
@@ -287,23 +246,7 @@ foreach ($salesRequest as $sales) {
                   <!-- Bar Chart -->
                   <div id="BarChart" style="min-height: 400px;" class="echart"></div>
 
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      echarts.init(document.querySelector("#BarChart")).setOption({
-                        xAxis: {
-                          type: 'category',
-                          data: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                        },
-                        yAxis: {
-                          type: 'value'
-                        },
-                        series: [{
-                          data: [120, 200, 150, 80, 70, 110, 130, 120, 200, 150, 80, 70, 110, ],
-                          type: 'bar'
-                        }]
-                      });
-                    });
-                  </script>
+
                   <!-- End Bar Chart -->
 
                 </div>
@@ -434,8 +377,6 @@ foreach ($salesRequest as $sales) {
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>
   <script>
-    const salesRequests = <?php echo json_encode($salesRequest); ?>;
-    console.log(salesRequests);
     const salesRequestsData = [<?php foreach ($salesRequest as $request) {
                                   echo "$request->total,";
                                 } ?>];

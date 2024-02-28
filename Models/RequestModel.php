@@ -813,4 +813,15 @@ class RequestModel extends Database
       throw $e;  // Re-throw the exception for further handling
     }
   }
+  public function getSalesRequestByMonth()
+  {
+    $this->checkConnection();
+    $sql = "SELECT MONTH(request_date) as month, SUM(total) as total FROM request WHERE status = 'Paid' GROUP BY MONTH(request_date)";
+    $statement = $this->connection->prepare($sql);
+    $statement->execute();
+    $result = $statement->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $this->close();
+    return $data;
+  }
 }
