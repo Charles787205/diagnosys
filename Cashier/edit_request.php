@@ -170,7 +170,7 @@ $packages = $servicesModel->getAllPackages();
                         </div>
                         <div class="input-field">
                           <label>Suffix</label>
-                          <input type="text" id='middle_name' name="request_middlename" placeholder="Enter your Middlename" value="<?php echo $detailRequest->patient->middle_name ?>">
+                          <input type="text" id='suffix' name="request_suffix" placeholder="Enter your Suffix" value="<?php echo $detailRequest->patient->getSuffix() ?>">
                         </div>
                         <div class="input-field">
                           <label>Sex*</label>
@@ -552,6 +552,7 @@ $packages = $servicesModel->getAllPackages();
         $('#request_date').val(request.request_date.split(' ')[0]);
         $('#last_name').val(request.patient.last_name);
         $('#middle_name').val(request.patient.middle_name);
+        $("#suffix").val(request.patient.suffix);
         $('#first_name').val(request.patient.first_name);
         $('#gender').val(request.patient.gender);
         $('#dob').val(request.patient.birthdate);
