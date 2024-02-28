@@ -824,4 +824,16 @@ class RequestModel extends Database
     $this->close();
     return $data;
   }
+  public function  getSalesRequestByMonthandStartAndEndDate($start_date, $end_date)
+  {
+    $this->checkConnection();
+    $sql = "SELECT MONTH(request_date) as month, SUM(total) as total FROM request WHERE status = 'Paid' AND request_date BETWEEN DATE(?) AND DATE(?) GROUP BY MONTH(request_date)";
+    $statement = $this->connection->prepare($sql);
+    $statement->bind_param('ss', $start_date, $end_date);
+    $statement->execute();
+    $result = $statement->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $this->close();
+    return $data;
+  }
 }

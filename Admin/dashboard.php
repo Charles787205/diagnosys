@@ -227,7 +227,7 @@ foreach ($salesRequest as $sales) {
             <!-- End Customers Card -->
 
             <!-- Reports -->
-            <!-- End Reports -->
+            ~<!-- End Reports -->
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
@@ -236,11 +236,11 @@ foreach ($salesRequest as $sales) {
                   <div class="row mb-3">
                     <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" id="start-date" onchange="filterTable()">
+                      <input type="date" class="form-control" id="start_date" onchange="filterBarchartDate()">
                     </div>
                     <label for="inputDate" class="col-sm-2 col-form-label">End</label>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" id="end-date" onchange="filterTable()">
+                      <input type="date" class="form-control" id="end_date" onchange="filterBarchartDate()">
                     </div>
                   </div>
                   <!-- Bar Chart -->

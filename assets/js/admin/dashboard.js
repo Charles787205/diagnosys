@@ -142,7 +142,7 @@ function getSalesData(salesRequests) {
     "December",
   ];
   const s = "2024-01-13 14:50:46";
-  console.log({ salesRequests });
+
   salesRequests.map((salesRequest) => {
     console.log(salesData);
     salesData[salesRequest.month - 1] += salesRequest.total;
@@ -247,7 +247,8 @@ function filterBarchart(id) {
 }
 
 function initEchart(data) {
-  chart = echarts.init(document.querySelector("#BarChart")).setOption({
+  chart = echarts.init(document.querySelector("#BarChart"));
+  chart.setOption({
     xAxis: {
       type: "category",
       data: [
@@ -271,6 +272,49 @@ function initEchart(data) {
     series: [
       {
         data: data,
+        type: "bar",
+      },
+    ],
+  });
+}
+
+async function filterBarchartDate() {
+  const startTime = $("#start_date").val();
+  const endTime = $("#end_date").val();
+
+  if (!startTime || !endTime) return;
+  const response = await fetch(
+    `utils/dashboard/get_sales_request.php?start_time=${startTime}&end_time=${endTime}`
+  );
+  const { salesRequests } = await response.json();
+  console.log({ salesRequests }, "filterBarchartDate");
+  const salesData = getSalesData(salesRequests);
+  console.log(salesData, "filterBarchartDate");
+  chart = echarts.init(document.querySelector("#BarChart"));
+  chart.setOption({
+    xAxis: {
+      type: "category",
+      data: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        data: salesRequests,
         type: "bar",
       },
     ],
