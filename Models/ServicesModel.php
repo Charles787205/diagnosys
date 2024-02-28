@@ -141,6 +141,37 @@ class ServicesModel extends Database
             return $data;
         }
     }
+    function getServiceSalesByStartAndEndDate($startDate, $endDate)
+    {
+        $this->checkConnection();
+        $sql = "SELECT
+                    s.name AS name,
+                    SUM(s.price) AS price
+                FROM
+                    `request_services` rs
+                JOIN
+                    `request` r ON rs.request_id = r.id
+                JOIN
+                    `services` s ON rs.service_id = s.id
+                WHERE
+                    r.request_date BETWEEN Date(?) AND Date(?)
+                GROUP BY
+                    s.name;";
+        $statement = $this->connection->prepare($sql);
+        $statement->bind_param("ss", $startDate, $endDate);
+
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+
+            // Fetch all rows as objects
+            $data = [];
+            while ($row = $result->fetch_object('Services')) {
+                $data[] = $row;
+            }
+            $this->close();
+            return $data;
+        }
+    }
     function getServicesByName($serviceName)
     {
         $sql = "SELECT * FROM `services` WHERE `name` = ?";

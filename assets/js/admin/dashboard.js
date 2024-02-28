@@ -2,9 +2,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   filterRequestForm("today");
   filterProfits("today");
   const salesRequest = await fetchSalesRequest();
-  initEchart(getSalesData(salesRequest));
+  renderApexChart(getSalesData(salesRequest));
+  initServicesAvailedChart(services);
 });
 let chart;
+let servicesChart;
 async function filterRequestForm(time) {
   const response = await fetch(
     `utils/dashboard/get_request_count.php?time=${time}`
@@ -158,7 +160,7 @@ function getSalesData(salesRequests) {
   return salesDataArray;
 }
 function renderApexChart(data) {
-  chart = new ApexCharts(document.querySelector("#reportsChart"), {
+  chart = new ApexCharts(document.querySelector("#BarChart"), {
     series: [
       {
         name: "Sales",
@@ -192,9 +194,23 @@ function renderApexChart(data) {
       curve: "smooth",
       width: 2,
     },
+
     xaxis: {
       type: "date",
-      categories: [,],
+      categories: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
     },
     tooltip: {
       x: {
@@ -289,34 +305,59 @@ async function filterBarchartDate() {
   const { salesRequests } = await response.json();
   console.log({ salesRequests }, "filterBarchartDate");
   const salesData = getSalesData(salesRequests);
-  console.log(salesData, "filterBarchartDate");
-  chart = echarts.init(document.querySelector("#BarChart"));
-  chart.setOption({
-    xAxis: {
-      type: "category",
-      data: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
+  console.log({ salesData, startTime, endTime }, "FILTERBARCHARTDATE");
+
+  chart.updateSeries([
+    {
+      data: salesData,
+    },
+  ]);
+}
+
+function initServicesAvailedChart(services) {
+  servicesChart = new ApexCharts(
+    document.querySelector("#servicesAvailedChart"),
+    {
+      series: [
+        {
+          data: services.map((service) => service.price),
+        },
       ],
-    },
-    yAxis: {
-      type: "value",
-    },
-    series: [
-      {
-        data: salesRequests,
+      chart: {
         type: "bar",
+        height: 350,
       },
-    ],
-  });
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: services.map((service) => service.name),
+      },
+    }
+  );
+  servicesChart.render();
+}
+
+async function filterServicesAvailedChart() {
+  console.log("servicesAvailed");
+  const startTime = $("#services_start_date").val();
+  const endTime = $("#services_end_date").val();
+  console.log({ startTime, endTime });
+  if (!startTime || !endTime) return;
+  const response = await fetch(
+    `utils/dashboard/get_services_availed.php?start_date=${startTime}&end_date=${endTime}`
+  );
+  const { services } = await response.json();
+  console.log(services, "hello");
+  servicesChart.updateSeries([
+    {
+      data: services.map((service) => service.price),
+    },
+  ]);
 }

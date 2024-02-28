@@ -259,44 +259,18 @@ foreach ($salesRequest as $sales) {
                   <div class="row mb-3">
                     <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" id="start-date" onchange="filterTable()">
+                      <input type="date" class="form-control" id="services_start_date" onchange="filterServicesAvailedChart()">
                     </div>
                     <label for="inputDate" class="col-sm-2 col-form-label">End</label>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" id="end-date" onchange="filterTable()">
+                      <input type="date" class="form-control" id="services_end_date" onchange="filterServicesAvailedChart()">
                     </div>
                   </div>
                   <!-- Bar Chart -->
-                  <div id="barChart"></div>
+                  <div id="servicesAvailedChart"></div>
 
                   <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#barChart"), {
-                        series: [{
-                          data: [<?php foreach ($services as $service) {
-                                    echo $service->price . ',';
-                                  } ?>]
-                        }],
-                        chart: {
-                          type: 'bar',
-                          height: 350
-                        },
-                        plotOptions: {
-                          bar: {
-                            borderRadius: 4,
-                            horizontal: true,
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        xaxis: {
-                          categories: [<?php foreach ($services as $service) {
-                                          echo "'$service->name',";
-                                        } ?>],
-                        }
-                      }).render();
-                    });
+
                   </script>
                   <!-- End Bar Chart -->
 
@@ -381,6 +355,7 @@ foreach ($salesRequest as $sales) {
                                   echo "$request->total,";
                                 } ?>];
     const appointments = <?php echo json_encode($appointments); ?>;
+    const services = <?php echo json_encode($services); ?>;
   </script>
   <script src="../assets/js/admin/dashboard.js"></script>
 </body>
