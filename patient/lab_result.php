@@ -230,7 +230,8 @@ $requests = $requestModel->getRequestWithResult($_SESSION['id'])
       for (const request of requests) {
         if (request.id === requestId) {
           request.services.map((service, index) => {
-            let colorClass = checkIfNormal(request.services[0].results[0]["result"], request.services[index].normal_value) ? "text-success" : "text-danger";
+            console.log(request.services[index].results[0]["result"], request.services[index].normal_value, request.services[index].name)
+            let colorClass = checkIfNormal(request.services[index].results[0]["result"], request.services[index].normal_value) ? "text-success" : "text-danger";
             const tableRow = document.createElement("tr");
             tableRow.innerHTML = `<td>${service.name}</td>
                              <td class="${colorClass}">${service.results[0]["result"]}</td>
@@ -250,7 +251,7 @@ $requests = $requestModel->getRequestWithResult($_SESSION['id'])
       const normalValStr = normalValueStr.split(" ")[0]; //ex. 20-30 ml -> [20-30, ml] or 20 mg -> [20, mg]
       console.log(normalValStr);
       if (normalValStr.includes("-")) {
-        const range = normalValStr.split("-").map(val => parseInt(val));
+        const range = normalValStr.split("-").map(val => parseFloat(val));
         return value >= range[0] && value <= range[1];
       } else {
         return value === parseInt(normalValStr);
