@@ -1,5 +1,5 @@
 //FUNCTIONS
-
+let selectedAppointmentId;
 function FindAge() {
   var day = document.getElementById("dob").value;
   var DOB = new Date(day);
@@ -32,11 +32,21 @@ form.addEventListener("submit", async function (event) {
   console.log("hello");
   const formData = new FormData(form);
 
-  const res = await fetch("utils/add_request.php", {
+  await fetch("utils/add_request.php", {
     method: "POST",
     body: formData,
-  }).then((res) => {
-    console.log(res.json());
+  }).then(async (res) => {
+    if (selectedAppointmentId) {
+      console.log("deleteAppointment", selectedAppointmentId);
+      await fetch("utils/delete_object.php", {
+        method: "POST",
+        body: JSON.stringify({
+          object: "appointment",
+          id: selectedAppointmentId,
+        }),
+      });
+    }
+
     Swal.fire({
       title: "New Request Added",
       icon: "success",
@@ -54,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function changeData(e) {
     for (appointment of appointments) {
       if (appointment.id == e.target.value) {
+        selectedAppointmentId = appointment.id;
         $("#request_date").val(appointment.appointment_date);
         $("#last_name").val(appointment.patient.last_name);
         $("#first_name").val(appointment.patient.first_name);

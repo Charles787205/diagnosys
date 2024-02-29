@@ -9,7 +9,7 @@ $requestModel = new RequestModel();
 $requests = $requestModel->getRequests();
 $employeeModel = new EmployeeModel();
 $employee = $employeeModel->getEmployeeById($id);
-$line_height = 8;
+$line_height = 4;
 $pdf = new FPDF('P', 'mm', 'Letter');
 
 $pdf->AddPage();
@@ -67,12 +67,15 @@ foreach ($requests as $request) {
     $no_of_lines++;
   }
   if ($no_of_lines == 0) {
-    $no_of_lines = 1;
+    $no_of_lines = 2;
+  }
+  if ($tests == "") {
+    $tests = "\nN/A\n";
   }
 
   $pdf->SetFont('Arial', '', 10);
   $row_height = ($line_height * $no_of_lines);
-  $pdf->MultiCell(55, 8, $tests, 1, 0, 'C');
+  $pdf->MultiCell(55, $line_height, $tests, 1, 0, 'C');
   $pdf->SetFont('Arial', '', 11);
   //$pdf->setX(65);
   $y = $pdf->GetY();

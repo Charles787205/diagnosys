@@ -53,37 +53,11 @@ async function filterProfits(time) {
   const response = await fetch(
     `utils/dashboard/get_sales_total.php?time=${time}`
   );
-  let { total, prev_total: prevTotal } = await response.json();
-  total = total || 0;
-  prevTotal = prevTotal || 0;
-  const profitsIndicator = $("#profits_indicator").get(0);
-  const profitsTotal = $("#profits_total").get(0);
-  console.log(prevTotal);
-  $(profitsTotal).text(total || 0);
-  switch (time) {
-    case "today":
-      $(profitsIndicator).text("Today");
-      break;
-    case "month":
-      $(profitsIndicator).text("This Month");
-      break;
-    case "year":
-      $(profitsIndicator).text("This Year");
-      break;
-  }
-  console.log(prevTotal);
-  const perDiff = ((total - prevTotal) / prevTotal) * 100;
-  const percentageSpan = $("#percentage_difference span:nth-child(1)");
-  const trendSpan = $("#percentage_difference span:nth-child(2)");
-  $(percentageSpan).text(`${perDiff}%`);
-
-  if (perDiff >= 0) {
-    $(percentageSpan).removeClass("text-danger").addClass("text-success");
-    $(trendSpan).text("increase");
-  } else {
-    $(percentageSpan).removeClass("text-success").addClass("text-danger");
-    $(trendSpan).text("decrease");
-  }
+  let data = await response.json();
+  console.log(data);
+  const salesData = getSalesData(data);
+  console.log(salesData);
+  chart.updateSeries([{ data: salesData }]);
 }
 
 async function fetchSalesRequest() {

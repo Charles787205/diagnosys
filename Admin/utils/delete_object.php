@@ -1,11 +1,11 @@
 
-<?php 
+<?php
 header("Access-Control-Allow-Origin: *");
 require_once __DIR__ . '/../../Models/RequestModel.php';
 
 session_start();
 
-if(!isset($_SESSION['id'])){
+if (!isset($_SESSION['id'])) {
   header('Location: login.php');
 }
 
@@ -17,17 +17,17 @@ $requestModel = new RequestModel();
 $id = $jsonData['id'];
 $model = $jsonData['object'];
 
-switch($model){
+switch ($model) {
   case 'appointment':
     require_once __DIR__ . '/../../Models/AppointmentModel.php';
     $appointmentModel = new AppointmentModel();
     $appointmentModel->deleteAppointment($id);
     break;
-  
+
   case 'request':
     $requestModel = new RequestModel();
     $requestModel->deleteRequest($id);
-  
+
     break;
   case 'patient':
     require_once __DIR__ . '/../../Models/PatientModel.php';
@@ -35,7 +35,7 @@ switch($model){
     $patientModel->deletePatient($id);
     $requestModel = new RequestModel();
     $requests = $requestModel->getRequestFromPatientId($id);
-    foreach($requests as $request){
+    foreach ($requests as $request) {
       $requestModel = new RequestModel();
       $requestModel->deleteRequest($request->id);
     }

@@ -233,15 +233,17 @@ foreach ($salesRequest as $sales) {
                 <div class="card-body">
                   <h5 class="card-title">Sales Reports</h5>
 
-                  <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-2 col-form-label">Start</label>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control" id="start_date" onchange="filterBarchartDate()">
-                    </div>
-                    <label for="inputDate" class="col-sm-2 col-form-label">End</label>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control" id="end_date" onchange="filterBarchartDate()">
-                    </div>
+                  <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                      <li class="dropdown-header text-start">
+                        <h6>Filter</h6>
+                      </li>
+
+                      <li><a class="dropdown-item" href="#" onclick="filterProfits('today')">Today</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="filterProfits('month')">This Month</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="filterProfits('year')">This Year</a></li>
+                    </ul>
                   </div>
                   <!-- Bar Chart -->
                   <div id="BarChart" style="min-height: 400px;" class="echart"></div>

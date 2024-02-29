@@ -6,6 +6,6 @@ header("Content-Type: application/json");
 
 $time = $_GET['time'];
 $requestModel = new RequestModel();
-$data = $requestModel->getPaidRequestTotal($time);
+$data = $requestModel->getSalesRequestByTime($time);
 
 echo json_encode($data);
