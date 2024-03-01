@@ -124,11 +124,10 @@ function updateSeriesByToday(data) {
   ]);
 }
 function updateSeriesByWeek(queryData) {
-  const dateToday = new Date();
-  const yAxis = [];
   const newSeries = [];
   for (let i = 0; i < 7; i++) {
-    const pastDate = new Date(dateToday.setDate(dateToday.getDate() - 1));
+    const dateToday = new Date();
+    const pastDate = new Date(dateToday.setDate(dateToday.getDate() - i));
     const month = (pastDate.getMonth() + 1).toString().padStart(2, "0"); // Add 1 because months are zero-based
     const day = pastDate.getDate().toString().padStart(2, "0");
     const year = dateToday.getFullYear();
