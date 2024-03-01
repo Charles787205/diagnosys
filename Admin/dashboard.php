@@ -241,6 +241,7 @@ foreach ($salesRequest as $sales) {
                       </li>
 
                       <li><a class="dropdown-item" href="#" onclick="filterProfits('today')">Today</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="filterProfits('week')">Week</a></li>
                       <li><a class="dropdown-item" href="#" onclick="filterProfits('month')">This Month</a></li>
                       <li><a class="dropdown-item" href="#" onclick="filterProfits('year')">This Year</a></li>
                     </ul>

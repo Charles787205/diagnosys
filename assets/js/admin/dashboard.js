@@ -49,16 +49,169 @@ async function filterAppointmentForm(time) {
       break;
   }
 }
+
+// filter the sales report graph
+
 async function filterProfits(time) {
   const response = await fetch(
     `utils/dashboard/get_sales_total.php?time=${time}`
   );
   let data = await response.json();
-  console.log(data);
-  const salesData = getSalesData(data);
-  console.log(salesData);
-  chart.updateSeries([{ data: salesData }]);
+  console.log({ data });
+  chart.updateOptions({
+    xaxis: {
+      type: "date",
+      categories: data.map((data) => data.day),
+    },
+  });
+
+  switch (time) {
+    case "today":
+      updateSeriesByToday(data);
+      break;
+
+    case "week":
+      updateSeriesByWeek(data);
+      break;
+    case "month":
+      updateSeriesByMonth(data);
+      break;
+    case "year":
+      const salesData = getSalesData(data);
+      chart.updateOptions({
+        xaxis: {
+          categories: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ],
+        },
+      });
+      chart.updateSeries([
+        {
+          data: salesData,
+        },
+      ]);
+  }
 }
+
+//filter reports by today
+function updateSeriesByToday(data) {
+  //data has date and total attribute from the sql query
+  chart.updateOptions({
+    xaxis: {
+      categories: data.map((val) => val.date),
+    },
+  });
+  chart.updateSeries([
+    {
+      data: data.map((data) => {
+        return {
+          x: data.date,
+          y: data.total,
+        };
+      }),
+    },
+  ]);
+}
+function updateSeriesByWeek(queryData) {
+  const dateToday = new Date();
+  const yAxis = [];
+  const newSeries = [];
+  for (let i = 0; i < 7; i++) {
+    const pastDate = new Date(dateToday.setDate(dateToday.getDate() - 1));
+    const month = (pastDate.getMonth() + 1).toString().padStart(2, "0"); // Add 1 because months are zero-based
+    const day = pastDate.getDate().toString().padStart(2, "0");
+    const year = dateToday.getFullYear();
+    const formattedDate = `${month}/${day}/${year}`;
+
+    let isDateInData = false;
+    for (data of queryData) {
+      if (data.day == formattedDate) {
+        newSeries.push({
+          x: formattedDate,
+          y: data.total,
+        });
+        isDateInData = true;
+        break;
+      }
+    }
+    if (!isDateInData) {
+      newSeries.push({
+        x: formattedDate,
+        y: 0,
+      });
+    }
+  }
+  console.log(newSeries);
+  chart.updateOptions({
+    xaxis: {
+      categories: newSeries.reverse().map((series) => series.x),
+    },
+  });
+  chart.updateSeries([
+    {
+      data: newSeries,
+    },
+  ]);
+}
+
+function updateSeriesByMonth(monthData) {
+  if (monthData.length == 0) {
+    chart.updateOptions({
+      xaxis: {
+        categories: ["week 1", "week 2", "week 3", "week 4"],
+      },
+    });
+    chart.updateSeries([
+      {
+        data: [],
+      },
+    ]);
+    return;
+  }
+  const newSeries = [];
+  for (let i = monthData[0].cur_week - 3; i <= monthData[0].cur_week; i++) {
+    let isInMonthData = false;
+    for (let data of monthData) {
+      if (data.week == i) {
+        newSeries.push({
+          x: `week ${i}`,
+          y: +data.total,
+        });
+        isInMonthData = true;
+      }
+    }
+    if (!isInMonthData) {
+      newSeries.push({
+        x: `week ${i}`,
+        y: 0,
+      });
+    }
+  }
+  console.log({ newSeries });
+  chart.updateOptions({
+    xaxis: {
+      categories: newSeries.map((series) => series.x),
+    },
+  });
+  chart.updateSeries([
+    {
+      data: newSeries,
+    },
+  ]);
+}
+
+//end filtering reports
 
 async function fetchSalesRequest() {
   const response = await fetch("utils/dashboard/get_sales_request.php");
@@ -120,18 +273,10 @@ function getSalesData(salesRequests) {
   const s = "2024-01-13 14:50:46";
 
   salesRequests.map((salesRequest) => {
-    console.log(salesData);
     salesData[salesRequest.month - 1] += salesRequest.total;
   });
-  console.log({ salesData });
+
   return salesData;
-  console.log({ salesData });
-  const salesDataArray = Object.keys(salesData).map((key) => {
-    console.log({ x: key, y: salesData[key] });
-    return { x: key, y: salesData[key] };
-  });
-  console.log(salesDataArray);
-  return salesDataArray;
 }
 function renderApexChart(data) {
   chart = new ApexCharts(document.querySelector("#BarChart"), {

@@ -40,10 +40,10 @@ $pdf->Ln(8);
 
 $pdf->SetTextColor(135, 206, 235);
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(55, 8, 'Test', 1, 0, 'C');
+$pdf->Cell(90, 8, 'Test', 1, 0, 'C');
 
 $pdf->Cell(35, 8, 'Amount', 1, 0, 'C');
-$pdf->Cell(35, 8, 'Date', 1, 0, 'C');
+
 $pdf->Cell(35, 8, 'Time Started', 1, 0, 'C');
 $pdf->Cell(35, 8, 'Time Ended', 1, 0, 'C');
 $pdf->Ln(8);
@@ -53,6 +53,7 @@ foreach ($requests as $request) {
   $started_time = date('F d, Y', strtotime($request->request_date)) . "\n";
   $started_time .= date('H:i', strtotime($request->request_date));
   $started_date = date("F d, Y", strtotime($request->request_date));
+  $no_of_lines = 0;
   if ($request->result_date != null) {
     $result_time = date("F d, Y", strtotime($request->result_date)) . "\n";
     $result_time .= date('H:i', strtotime($request->result_date));
@@ -66,30 +67,38 @@ foreach ($requests as $request) {
     $tests .=  $service->name . ",\n";
     $no_of_lines++;
   }
+
+
   if ($no_of_lines == 0) {
     $no_of_lines = 2;
   }
-  if ($tests == "") {
-    $tests = "\nN/A\n";
+  if ($tests == "" || $tests == null) {
+    $tests = "\n N/A \n";
   }
 
+
+  for ($i = 0; $i < $no_of_lines - 1; $i++) {
+    $started_time .= "\n";
+    $result_time .= "\n";
+  }
+  if (str_contains($result_time, "N/A")) {
+    $result_time .= "\n";
+  }
   $pdf->SetFont('Arial', '', 10);
-  $row_height = ($line_height * $no_of_lines);
-  $pdf->MultiCell(55, $line_height, $tests, 1, 0, 'C');
+  $row_height = $line_height * $no_of_lines;
+  $pdf->MultiCell(90, $line_height, $tests, 1, 0, 'C');
   $pdf->SetFont('Arial', '', 11);
   //$pdf->setX(65);
   $y = $pdf->GetY();
   $x = $pdf->GetX();
-  $pdf->SetXY($x + 55, $y - $row_height);
-  //$pdf->SetY($y - 16);
-  $pdf->MultiCell(35, $row_height, $request->total . '.00', 1, 0, 'R  ');
-  $x = $pdf->GetX();
   $pdf->SetXY($x + 90, $y - $row_height);
-  $pdf->MultiCell(35, $row_height, $started_date, 1, 0, 'C');
+  $pdf->MultiCell(35, $line_height * ($no_of_lines), $request->total . '.00', 1, 0, 'R  ');
+  $x = $pdf->GetX();
+
   $pdf->SetXY($x + 125, $y - $row_height);
-  $pdf->MultiCell(35, $row_height / 2, $started_time, 1, 0, 'C');
+  $pdf->MultiCell(35, $line_height, $started_time, 1, 0, 'C');
   $pdf->SetXY($x + 160, $y - $row_height);
-  $pdf->MultiCell(35, $result_time != "N/A" ? $row_height / 2 : $row_height, $result_time, 1, 0, 'C');
+  $pdf->MultiCell(35, $line_height, $result_time, 1, 0, 'C');
   $pdf->Ln(0);
 }
 $pdf->Ln(20);

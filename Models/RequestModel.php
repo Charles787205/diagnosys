@@ -843,16 +843,28 @@ class RequestModel extends Database
     switch ($time) {
 
       case "today":
-        $sql = "SELECT MONTH(request_date) as month,SUM(total) as total FROM request WHERE status = 'Paid' AND DATE(request_date) = CURDATE()";
+        $sql = "SELECT  DATE_FORMAT(request_date, '%m/%d/%Y') as date, SUM(total) as total FROM request 
+        WHERE status = 'Paid' 
+        AND DATE(request_date) = CURDATE()
+        GROUP BY DAY(request_date)";
         break;
       case "week":
-        $sql = "SELECT MONTH(request_date) as month,SUM(total) as total FROM request WHERE status = 'Paid' AND YEARWEEK(request_date) = YEARWEEK(CURDATE())";
+        $sql = "SELECT  DATE_FORMAT(request_date, '%m/%d/%Y') as day, SUM(total) as total FROM request 
+        WHERE status = 'Paid' 
+        AND DATE(request_date) >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)
+        GROUP BY DAY(request_date)";
         break;
       case "month":
-        $sql = "SELECT MONTH(request_date) as month,SUM(total) as total FROM request WHERE status = 'Paid' AND MONTH(request_date) = MONTH(CURDATE()) AND YEAR(request_date) = YEAR(CURDATE())";
+        $sql = "SELECT WEEK(CURDATE()) as cur_week , WEEK(request_date,0) AS week, SUM(total) AS total
+        FROM request
+        WHERE status = 'Paid'
+          AND request_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+        GROUP BY week
+        ORDER BY week;";
         break;
       case "year":
-        $sql = "SELECT MONTH(request_date) as month,SUM(total) as total FROM request WHERE status = 'Paid' AND YEAR(request_date) = YEAR(CURDATE())";
+        $sql = "SELECT MONTH(request_date) as month,SUM(total) as total FROM request WHERE status = 'Paid' AND YEAR(request_date) = YEAR(CURDATE())
+        GROUP BY MONTH(request_date)";
         break;
     }
     $statement = $this->connection->prepare($sql);
